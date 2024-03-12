@@ -3,7 +3,7 @@
 #Initializing two variables
 
 a=20
-b=40
+b=20
   
 # Equal or Not check
 
