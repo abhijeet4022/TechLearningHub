@@ -1,6 +1,6 @@
 #!/bin/bash
 
-total=10
+total=1000
 
 if [ $total -eq 1000 ]; then
       echo "total is equal to 1000"
