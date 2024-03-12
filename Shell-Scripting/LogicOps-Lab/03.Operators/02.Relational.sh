@@ -39,7 +39,7 @@ else
 	echo a is not greater than b.
 fi
 
-if [ $a>=$b ]
+if [ $a >= $b ]
 then
 	echo a is greater than or equal to b.
 else
