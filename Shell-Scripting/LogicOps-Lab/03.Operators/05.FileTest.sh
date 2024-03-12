@@ -16,7 +16,7 @@ else
 	echo "File is empty."
 fi
 
-if [ -r /root/TechLearningHub/Shell-Scripting/LogicOps-Lab/03.Operators/04.Bitwise.sh ]
+if [ -r $FileName ]
 then
 	echo "File has read access."
 else
