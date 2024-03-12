@@ -38,3 +38,24 @@ then
 else
 	echo "The file doesn't has execute access."
 fi
+
+if [ -k $FileName ]
+then
+	echo "The file has sticky bit permission."
+else
+	echo "The file doesn't has sticky bit permission."
+fi
+
+if [ -u $FileName ]
+then
+	echo "The file has SUID permission."
+else
+	echo "The file doesn't has SUID permission."
+fi
+
+if [ -g $FileName ]
+then
+	echo "The file has SGID permission."
+else
+	echo "The file doesn't has SGID permission."
+fi
