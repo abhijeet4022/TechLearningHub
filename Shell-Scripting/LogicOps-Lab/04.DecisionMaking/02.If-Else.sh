@@ -3,7 +3,7 @@
 # Initializing a and b as variables
 
 a=20
-b=20
+b=30
 
 if [ $a == $b ]
 then
