@@ -34,14 +34,14 @@ fi
 
 if(( $a>$b ))
 then
-	echo a is greater than b.
+	echo "a is greater than b."
 else
-	echo a is not greater than b.
+	echo "a is not greater than b."
 fi
 
 if (($a>=$b))
 then
-	echo a is greater than or equal to b.
+	echo "a is greater than or equal to b."
 else
-	echo a is not greater than or equal to b.
+	echo "a is not greater than or equal to b."
 fi
