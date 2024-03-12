@@ -27,9 +27,9 @@ fi
 #if(( $a<=$b ))
 if [ $a -le $b ]
 then
-	echo -e "\e[33m a is less than or equal to b.\e[0m\n"
+	echo -e "\e[33ma is less than or equal to b.\e[0m\n"
 else
-	echo -e "\e[33m a is not less than or equal to b.\e[0m\n"
+	echo -e "\e[33ma is not less than or equal to b.\e[0m\n"
 fi
 
 if(( $a>$b ))
