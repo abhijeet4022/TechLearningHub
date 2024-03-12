@@ -3,21 +3,21 @@
 a=10
 b=20
 
-if [ $a == $b ]
+if(( $a==$b ))
 then
 	echo "a is equal to b."
 else
 	echo "a is not equal to b."
 fi
 
-if [ $a != $b ]
+if(( $a!=$b ))
 then
 	echo "a is not equal to b."
 else
 	echo "a is equal to b."
 fi
 
-if [ $a < $b ]
+if(( $a<$b ))
 then
 	echo "a is less than b."
 else
@@ -25,22 +25,21 @@ else
 fi
 
 #if(( $a<=$b ))
-if [ $a -le $b ]
+if [ $a -ge $b ]
 then
-	echo -e "\e[33ma is less than or equal to b.\e[0m\n"
+	echo -e "\e[33m a is less than or equal to b.\e[0m\n"
 else
-	echo -e "\e[33ma is not less than or equal to b.\e[0m\n"
+	echo -e "\e[33m a is not less than or equal to b.\e[0m\n"
 fi
 
-if [ $a > $b ]
+if(( $a>$b ))
 then
 	echo a is greater than b.
 else
 	echo a is not greater than b.
 fi
 
-# shellcheck disable=SC2122
-if [ $a >= $b ]
+if(( $a>=$b ))
 then
 	echo a is greater than or equal to b.
 else
