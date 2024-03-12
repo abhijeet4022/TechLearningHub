@@ -23,6 +23,7 @@ else
 	echo "File does not has read access."
 fi
 
+# Not working as expected
 if [ -w $FileName ]
 then
 	echo "The file has write access."
@@ -30,6 +31,7 @@ else
 	echo "The file does not has write access."
 fi
 
+# Not working as expected
 if [ -x $FileName ]
 then
 	echo "The file has execute access."
