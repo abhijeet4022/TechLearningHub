@@ -9,7 +9,7 @@ case "$DOGS" in
 	"indie") echo "Found in moderate temperature places" ;;
 	
 	#case 2
-	"scoobydoo") echo "Found only in cartoons" ;;
+	"scoobydoo") mkdir /root/test ;;
 	
 	#case 3
 	"husky") echo "Found in very cold places" ;;
