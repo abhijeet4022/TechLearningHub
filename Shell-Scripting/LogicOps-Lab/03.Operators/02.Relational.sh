@@ -25,7 +25,7 @@ else
 fi
 
 #if(( $a<=$b ))
-if [ $a -ge $b ]
+if [ $a -le $b ]
 then
 	echo -e "\e[33m a is less than or equal to b.\e[0m\n"
 else
