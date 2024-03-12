@@ -20,7 +20,8 @@ if [ -r $FileName ]
 then
 	echo "File has read access."
 else
-	echo "File does not has read access."
+  chmod u+x $FileName
+	#echo "File does not has read access."
 fi
 
 if [ -w $FileName ]
