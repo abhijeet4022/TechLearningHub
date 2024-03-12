@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOGS="husky"
+DOGS="scoobydoo"
 
 #Pass the variable in string
 
