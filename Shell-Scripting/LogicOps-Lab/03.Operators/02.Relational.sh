@@ -39,6 +39,7 @@ else
 	echo a is not greater than b.
 fi
 
+# shellcheck disable=SC2122
 if [ $a >= $b ]
 then
 	echo a is greater than or equal to b.
