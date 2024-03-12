@@ -5,30 +5,31 @@ b=20
 
 if(( $a==$b ))
 then
-	echo a is equal to b.
+	echo "a is equal to b."
 else
-	echo a is not equal to b.
+	echo "a is not equal to b."
 fi
 
 if(( $a!=$b ))
 then
-	echo a is not equal to b.
+	echo "a is not equal to b."
 else
-	echo a is equal to b.
+	echo "a is equal to b."
 fi
 
 if(( $a<$b ))
 then
-	echo a is less than b.
+	echo "a is less than b."
 else
-	echo a is not less than b.
+	echo "a is not less than b."
 fi
 
-if(( $a<=$b ))
+#if(( $a<=$b ))
+if [ $a -ge $b ]
 then
-	echo a is less than or equal to b.
+	echo -e "\e[33m a is less than or equal to b.\e[0m\n"
 else
-	echo a is not less than or equal to b.
+	echo -e "\e[33m a is not less than or equal to b. \e[0m\n"
 fi
 
 if(( $a>$b ))
