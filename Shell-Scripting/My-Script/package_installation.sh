@@ -15,9 +15,7 @@ for package in "${PACKAGE_NAME[@]}"; do
     if [ $? -eq 0 ]; then
         echo -e "\e[32m--$package Package installed successfully\e[0m"
     else
-        echo -e "
-
-        \e[31m--$package Package installation is failed\e[0m"
+        echo -e "\e[31m--$package Package installation is failed\e[0m"
     fi
   else
     echo -e "\n\e[32m$package Package already available in OS.\n\e[0m"
