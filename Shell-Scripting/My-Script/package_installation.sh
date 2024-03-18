@@ -8,10 +8,10 @@ PACKAGE_NAME=("vim" "bash-completion" "git" "docker")
 
 # Using for loop to iterate the package
 for package in "${PACKAGE_NAME[@]}"; do
-  ( rpm -qa | grep -i $package  && which $package ) >> /dev/null
+  ( rpm -qa | grep -i $package  && which $package ) &>> /dev/null
   if [ $? -ne 0 ]; then
     echo -e "\n\e[33mInstalling the $package package.\e[0m"
-    yum install -y $package >> /dev/null
+    yum install -y $package &>> /dev/null
     if [ $? -eq 0 ]; then
         echo -e "\e[32m--$package Package installed successfully\e[0m"
     else
