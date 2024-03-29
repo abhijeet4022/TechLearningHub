@@ -14,6 +14,6 @@ systemctl daemon-reload
 systemctl start catalogue.service
 systemctl enable catalogue.service
 
-mongo --host 127.0.0.1 </app/schema/catalogue.js
+mongo --host mongodb.learntechnology.cloud </app/schema/catalogue.js
 
 systemctl restart catalogue.service
