@@ -17,4 +17,4 @@ systemctl enable user.service
 mongo --host 127.0.0.1 </app/schema/catalogue.js
 
 systemctl restart user.service
-systemctl restart nginx
+
