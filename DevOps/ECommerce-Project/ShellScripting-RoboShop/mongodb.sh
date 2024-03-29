@@ -1,8 +1,7 @@
 cp mongodb.repo /etc/yum.repos.d/
 yum install mongodb-org -y
 systemctl start mongod
-# Need to change the ip from 127.0.0.1 to 0.0.0.0
-
+sed -i.backup '27 s/bindIp: 127.0.0.1/bindIp: 0.0.0.0/' /etc/mongodb.conf
 systemctl enable mongod
 systemctl restart mongod
 
