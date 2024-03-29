@@ -1,3 +1,4 @@
+#!/bin/bash
 cp mongodb.repo /etc/yum.repos.d/
 yum install mongodb-org -y
 systemctl start mongod
