@@ -31,7 +31,11 @@ echo -e "\e[33mInstalling the application dependency.\e[0m"
 npm install -C /app >> $log
 
 echo -e "\e[33mCreating Application User\e[0m"
-useradd roboshop >> $log
+if id roboshop &>/dev/null; then
+    echo "User 'roboshop' already exists."
+else
+    useradd -m roboshop
+fi
 
 echo -e "\e[33mRealod the catalogue service.\e[0m"
 systemctl daemon-reload >> $log
