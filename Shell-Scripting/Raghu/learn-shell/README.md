@@ -51,3 +51,27 @@ pass=abhi123
 How to access the variable
 * Access variable with $ as prefix and also optionally variable name in flower braces.
 * $VAR or ${VAR}
+
+
+-------------------------------------------------------------------------------------------
+Function
+- We can keep the function in a common place and we can import that function whenever required.
+
+How to import the function in another script file
+- source filename.sh
+- functionname
+# Notes: So first link of import the script file then by mentioning the function name call that required function to run. Hera we are executing the function not whole code so if in source file there are numbers of line of code exist but all won't execute whatever function we will call only that part of code will execute.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
