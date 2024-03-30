@@ -2,7 +2,7 @@ log=/tmp/roboshop.log
 
 func_nodejs() {
 
-echo -e "\e[33mCopying systemd file\e[0m\n" | tee -a $log | tee -a $log
+echo -e "\e[33mCopying systemd file\e[0m\n" | tee -a $log
 cp ${component}.service /etc/systemd/system/ &>> $log
 
 echo -e "\e[33mCopying mongodb repo file file\e[0m\n" | tee -a $log

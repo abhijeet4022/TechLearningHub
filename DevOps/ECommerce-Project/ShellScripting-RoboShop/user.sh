@@ -1,20 +1,10 @@
 #!/bin/bash
-cp user.service /etc/systemd/system/
-cp mongodb.repo /etc/yum.repos.d/
-dnf module disable nodejs -y
-dnf module enable nodejs:18 -y
-dnf install nodejs mongodb-org-shell -y
-mkdir /app
-curl -L -s -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user.zip
-unzip -o /tmp/user.zip -d /app
-npm install -C /app
 
-useradd roboshop
-systemctl daemon-reload
-systemctl start user.service
-systemctl enable user.service
+# Variable the will use while running the function.
+component=user
+# Linking with common.sh file
+source common.sh
 
-mongo --host mongodb.learntechnology.cloud </app/schema/catalogue.js
-
-systemctl restart user.service
+# Calling the nodejs function to be executed
+func_nodejs
 
