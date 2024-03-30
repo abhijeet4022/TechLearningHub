@@ -56,12 +56,12 @@ dnf module enable nodejs:18 -y &>> $log
 echo -e "\e[33mInstalling NodeJS and MongoDB.\e[0m\n" | tee -a $log
 dnf install nodejs mongodb-org-shell -y &>> $log
 
-function func_appprereq
+func_appprereq
 
 echo -e "\e[33mInstalling the application dependency.\e[0m\n" | tee -a $log
 npm install -C /app &>> $log
 
-function func_systemd
+func_systemd
 
 echo -e "\e[33mLoad the schema to mongodb.\e[0m\n" | tee -a $log
 mongo --host mongodb.learntechnology.cloud </app/schema/${component}.js &>> $log
@@ -77,7 +77,7 @@ func_java() {
 echo -e "\e[33mInstalling the Maven and MySql.\e[0m\n" | tee -a $log
 yum install maven mysql -y
 
-function func_appprereq
+func_appprereq
 
 echo -e "\e[33mDownloading Dependencies and making artifact.\e[0m\n" | tee -a $log
 mvn clean package -f /app/pom.xml
@@ -86,7 +86,7 @@ mv /app/target/${component}-1.0.jar /app/${component}.jar
 echo -e "\e[33mLoad the schema to mongodb.\e[0m\n" | tee -a $log
 mysql -h mysql.learntechnology.cloud -uroot -pRoboShop@1 < /app/schema/${component}.sql
 
-function func_systemd
+func_systemd
 
 }
 
@@ -98,12 +98,12 @@ func_python() {
 echo -e "\e[33mInstalling the Python package.\e[0m\n" | tee -a $log
 yum install python36 gcc python3-devel -y
 
-function func_appprereq
+func_appprereq
 
 echo -e "\e[33mDownloading the dependency\e[0m\n" | tee -a $log
 pip3.6 install -r /app/requirements.txt
 
-function func_systemd
+func_systemd
 
 }
 
@@ -114,7 +114,7 @@ func_golang(){
 echo -e "\e[33mInstalling the golang package.\e[0m\n" | tee -a $log
 dnf install golang -y
 
-function func_appprereq
+func_appprereq
 
 echo -e "\e[33mDownloading the application dependency and creating artifact.\e[0m\n" | tee -a $log
 cd /app
@@ -122,6 +122,6 @@ go mod init ${component}
 go get
 go build
 
-function func_systemd
+func_systemd
 
 }
