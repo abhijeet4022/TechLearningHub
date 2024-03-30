@@ -32,7 +32,7 @@ npm install -C /app &>> $log
 
 echo -e "\e[33mCreating Application User\e[0m" | tee -a $log
 if id roboshop &>/dev/null; then
-    echo "User 'roboshop' already exists."
+    echo -e "\e[32mUser 'roboshop' already exists.\e[0m"
 else
     useradd -m roboshop &>> $log
 fi
