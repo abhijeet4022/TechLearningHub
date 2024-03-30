@@ -16,7 +16,7 @@ echo -e "\e[33mInstalling NodeJS and MongoDB.\e[0m"
 dnf install nodejs mongodb-org-shell -y >> $log
 
 echo -e "\e[33mRemoving Old Application directory.\e[0m"
-mkdir /app >> $log
+rm -rf /app >> $log
 
 echo -e "\e[33mCreating new application directory.\e[0m"
 mkdir /app >> $log
