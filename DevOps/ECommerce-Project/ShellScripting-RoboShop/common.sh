@@ -75,16 +75,16 @@ systemctl restart ${component}.service &>> $log
 # Creating the function for Shipping Service.
 func_java() {
 echo -e "\e[33mInstalling the Maven and MySql.\e[0m\n" | tee -a $log
-yum install maven mysql -y
+yum install maven mysql -y &>> $log
 
 func_appprereq
 
 echo -e "\e[33mDownloading Dependencies and making artifact.\e[0m\n" | tee -a $log
-mvn clean package -f /app/pom.xml
-mv /app/target/${component}-1.0.jar /app/${component}.jar
+mvn clean package -f /app/pom.xml &>> $log
+mv /app/target/${component}-1.0.jar /app/${component}.jar &>> $log
 
 echo -e "\e[33mLoad the schema to mongodb.\e[0m\n" | tee -a $log
-mysql -h mysql.learntechnology.cloud -uroot -pRoboShop@1 < /app/schema/${component}.sql
+mysql -h mysql.learntechnology.cloud -uroot -pRoboShop@1 < /app/schema/${component}.sql &>> $log
 
 func_systemd
 
@@ -96,12 +96,12 @@ func_systemd
 func_python() {
 
 echo -e "\e[33mInstalling the Python package.\e[0m\n" | tee -a $log
-yum install python36 gcc python3-devel -y
+yum install python36 gcc python3-devel -y &>> $log
 
 func_appprereq
 
 echo -e "\e[33mDownloading the dependency\e[0m\n" | tee -a $log
-pip3.6 install -r /app/requirements.txt
+pip3.6 install -r /app/requirements.txt &>> $log
 
 func_systemd
 
@@ -112,15 +112,15 @@ func_systemd
 func_golang(){
 
 echo -e "\e[33mInstalling the golang package.\e[0m\n" | tee -a $log
-dnf install golang -y
+dnf install golang -y &>> $log
 
 func_appprereq
 
 echo -e "\e[33mDownloading the application dependency and creating artifact.\e[0m\n" | tee -a $log
-cd /app
-go mod init ${component}
-go get
-go build
+cd /app &>> $log
+go mod init ${component} &>> $log
+go get &>> $log
+go build &>> $log
 
 func_systemd
 
