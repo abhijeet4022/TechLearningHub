@@ -17,10 +17,10 @@ systemctl restart rabbitmq-server &>> $log
 func_exit_status
 
 echo -e "\n\e[33mAdding user and password.\e[0m" | tee -a $log
-if  rabbitmqctl list_users | grep -i roboshop ; then
-  echo "user exist"
+if  rabbitmqctl list_users &>> $log | grep -i roboshop &>> $log ; then
+  echo -e "\e[32mUser already exist\e[0m"
 else
-  rabbitmqctl add_user roboshop roboshop123 &>> /dev/null
+  rabbitmqctl add_user roboshop roboshop123 &>> $log
 fi
 func_exit_status
 
