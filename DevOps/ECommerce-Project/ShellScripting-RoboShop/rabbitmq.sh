@@ -22,8 +22,8 @@ if  rabbitmqctl list_users | grep -i roboshop &>> $log ; then
   echo -e "\e[32mUser already exist\e[0m"
 else
   rabbitmqctl add_user roboshop roboshop123 &>> $log
+  func_exit_status
 fi
-func_exit_status
 
 
 echo -e "\n\e[33mSetting the permissions.\e[0m" | tee -a $log
