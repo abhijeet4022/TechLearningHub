@@ -7,12 +7,12 @@ if [ -z "${component}" ]; then
 fi
 
 echo "Install git."
-yum install git bash-completion -y
+yum install git bash-completion -y &>> $log
 func_exit_status
 
 if [ ! -d /home/centos/TechLearningHub ]; then
   echo "Cloning the repo."
-  git clone https://github.com/abhijeet4022/TechLearningHub.git
+  git clone https://github.com/abhijeet4022/TechLearningHub.git &>> $log
   func_exit_status
 else
   echo -e "\e[32mDirectory exist\e[0m"
@@ -20,11 +20,11 @@ fi
 
 
 echo "Changing the directory."
-cd TechLearningHub/DevOps/ECommerce-Project/ShellScripting-RoboShop/
+cd TechLearningHub/DevOps/ECommerce-Project/ShellScripting-RoboShop/ &>> $log
 func_exit_status
 
 echo "Pulling the code."
-git pull
+git pull &>> $log
 func_exit_status
 
 echo "Running the script."
