@@ -10,8 +10,10 @@ echo "Install git."
 yum install git bash-completion -y
 func_exit_status
 
+if [ ! -d /home/centos/TechLearningHub ]; then
 echo "Cloning the repo."
 git clone https://github.com/abhijeet4022/TechLearningHub.git
+fi
 func_exit_status
 
 echo "Changing the directory."
