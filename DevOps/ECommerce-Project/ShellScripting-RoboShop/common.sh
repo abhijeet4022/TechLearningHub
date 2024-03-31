@@ -172,6 +172,7 @@ yum install python36 gcc python3-devel -y &>> $log
 func_exit_status
 
 func_appprereq
+sed -i.backup "s/rabbitmq_app_password/${rabbitmq_app_password}" /etc/systemd/system/${component}.service
 
 echo -e "\n\e[33mDownloading the dependency.\e[0m" | tee -a $log
 pip3.6 install -r /app/requirements.txt &>> $log
