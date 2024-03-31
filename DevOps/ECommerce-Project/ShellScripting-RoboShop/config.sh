@@ -27,7 +27,6 @@ git pull &>> $log
 func_exit_status
 
 echo -e "\e[33mRunning the main script.\e[0m."
-echo "Running the script."
 sudo bash ${component}.sh
 
 
