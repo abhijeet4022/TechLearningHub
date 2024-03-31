@@ -1,4 +1,11 @@
 #!/bin/bash
+mysql_root_password=$1
+if [ -z "${mysql_root_password}" ]; then
+  echo -e "\e[31m Input password missing.\e[0m"
+  exit 1
+fi
+
+
 source common.sh
 
 echo -e "\n\e[33mConfiguring Repo for MySQL 5.\e[0m" | tee -a $log
@@ -17,7 +24,7 @@ func_exit_status
 
 
 echo -e "\n\e[33mResetting mysql root password.\e[0m" | tee -a $log
-mysql_secure_installation --set-root-pass RoboShop@1
+mysql_secure_installation --set-root-pass "${mysql_root_password}"
 func_exit_status
 
 
