@@ -193,6 +193,7 @@ dnf install golang -y &>> $log
 func_exit_status
 
 func_appprereq
+sed -i.backup "s/rabbitmq_app_password/${rabbitmq_app_password}/" /etc/systemd/system/${component}.service
 
 echo -e "\n\e[33mDownloading the application dependency and creating artifact.\e[0m" | tee -a $log
 cd /app &>> $log
