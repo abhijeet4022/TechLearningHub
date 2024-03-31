@@ -25,7 +25,7 @@ func_exit_status
 # Application pre requisites.
 func_appprereq() {
 
-echo -e "\n\e[33mCopying systemd file\e[0m" | tee -a $log
+echo -e "\n\e[33mCopying systemd file.\e[0m" | tee -a $log
 cp ${component}.service /etc/systemd/system/ &>> $log
 func_exit_status
 
@@ -45,7 +45,7 @@ echo -e "\n\e[33mUnzip the application directory.\e[0m" | tee -a $log
 unzip -o /tmp/${component}.zip -d /app &>> $log
 func_exit_status
 
-echo -e "\n\e[33mCreating Application User\e[0m" | tee -a $log
+echo -e "\n\e[33mCreating Application User.\e[0m" | tee -a $log
 if id roboshop &>/dev/null; then
     echo -e "\e[32mUser 'roboshop' already exists.\e[0m"
 else
@@ -112,15 +112,15 @@ func_exit_status
 # Creating the function for Catalogue, User $ Cart Services.
 func_nodejs() {
 
-echo -e "\n\e[33mCopying mongodb repo file file\e[0m" | tee -a $log
+echo -e "\n\e[33mCopying mongodb repo file file.\e[0m" | tee -a $log
 cp mongodb.repo /etc/yum.repos.d/ &>> $log
 func_exit_status
 
-echo -e "\n\e[33mDisable current nodejs module \e[0m" | tee -a $log
+echo -e "\n\e[33mDisable current nodejs module.\e[0m" | tee -a $log
 dnf module disable nodejs -y &>> $log
 func_exit_status
 
-echo -e "\n\e[33mEnable nodejs:18 module\e[0m" | tee -a $log
+echo -e "\n\e[33mEnable nodejs:18 module.\e[0m" | tee -a $log
 dnf module enable nodejs:18 -y &>> $log
 func_exit_status
 
@@ -173,7 +173,7 @@ func_exit_status
 
 func_appprereq
 
-echo -e "\n\e[33mDownloading the dependency\e[0m" | tee -a $log
+echo -e "\n\e[33mDownloading the dependency.\e[0m" | tee -a $log
 pip3.6 install -r /app/requirements.txt &>> $log
 func_exit_status
 
