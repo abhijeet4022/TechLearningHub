@@ -6,10 +6,6 @@ if [ -z "${component}" ]; then
   exit 1
 fi
 
-echo "Set hostname"
-set-hostname ${component}
-func_exit_status
-
 echo "Install git."
 yum install git bash-completion -y
 func_exit_status
