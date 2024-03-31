@@ -66,7 +66,7 @@ fi
 
 if [ "${schema_type}" == "mysql" ]; then
 echo -e "\n\e[33mLoad the schema to mongodb.\e[0m" | tee -a $log
-mysql -h mysql.learntechnology.cloud -uroot -pRoboShop@1 < /app/schema/${component}.sql &>> $log
+mysql -h mysql.learntechnology.cloud -uroot -p < /app/schema/${component}.sql &>> $log
 func_exit_status
 fi
 
