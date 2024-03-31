@@ -78,7 +78,7 @@ fi
 # Frontend Setup
 func_frontend() {
   
-echo -e "\n\e[33mInstalling the Nginx .\e[0m" | tee -a $log
+echo -e "\n\e[33mInstalling the Nginx.\e[0m" | tee -a $log
 yum install nginx -y &>> $log
 func_exit_status
 
