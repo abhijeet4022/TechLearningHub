@@ -11,10 +11,13 @@ yum install git bash-completion -y
 func_exit_status
 
 if [ ! -d /home/centos/TechLearningHub ]; then
-echo "Cloning the repo."
-git clone https://github.com/abhijeet4022/TechLearningHub.git
+  echo "Cloning the repo."
+  git clone https://github.com/abhijeet4022/TechLearningHub.git
+  func_exit_status
+else
+  echo -e "\e[32mDirectory exist\e[0m"
 fi
-func_exit_status
+
 
 echo "Changing the directory."
 cd TechLearningHub/DevOps/ECommerce-Project/ShellScripting-RoboShop/
