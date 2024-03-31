@@ -17,7 +17,7 @@ func_exit_status
 
 
 echo -e "\n\e[33mResetting mysql root password.\e[0m" | tee -a $log
-mysql_secure_installation --set-root-pass RoboShop@1 &>> $log
+mysql_secure_installation --set-root-pass RoboShop@1
 func_exit_status
 
 
