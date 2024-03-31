@@ -17,7 +17,7 @@ systemctl restart rabbitmq-server &>> $log
 func_exit_status
 
 echo -e "\n\e[33mAdding user and password.\e[0m" | tee -a $log
-rabbitmqctl add_user roboshop roboshop123 &>> $log
+rabbitmqctl add_user roboshop roboshop123
 func_exit_status
 
 echo -e "\n\e[33mSetting the permissions.\e[0m" | tee -a $log
