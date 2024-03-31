@@ -16,8 +16,9 @@ systemctl enable rabbitmq-server &>> $log
 systemctl restart rabbitmq-server &>> $log
 func_exit_status
 
+# rabbitmqctl delete_user roboshop
 echo -e "\n\e[33mAdding user and password.\e[0m" | tee -a $log
-if  rabbitmqctl list_users &>> $log | grep -i roboshop &>> $log ; then
+if  rabbitmqctl list_users | grep -i roboshop ; then
   echo -e "\e[32mUser already exist\e[0m"
 else
   rabbitmqctl add_user roboshop roboshop123 &>> $log
