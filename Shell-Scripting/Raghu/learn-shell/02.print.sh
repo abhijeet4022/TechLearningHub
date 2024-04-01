@@ -16,3 +16,21 @@ echo "<<<<<<<< Hello  World >>>>>>>"
 
 echo -e "\e[31m Hello World \e[0m"
 
+# Quote
+
+# It will give unexpected output.
+echo ** Hello **
+
+# Now use "".
+echo '** Hello **'
+
+# there is a diff between single quote and double quote let's try.
+
+a=10
+echo "Value of a = $a"
+echo 'Value of a = $a'
+
+# In single quote whole it will consider as text only and it wont give output for $a.
+# But where as we will get this for double quote.
+
+
