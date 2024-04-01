@@ -1,0 +1,13 @@
+- name: NGINX Configuration
+  host: all
+  become: yes
+  tasks:
+    - name: Install NGINX
+      ansible.builtin.yum:
+        name: nginx
+        state: latest
+    - name: Start NGINX
+      ansible.builtin.systemd:
+        name: nginx
+        state: restarted
+        enabled: yes
