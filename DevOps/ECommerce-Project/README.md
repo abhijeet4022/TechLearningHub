@@ -29,3 +29,10 @@ https://learndevopsonline.github.io/learndevopsonline/build/docs/intro/
 # OS AMI and Pass
 AMI- devops-practice
 CentOS8 AWS Linux Credentials - centos/DevOps321
+
+# Password
+RabbitMQ: roboshop123
+MySQL: RoboShop@1
+------------------------------------------------------------------------------------------------
+# Keywords
+MBP - Minimum viable product: One piece of software.
