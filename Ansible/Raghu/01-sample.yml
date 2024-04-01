@@ -16,4 +16,4 @@
   hosts: all
   become: yes
   roles:
-    - httpd
+    - docker
