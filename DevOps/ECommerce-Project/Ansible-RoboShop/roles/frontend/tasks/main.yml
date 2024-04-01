@@ -1,0 +1,9 @@
+- name: Installing NGINX WebServer.
+  ansible.builtin.yum:
+    - name: nginx
+      state: latest
+- name: Restarting NGINX WebServer
+  ansible.builtin.systemd:
+    - name: nginx
+      state: restarted
+      enabled: yes
