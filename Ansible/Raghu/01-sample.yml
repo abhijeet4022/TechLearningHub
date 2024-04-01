@@ -11,3 +11,9 @@
         name: nginx
         state: restarted
         enabled: yes
+
+- name: HTTPD Configuration
+  host: all
+  become: yes
+  roles:
+    - httpd
