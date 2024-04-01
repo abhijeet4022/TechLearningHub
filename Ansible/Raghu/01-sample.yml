@@ -1,5 +1,5 @@
 - name: NGINX Configuration
-  host: all
+  hosts: all
   become: yes
   tasks:
     - name: Install NGINX
