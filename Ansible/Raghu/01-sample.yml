@@ -13,7 +13,7 @@
         enabled: yes
 
 - name: HTTPD Configuration
-  host: all
+  hosts: all
   become: yes
   roles:
     - httpd
