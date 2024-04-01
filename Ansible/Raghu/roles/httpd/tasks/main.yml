@@ -1,9 +1,9 @@
-- name: Install NGINX
+- name: Install HTTPD
   ansible.builtin.yum:
-    name: http
+    name: httpd
     state: latest
 - name: Start NGINX
   ansible.builtin.systemd:
-    name: http
+    name: httpd
     state: restarted
     enabled: yes
