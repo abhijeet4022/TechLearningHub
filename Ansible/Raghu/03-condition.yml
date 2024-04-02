@@ -3,12 +3,12 @@
   connection: local
   vars:
     fruit: true
-    vegetables: true
+    vegetables: false
   tasks:
     -  name: Fruit List
        ansible.builtin.debug:
          msg: Fruit name is - Apple
-       when: fruit is true
+       when: fruit == true
     # We can also define like when: fruit is true
 
     - name: Vegetable List
