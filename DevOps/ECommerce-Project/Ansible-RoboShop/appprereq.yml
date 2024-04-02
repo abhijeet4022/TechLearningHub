@@ -1,0 +1,25 @@
+- name: Copying systemd file.
+  ansible.builtin.copy:
+    src: "{{component}}.service"
+    dest: /etc/systemd/system/{{component}}.service
+
+- name: Removing Old Application directory.
+  ansible.builtin.file:
+    src: /app
+    state: absent
+
+- name: Creating new application directory.
+  ansible.builtin.file:
+    src: /app
+    state: directory
+
+- name: Downloading the application content.
+  ansible.builtin.unarchive:
+      src: https://roboshop-artifacts.s3.amazonaws.com/{{component}}.zip
+      dest: /app
+      remote_src: yes
+
+- name: Creating Application User.
+  ansible.builtin.user:
+    name: roboshop
+

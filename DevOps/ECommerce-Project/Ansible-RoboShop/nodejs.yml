@@ -1,0 +1,30 @@
+- name: Copying mongodb repo file file.
+  ansible.builtin.copy:
+    src: mongodb.repo
+    dest: /etc/yum.repos.d/
+
+- name: Disable current nodejs module.
+  ansible.builtin.shell: dnf module disable nodejs -y
+
+- name: Disable current nodejs module.
+  ansible.builtin.shell: dnf module enable nodejs:18 -y
+
+- name: Installing NodeJS and MongoDB.
+  ansible.builtin.yum:
+    name:
+      - nodejs
+      - mongodb-org-shell
+    state: latest
+
+- name: Catalogue Configuration
+  ansible.builtin.import_tasks: appprereq.yml
+
+- name: Installing the application dependency.
+  ansible.builtin.shell: npm install
+  chdir: /app
+
+
+
+
+#func_schema_setup
+#func_systemd

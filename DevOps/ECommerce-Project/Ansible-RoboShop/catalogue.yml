@@ -1,0 +1,9 @@
+- name: Catalogue Setup - RoboShop
+  hosts: all
+  become: yes
+  vars:
+    component: catalogue
+  tasks:
+    - name: Catalogue Configuration
+      ansible.builtin.import_tasks: nodejs.yml
+
