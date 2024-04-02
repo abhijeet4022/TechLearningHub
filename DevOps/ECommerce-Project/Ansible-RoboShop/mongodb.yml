@@ -1,4 +1,4 @@
-- name: MongoDB Setup - Frontend
+- name: MongoDB Setup - RoboShop
   hosts: all
   become: yes
   vars:
