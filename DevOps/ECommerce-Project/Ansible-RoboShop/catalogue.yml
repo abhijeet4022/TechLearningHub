@@ -2,7 +2,8 @@
   hosts: all
   become: yes
   vars:
-    component: catalogue
+    - component: catalogue
+    - schema: true
   tasks:
     - name: Catalogue Configuration
       ansible.builtin.import_tasks: nodejs.yml

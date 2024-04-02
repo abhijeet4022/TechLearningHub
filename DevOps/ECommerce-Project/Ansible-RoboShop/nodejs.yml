@@ -24,6 +24,7 @@
 
 - name: Schema setup
   ansible.builtin.import_tasks: schema.yml
+  when: schema is defined
 
 - name: Systemd {{catalogue}} service setup.
   ansible.builtin.import_tasks: systemd.yml
