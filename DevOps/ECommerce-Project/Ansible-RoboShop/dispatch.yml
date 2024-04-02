@@ -9,7 +9,7 @@
         name: golang
         state: installed
 
-    - name: Importing Systemd Tasks.
+    - name: Importing App Prerequisite Tasks.
       ansible.builtin.import_tasks: appprereq.yml
 
     - name: Downloading the application dependency and creating artifact.
