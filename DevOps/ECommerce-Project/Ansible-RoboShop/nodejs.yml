@@ -21,8 +21,8 @@
 
 - name: Installing the application dependency.
   ansible.builtin.shell: npm install
-  chdir: /app
-
+  args:
+    chdir: /app
 
 
 
