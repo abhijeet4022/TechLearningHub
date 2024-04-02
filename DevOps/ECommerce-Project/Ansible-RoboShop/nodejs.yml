@@ -6,7 +6,7 @@
 - name: Disable current nodejs module.
   ansible.builtin.shell: dnf module disable nodejs -y
 
-- name: Disable current nodejs module.
+- name: Enable current nodejs module.
   ansible.builtin.shell: dnf module enable nodejs:18 -y
 
 - name: Installing NodeJS and MongoDB.
