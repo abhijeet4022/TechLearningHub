@@ -18,4 +18,4 @@
         chdir: /app
 
     - name: Importing Systemd Tasks.
-      ansible.builtin.systemd: systemd.yml
+      ansible.builtin.import_tasks: systemd.yml
