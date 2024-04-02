@@ -1,5 +1,39 @@
 - name: RoboShop Project - Frontend
   hosts: all
   become: yes
-  roles:
-    - frontend
+  vars:
+    component: frontend
+  tasks:
+    - name: Installing NGINX WebServer.
+      ansible.builtin.yum:
+        name: nginx
+        state: latest
+
+    - name: Copying reverse proxy file.
+      ansible.builtin.copy:
+        src: roboshop.conf
+        dst: /etc/nginx/default.d/roboshop.conf
+
+    - name: Removing default nginx content.
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: absent
+
+    - name: Creating Nginx content directory
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: absent
+
+    - name: Downloading the frontend content.
+      ansible.builtin.unarchive:
+        src: https://roboshop-artifacts.s3.amazonaws.com/{{component}}.zip
+        dst: /usr/share/nginx/html
+        remote_src: yes
+
+    - name: Restarting NGINX WebServer.
+      ansible.builtin.systemd:
+        name: nginx
+        state: restarted
+        enabled: yes
+
+
