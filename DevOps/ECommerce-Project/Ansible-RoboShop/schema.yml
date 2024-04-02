@@ -9,6 +9,6 @@
     state: latest
 
 - name: Load the schema to mongodb.
-  ansible.builtin.shell: mongo --host mongodb.learntechnology.cloud </app/schema/{{component}}.js
+  ansible.builtin.shell: mongo --host mongodb-dev.learntechnology.cloud </app/schema/{{component}}.js
 
 
