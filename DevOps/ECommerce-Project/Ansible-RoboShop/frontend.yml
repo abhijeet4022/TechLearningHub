@@ -22,7 +22,7 @@
     - name: Creating Nginx content directory
       ansible.builtin.file:
         path: /usr/share/nginx/html
-        state: absent
+        state: directory
 
     - name: Downloading the frontend content.
       ansible.builtin.unarchive:
