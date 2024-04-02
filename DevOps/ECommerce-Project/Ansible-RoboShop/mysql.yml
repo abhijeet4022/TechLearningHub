@@ -6,7 +6,7 @@
   tasks:
     - name: Configuring Repo for MySQL 5.
       ansible.builtin.copy:
-        src: mongodb.repo
+        src: mysql.repo
         dest: /etc/yum.repos.d
 
     - name: Disable existing mysql.
