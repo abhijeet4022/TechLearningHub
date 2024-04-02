@@ -1,4 +1,4 @@
-- name: RoboShop Project - Frontend
+- name: Frontend Component Setup - RoboShop
   hosts: all
   become: yes
   vars:

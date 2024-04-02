@@ -1,4 +1,4 @@
-- name: Payment Setup - Roboshop
+- name: Payment Component Setup - Roboshop
   hosts: all
   become: yes
   vars:

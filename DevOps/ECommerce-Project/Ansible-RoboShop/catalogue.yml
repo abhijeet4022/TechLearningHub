@@ -1,4 +1,4 @@
-- name: Catalogue Setup - RoboShop
+- name: Catalogue Component Setup - RoboShop
   hosts: all
   become: yes
   vars:

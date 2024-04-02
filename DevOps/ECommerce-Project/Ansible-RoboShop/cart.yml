@@ -1,4 +1,4 @@
-- name: Cart Setup - RoboShop
+- name: Cart Component Setup - RoboShop
   hosts: all
   become: yes
   vars:
