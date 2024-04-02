@@ -1,0 +1,21 @@
+- name: Dispatch Component Setup - RoboShop
+  hosts: all
+  become: yes
+  vars:
+    component: dispatch
+  tasks:
+    - name: Installing the golang package.
+      ansible.builtin.yum:
+        name: golang
+        state: installed
+
+    - name: Importing Systemd Tasks.
+      ansible.builtin.import_tasks: appprereq.yml
+
+    - name: Downloading the application dependency and creating artifact.
+      ansible.builtin.shell: go mod init dispatch ; go get ; go build
+      args:
+        chdir: /app
+
+    - name: Importing Systemd Tasks.
+      ansible.builtin.systemd: systemd.yml
