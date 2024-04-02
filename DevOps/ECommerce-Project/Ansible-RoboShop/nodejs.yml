@@ -1,8 +1,3 @@
-- name: Copying mongodb repo file file.
-  ansible.builtin.copy:
-    src: mongodb.repo
-    dest: /etc/yum.repos.d/
-
 - name: Disable current nodejs module.
   ansible.builtin.shell: dnf module disable nodejs -y
 
