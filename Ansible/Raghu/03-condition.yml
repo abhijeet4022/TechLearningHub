@@ -8,7 +8,7 @@
     -  name: Fruit List
        ansible.builtin.debug:
          msg: Fruit name is - Apple
-       when: fruit == "true"
+       when: fruit is true
     # We can also define like when: fruit is true
 
     - name: Vegetable List
