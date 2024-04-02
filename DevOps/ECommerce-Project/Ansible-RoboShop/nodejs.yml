@@ -9,11 +9,9 @@
 - name: Enable current nodejs module.
   ansible.builtin.shell: dnf module enable nodejs:18 -y
 
-- name: Installing NodeJS and MongoDB.
+- name: Installing NodeJS.
   ansible.builtin.yum:
-    name:
-      - nodejs
-      - mongodb-org-shell
+    name: nodejs
     state: latest
 
 - name: Catalogue Configuration
@@ -24,7 +22,8 @@
   args:
     chdir: /app
 
+- name: Schema setup
+  ansible.builtin.import_tasks: schema.yml
 
-
-#func_schema_setup
-#func_systemd
+- name: Systemd {{catalogue}} service setup.
+  ansible.builtin.import_tasks: systemd.yml

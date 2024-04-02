@@ -1,8 +1,3 @@
-- name: Copying systemd file.
-  ansible.builtin.copy:
-    src: "{{component}}.service"
-    dest: /etc/systemd/system/{{component}}.service
-
 - name: Removing Old Application directory.
   ansible.builtin.file:
     path: /app
