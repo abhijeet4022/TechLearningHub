@@ -12,7 +12,7 @@
     - name: Copying reverse proxy file.
       ansible.builtin.copy:
         src: roboshop.conf
-        dst: /etc/nginx/default.d/roboshop.conf
+        dest: /etc/nginx/default.d/roboshop.conf
 
     - name: Removing default nginx content.
       ansible.builtin.file:
@@ -27,7 +27,7 @@
     - name: Downloading the frontend content.
       ansible.builtin.unarchive:
         src: https://roboshop-artifacts.s3.amazonaws.com/{{component}}.zip
-        dst: /usr/share/nginx/html
+        dest: /usr/share/nginx/html
         remote_src: yes
 
     - name: Restarting NGINX WebServer.
