@@ -14,4 +14,4 @@
     - name: Vegetable List
       ansible.builtin.debug:
         msg: Vegetable Name is - Carrot
-      when: vegetables == "true"
+      when: vegetables is true
