@@ -1,0 +1,31 @@
+- name: Configuring the remi repo.
+  ansible.builtin.yum:
+    name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+    state: installed
+    disable_gpg_check: true
+
+- name: Enable the redis:remi-6.2.
+  ansible.builtin.shell: dnf  module enable redis:remi-6.2 -y
+
+- name: Installing Redis.
+  ansible.builtin.yum:
+    name: redis
+    state: installed
+
+- name: Changing /etc/redis.conf config from localhost to internet.
+  ansible.builtin.replace:
+    path: /etc/redis.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+- name: Changing /etc/redis/redis.conf config from localhost to internet.
+  ansible.builtin.replace:
+    path: /etc/redis/redis.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+- name: Reloading the redis service.
+  ansible.builtin.systemd:
+    name: redis
+    state: restarted
+    enabled: yes
