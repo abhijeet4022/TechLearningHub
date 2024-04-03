@@ -1,9 +1,0 @@
-- name: User Setup - RoboShop
-  hosts: all
-  become: yes
-  vars:
-    - component: user
-    - schema: true
-  tasks:
-    - name: User Configuration
-      ansible.builtin.import_tasks: nodejs.yml

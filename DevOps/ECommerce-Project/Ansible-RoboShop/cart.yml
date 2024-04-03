@@ -1,8 +1,0 @@
-- name: Cart Component Setup - RoboShop
-  hosts: all
-  become: yes
-  vars:
-    component: cart
-  tasks:
-    - name: Cart Configuration
-      ansible.builtin.import_tasks: nodejs.yml
