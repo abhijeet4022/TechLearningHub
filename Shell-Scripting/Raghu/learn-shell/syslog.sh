@@ -1,6 +1,8 @@
 #!/bin/bash
-cd /var/log/rsyslog
-if [ $? -ne 0 ]; then
+if [ -d /var/log/rsyslog ]; then
+  echo "changing the directory."
+  cd /var/log/rsyslog
+else
   echo "Directory not exist"
   exit 1
 fi
