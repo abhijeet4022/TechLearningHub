@@ -1,4 +1,9 @@
+- name: Print nodejs
+  ansible.builtin.debug:
+    msg: Test pass
+
 - name: Catalogue Configuration
   ansible.builtin.import_role:
     name: common
     tasks_from: nodejs
+
