@@ -3,12 +3,13 @@
     src: "{{component}}.service"
     dest: /etc/systemd/system/{{component}}.service
 
-- name: Reload the {{component}} service.
+- name: Reload the {{ component }} service.
   ansible.builtin.systemd:
     name:
-    - "{{component}}"
-    - amazon-ssm-agent
+      - "{{ component }}"
+      - amazon-ssm-agent
     state: restarted
     enabled: yes
-    daemon-reload: yes
+    daemon_reload: true
+
 
