@@ -7,8 +7,8 @@
 - name: Installing NodeJS.
   ansible.builtin.yum:
     name:
-    - nodejs
-    - https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+      - nodejs
+      - https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
     state: latest
     disable_gpg_check: true
 
