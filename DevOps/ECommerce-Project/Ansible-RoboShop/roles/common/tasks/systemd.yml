@@ -5,11 +5,13 @@
 
 - name: Reload the {{ component }} service.
   ansible.builtin.systemd:
-    name:
-      - "{{ component }}"
-      - amazon-ssm-agent
+    name: "{{ item }}"
     state: restarted
     enabled: yes
     daemon_reload: true
+    loop:
+      - "{{ component }}"
+      - amazon-ssm-agent
+
 
 
