@@ -10,6 +10,7 @@
     - nodejs
     - https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
     state: latest
+    disable_gpg_check: true
 
 - name: Catalogue Configuration
   ansible.builtin.import_tasks: appprereq.yml
@@ -23,5 +24,5 @@
   ansible.builtin.import_tasks: schema.yml
   when: schema is defined
 
-- name: Systemd {{catalogue}} service setup.
+- name: Systemd {{component}} service setup.
   ansible.builtin.import_tasks: systemd.yml
