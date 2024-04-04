@@ -1,14 +1,12 @@
-provider "aws" {
-  #  region = "us-east-1"
-}
+provider "aws" {}
 
 resource "aws_instance" "frontend" {
   ami                    = "ami-0f3c7d07486cad139"
   instance_type          = "t2.micro"
   vpc_security_group_ids = ["sg-062c9c57661d1416a"]
   tags                   = {
-    Name    = frontend
-    Project = roboshop
+    Name    = "frontend"
+    Project = "roboshop"
   }
 }
 
