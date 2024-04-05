@@ -10,6 +10,10 @@ variable "vpc_security_group_ids" {
   default = ["sg-062c9c57661d1416a"]
 }
 
+variable "zone_id" {
+  default = "Z09678453PONOT92KJ2ZM"
+}
+
 variable "components" {
   default = {
     frontend  = { name = "frontend-dev", instance_type = "t2.micro" }
@@ -39,11 +43,12 @@ resource "aws_instance" "instance" {
   }
 }
 
-#resource "aws_route53_record" "frontend" {
-#  zone_id = "Z09678453PONOT92KJ2ZM"
-#  name    = "frontend-dev.learntechnology.cloud"
-#  type    = "A"
-#  ttl     = 10
-#  records = [aws_instance.frontend.private_ip]
-#}
+resource "aws_route53_record" "records" {
+  for_each = var.components
+  zone_id  = var.zone_id
+  name     = "${lookup(each.value, "name", null)}.learntechnology.cloud"
+  type     = "A"
+  ttl      = 10
+  records  = lookup(lookup(aws_instance.instance, each.key, null ), private_ip, null)
+}
 
