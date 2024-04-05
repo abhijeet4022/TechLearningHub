@@ -53,5 +53,5 @@ resource "aws_instance" "instance" {
 #}
 
 output "records" {
-  value = aws_instance.instance
+  value = aws_instance.instance["cart"]
 }
