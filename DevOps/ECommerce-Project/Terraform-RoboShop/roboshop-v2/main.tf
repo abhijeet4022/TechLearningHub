@@ -43,15 +43,18 @@ resource "aws_instance" "instance" {
   }
 }
 
-#resource "aws_route53_record" "records" {
-#  for_each = var.components
-#  zone_id  = var.zone_id
-#  name     = "${lookup(each.value, "name", null)}.learntechnology.cloud"
-#  type     = "A"
-#  ttl      = 10
-#  records  = [lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)]
-#}
-
-output "records" {
-  value = aws_instance.instance["cart"]
+resource "aws_route53_record" "records" {
+  for_each = var.components
+  zone_id  = var.zone_id
+  name     = "${lookup(each.value, "name", null)}.learntechnology.cloud"
+  type     = "A"
+  ttl      = 10
+  records  = [lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)]
 }
+
+#output "records" {
+#  value = aws_instance.instance
+#}
+#output "records-cart" {
+#  value = aws_instance.instance["cart"]
+#}
