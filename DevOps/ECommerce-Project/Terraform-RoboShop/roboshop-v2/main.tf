@@ -49,7 +49,7 @@ resource "aws_route53_record" "records" {
   name     = "${lookup(each.value, "name", null)}.learntechnology.cloud"
   type     = "A"
   ttl      = 10
-  records  = lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)
+  records  = [lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)]
 }
 
 #output "records" {
