@@ -30,6 +30,3 @@ ansible-playbook -i ${var.name}-dev.learntechnology.cloud, main.yml -e ansible_u
 EOF
 }
 }
-
-
-
