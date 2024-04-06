@@ -41,27 +41,27 @@ resource "aws_instance" "instance" {
   tags                   = {
     Name    = lookup(each.value, "name", null)
     Project = "roboshop"
-    Env = "Dev"
+    Env     = "Dev"
   }
-#  ebs_block_device {
-#    device_name = ""
-#    tags        = {
-#      Name        = lookup(each.value, "name", null)
-#      Environment = "Production"
-#      Project = "roboshop"
-#      Env = "Dev"
-#    }
-#  }
+  ebs_block_device {
+    device_name = ""
+    tags        = {
+      Name        = lookup(lookup(aws_instance.instance, each.key, null).root_block_device[0], "device_name", null)
+      Environment = "Production"
+      Project     = "roboshop"
+      Env         = "Dev"
+    }
+  }
 }
 
-  resource "aws_route53_record" "records" {
-    for_each = var.components
-    zone_id  = var.zone_id
-    name     = "${lookup(each.value, "name", null)}.learntechnology.cloud"
-    type     = "A"
-    ttl      = 10
-    records  = [lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)]
-  }
+resource "aws_route53_record" "records" {
+  for_each = var.components
+  zone_id  = var.zone_id
+  name     = "${lookup(each.value, "name", null)}.learntechnology.cloud"
+  type     = "A"
+  ttl      = 10
+  records  = [lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)]
+}
 
 
 #  output "records" {
@@ -70,28 +70,4 @@ resource "aws_instance" "instance" {
 #  output "records-cart" {
 #    value = aws_instance.instance["cart"]
 #  }
-
-#output "public-ip" {
-#  value = lookup(lookup(aws_instance.instance, "cart", null ), "public_ip", null)
-#}
-output "root-disk" {
-  value = lookup(lookup(aws_instance.instance, "cart", null ), "root_block_device", null)
-}
-
-#output "root-disk-device-name" {
-#  value = lookup(lookup(aws_instance.instance, "cart", null).root_block_device[0], "device_name", null)
-#}
-output "root-disk-device-name" {
-  value = lookup(lookup(lookup(aws_instance.instance, "cart", null), "root_block_device", null), "device_name", null)
-}
-
-
-output "root-disk-devce" {
-  value = aws_instance.instance["cart"].root_block_device[0]
-}
-
-
-
-#    device_name = "/dev/sda1"  # Modify this to match your root volume device name
-#    volume_type = "gp2"        # Specify the desired EBS volume type
 
