@@ -42,7 +42,6 @@ resource "aws_instance" "instance" {
     Name    = lookup(each.value, "name", null)
     Project = "roboshop"
     Env     = "Dev"
-    OS      = "CentOS8-Stream"
   }
 }
 
