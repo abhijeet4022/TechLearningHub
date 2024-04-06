@@ -49,7 +49,7 @@ resource "aws_instance" "instance" {
       Name        = lookup(each.value, "name", null)
       Project     = "roboshop"
       Env         = "Dev"
-      Type = "[lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)]"
+      Type = "${lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)}"
     }
   }
 }
