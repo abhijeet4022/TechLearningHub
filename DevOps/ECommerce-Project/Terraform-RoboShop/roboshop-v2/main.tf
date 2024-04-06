@@ -78,27 +78,11 @@ output "root-disk" {
   value = lookup(lookup(aws_instance.instance, "cart", null ), "root_block_device", null)
 }
 
+output "root-disk-device-name" {
+  value = lookup(lookup(aws_instance.instance, "cart", null).root_block_device[0], "device_name", null)
+}
 
 
 #    device_name = "/dev/sda1"  # Modify this to match your root volume device name
 #    volume_type = "gp2"        # Specify the desired EBS volume type
 
-#records = {
-#
-#
-#  "public_ip" = "18.209.177.39"
-#  "root_block_device" = tolist([
-#    {
-#      "delete_on_termination" = true
-#      "device_name" = "/dev/sda1"
-#      "encrypted" = false
-#      "iops" = 100
-#      "kms_key_id" = ""
-#      "tags" = tomap({})
-#      "tags_all" = tomap({})
-#      "throughput" = 0
-#      "volume_id" = "vol-03b7a9efd57fa3e7d"
-#      "volume_size" = 10
-#      "volume_type" = "gp2"
-#    },
-#  ])
