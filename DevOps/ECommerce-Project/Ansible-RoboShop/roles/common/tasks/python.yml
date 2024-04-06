@@ -1,3 +1,6 @@
+- name: Importing SSM-Agent Tasks.
+  ansible.builtin.import_tasks: amazon-ssm-agent.yml
+
 - name: Installing Python Package.
   ansible.builtin.yum:
     name:

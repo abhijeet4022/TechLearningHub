@@ -1,1 +1,2 @@
 component: redis
+agent: false

@@ -1,1 +1,2 @@
 component: mongodb
+agent: false
