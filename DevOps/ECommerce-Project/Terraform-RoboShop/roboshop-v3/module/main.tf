@@ -18,14 +18,14 @@ resource "aws_route53_record" "records" {
 
 resource "null_resource" "ansible" {
   depends_on = [
-  aws_route53_record.records
+    aws_route53_record.records
   ]
 
   provisioner "local-exec" {
     command = <<EOF
 cd /home/centos/TechLearningHub/DevOps/ECommerce-Project/Ansible-RoboShop
 git pull
-sleep 60
+sleep 30
 ansible-playbook -i ${var.name}-dev.learntechnology.cloud, main.yml -e ansible_user=centos -e ansible_password=DevOps321 -e component=${var.name}
 EOF
   }
