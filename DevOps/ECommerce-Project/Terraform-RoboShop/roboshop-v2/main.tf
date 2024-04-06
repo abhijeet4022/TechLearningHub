@@ -14,6 +14,7 @@ variable "zone_id" {
   default = "Z09678453PONOT92KJ2ZM"
 }
 
+
 variable "components" {
   default = {
     frontend  = { name = "frontend-dev", instance_type = "t2.micro" }
@@ -62,12 +63,16 @@ resource "aws_instance" "instance" {
     records  = [lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)]
   }
 
-  output "records" {
-    value = aws_instance.instance
-  }
-  output "records-cart" {
-    value = aws_instance.instance["cart"]
-  }
+#  output "records" {
+#    value = aws_instance.instance
+#  }
+#  output "records-cart" {
+#    value = aws_instance.instance["cart"]
+#  }
+
+output "records" {
+  value = lookup(aws_instance.instance, cart, null )
+}
 
 
 
