@@ -52,9 +52,9 @@ resource "aws_route53_record" "records" {
   records  = [lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)]
 }
 
-#output "records" {
-#  value = aws_instance.instance
-#}
-#output "records-cart" {
-#  value = aws_instance.instance["cart"]
-#}
+output "records" {
+  value = aws_instance.instance
+}
+output "records-cart" {
+  value = aws_instance.instance["cart"]
+}
