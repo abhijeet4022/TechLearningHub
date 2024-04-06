@@ -63,6 +63,7 @@ resource "aws_instance" "instance" {
     records  = [lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)]
   }
 
+
 #  output "records" {
 #    value = aws_instance.instance
 #  }
