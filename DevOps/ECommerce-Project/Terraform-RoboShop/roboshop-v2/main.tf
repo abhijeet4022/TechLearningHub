@@ -81,6 +81,13 @@ output "root-disk" {
 output "root-disk-device-name" {
   value = lookup(lookup(aws_instance.instance, "cart", null).root_block_device[0], "device_name", null)
 }
+output "root-disk-device" {
+  value = aws_instance.instance["cart"].root_block_device[1]
+}
+output "root-disk-devce" {
+  value = aws_instance.instance["cart"].root_block_device[0]
+}
+
 
 
 #    device_name = "/dev/sda1"  # Modify this to match your root volume device name
