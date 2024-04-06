@@ -43,15 +43,6 @@ resource "aws_instance" "instance" {
     Project = "roboshop"
     Env     = "Dev"
   }
-  ebs_block_device {
-    device_name = "/dev/sda1"
-    tags        = {
-      Name        = lookup(each.value, "name", null)
-      Project     = "roboshop"
-      Env         = "Dev"
-      Type = "${lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)}"
-    }
-  }
 }
 
 resource "aws_route53_record" "records" {
@@ -71,3 +62,11 @@ resource "aws_route53_record" "records" {
 #    value = aws_instance.instance["cart"]
 #  }
 
+#ebs_block_device {
+#  device_name = "/dev/sda1"
+#  tags        = {
+#    Name        = lookup(each.value, "name", null)
+#    Project     = "roboshop"
+#    Env         = "Dev"
+#     }
+#}
