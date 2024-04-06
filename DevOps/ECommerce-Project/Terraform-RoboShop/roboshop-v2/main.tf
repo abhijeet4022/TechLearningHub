@@ -44,7 +44,7 @@ resource "aws_instance" "instance" {
     Env     = "Dev"
   }
   ebs_block_device {
-    device_name = "${lookup(lookup(aws_instance.instance, each.key, null).root_block_device[0], "device_name", null)}"
+    device_name = "/dev/sda1"
     tags        = {
       Name        = lookup(each.value, "name", null)
       Project     = "roboshop"
