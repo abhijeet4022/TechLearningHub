@@ -42,14 +42,15 @@ resource "aws_instance" "instance" {
     Project = "roboshop"
     Env = "Dev"
   }
-  ebs_block_device {
-    tags        = {
-      Name        = lookup(each.value, "name", null)
-      Environment = "Production"
-      Project = "roboshop"
-      Env = "Dev"
-    }
-  }
+#  ebs_block_device {
+#    device_name = ""
+#    tags        = {
+#      Name        = lookup(each.value, "name", null)
+#      Environment = "Production"
+#      Project = "roboshop"
+#      Env = "Dev"
+#    }
+#  }
 }
 
   resource "aws_route53_record" "records" {
