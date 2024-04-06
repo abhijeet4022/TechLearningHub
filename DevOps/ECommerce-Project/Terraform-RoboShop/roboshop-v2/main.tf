@@ -71,9 +71,9 @@ resource "aws_instance" "instance" {
 #    value = aws_instance.instance["cart"]
 #  }
 
-output "public-ip" {
-  value = lookup(lookup(aws_instance.instance, "cart", null ), "public_ip", null)
-}
+#output "public-ip" {
+#  value = lookup(lookup(aws_instance.instance, "cart", null ), "public_ip", null)
+#}
 output "root-disk" {
   value = lookup(lookup(aws_instance.instance, "cart", null ), "root_block_device", null)
 }
@@ -81,9 +81,7 @@ output "root-disk" {
 output "root-disk-device-name" {
   value = lookup(lookup(aws_instance.instance, "cart", null).root_block_device[0], "device_name", null)
 }
-output "root-disk-device" {
-  value = aws_instance.instance["cart"].root_block_device[1]
-}
+
 output "root-disk-devce" {
   value = aws_instance.instance["cart"].root_block_device[0]
 }
