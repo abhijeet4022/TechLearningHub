@@ -71,7 +71,7 @@ resource "aws_instance" "instance" {
 #  }
 
 output "records" {
-  value = lookup(aws_instance.instance, cart, null )
+  value = lookup(aws_instance.instance, "cart", null )
 }
 
 
