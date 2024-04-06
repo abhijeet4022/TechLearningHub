@@ -40,21 +40,35 @@ resource "aws_instance" "instance" {
   tags                   = {
     Name    = lookup(each.value, "name", null)
     Project = "roboshop"
+    Env = "Dev"
+  }
+  ebs_block_device {
+    tags        = {
+      Name        = lookup(each.value, "name", null)
+      Environment = "Production"
+      Project = "roboshop"
+      Env = "Dev"
+    }
   }
 }
 
-resource "aws_route53_record" "records" {
-  for_each = var.components
-  zone_id  = var.zone_id
-  name     = "${lookup(each.value, "name", null)}.learntechnology.cloud"
-  type     = "A"
-  ttl      = 10
-  records  = [lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)]
-}
+  resource "aws_route53_record" "records" {
+    for_each = var.components
+    zone_id  = var.zone_id
+    name     = "${lookup(each.value, "name", null)}.learntechnology.cloud"
+    type     = "A"
+    ttl      = 10
+    records  = [lookup(lookup(aws_instance.instance, each.key, null ), "private_ip", null)]
+  }
 
-output "records" {
-  value = aws_instance.instance
-}
-output "records-cart" {
-  value = aws_instance.instance["cart"]
-}
+  output "records" {
+    value = aws_instance.instance
+  }
+  output "records-cart" {
+    value = aws_instance.instance["cart"]
+  }
+
+
+
+#    device_name = "/dev/sda1"  # Modify this to match your root volume device name
+#    volume_type = "gp2"        # Specify the desired EBS volume type
