@@ -82,7 +82,7 @@ output "root-disk" {
 #  value = lookup(lookup(aws_instance.instance, "cart", null).root_block_device[0], "device_name", null)
 #}
 output "root-disk-device-name" {
-  value = lookup(lookup(aws_instance.instance, "cart", null) "device_name", null)
+  value = lookup(lookup(aws_instance.instance, "cart", null) "root_block_device", null)
 }
 
 output "root-disk-devce" {
