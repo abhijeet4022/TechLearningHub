@@ -1,3 +1,8 @@
+- name: Importing SSM-Agent Tasks.
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: amazon-ssm-agent
+
 - name: Installing the golang package.
   ansible.builtin.yum:
     name: golang
