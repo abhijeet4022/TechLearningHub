@@ -25,9 +25,11 @@ resource "null_resource" "ansible" {
     command = <<EOF
 cd /home/centos/TechLearningHub/DevOps/ECommerce-Project/Ansible-RoboShop
 git pull
-sleep 30
+sleep 90
 ansible-playbook -i ${var.name}-dev.learntechnology.cloud, main.yml -e ansible_user=centos -e ansible_password=DevOps321 -e component=${var.name}
 EOF
-  }
 }
+}
+
+
 
