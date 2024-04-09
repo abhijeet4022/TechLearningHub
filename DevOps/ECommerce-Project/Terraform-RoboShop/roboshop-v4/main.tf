@@ -1,5 +1,5 @@
 module "components" {
-  source = "git::https://github.com/abhijeet4022/TechLearningHub/tree/main/DevOps/ECommerce-Project/Terraform-RoboShop/roboshop-v3/module"
+  source = "../roboshop-v3/module"
   for_each = var.components
   zone_id = var.zone_id
   project = var.project
