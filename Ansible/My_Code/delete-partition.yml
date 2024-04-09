@@ -1,0 +1,12 @@
+---
+        - name: delete partiton
+          hosts: server
+          user: root
+          connection: ssh
+          tasks:
+                - name: delete partiton
+                  parted:
+                        device: /dev/sdb
+                        number: 1
+                        state: absent
+         

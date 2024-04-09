@@ -1,0 +1,14 @@
+---
+- name: Install Apache on RHEL server
+  user: root
+  connection: ssh
+  hosts: devops
+  tasks:
+   -    name: Install apache on debian based hosts.
+        command: apt-get -y install apache2
+        when: ansible_os_family=="Debian"
+        
+   -    name: Install apache for Redhat based hosts.
+        command: yum -y install httpd
+        when: ansible_os_family=="RedHat"
+        

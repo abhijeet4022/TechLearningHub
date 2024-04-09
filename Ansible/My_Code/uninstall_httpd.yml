@@ -1,0 +1,11 @@
+---
+        - name: httpd uninstall
+          hosts: server
+          user: root
+          become: yes
+          connection: ssh
+          tasks:
+                - name: uninstall httpd
+                  yum:
+                        name: httpd
+                        state: absent
