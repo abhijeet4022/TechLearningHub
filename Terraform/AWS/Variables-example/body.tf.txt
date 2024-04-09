@@ -1,0 +1,18 @@
+#V 1.0
+output welcome {
+    value = "Hello ${var.username}, Your age is ${var.age}."
+}
+
+#V 1.1
+# Print 1st name of the list
+output Print-1st-Name {
+    value = "First user is ${var.NameList[0]}" 
+}
+
+#V 1.2 
+output userage {
+    value = "My name is ${var.name} and my age is ${lookup(var.userage, "${var.name}")}"
+
+
+
+}
