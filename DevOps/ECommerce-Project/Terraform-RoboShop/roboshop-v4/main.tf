@@ -1,5 +1,5 @@
 module "components" {
-  source = "../roboshop-v3/module"
+  source = "../module/tf-module-infra"
   for_each = var.components
   zone_id = var.zone_id
   project = var.project
