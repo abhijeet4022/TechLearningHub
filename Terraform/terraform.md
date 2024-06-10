@@ -10,7 +10,7 @@
 * `terraform workspace list`
 
 # To create a new workspace
-* terraform workspace new <WorkSpace Name>
+* `terraform workspace new <WorkSpace Name>`
 
 # To see the current workspace
 * `terraform workspace show`
