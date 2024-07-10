@@ -9,6 +9,7 @@ Memory: 4GB
 
 # To check the swap status
 `swapon -s`
+`swapoff -a`
 
 # Set SELinux in permissive mode (effectively disabling it)
 `sudo setenforce 0`
