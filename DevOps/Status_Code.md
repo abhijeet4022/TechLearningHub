@@ -2,6 +2,7 @@
 --------------Server Error----------------
 
 `500 - Internal Server Error`
+
 `501 - Not Implemented`
 502 Bad Gateway
 503 Service Unavailable
