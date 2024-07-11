@@ -36,19 +36,48 @@ EOF`
 `sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo`
 
 # Install kubelet, kubeadm and kubectl:
-`sudo yum install -y containerd kubelet kubeadm kubectl --disableexcludes=kubernetes`
+`sudo yum install -y docker-ce containerd kubelet kubeadm kubectl --disableexcludes=kubernetes`
 
 # Enable the kubelet service before running kubeadm:
 `sudo systemctl start docker`
 `sudo systemctl enable docker`
+`sudo systemctl start containerd`
+`sudo systemctl enable containerd`
 `sudo systemctl start kubelet`
 `sudo systemctl enable --now kubelet`
+`sudo systemctl stop firewalld`
+`sudo systemctl disable firewalld`
+
+# To enable ip_forwarding
+`echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf`
+`sudo sysctl -p`
+
+# Configure Static-ip
+`nmcli connection add con-name static-ip ifname ens224 ipv4.method manual autoconnect yes  type ethernet ipv4.addresses  192.168.22.1/24`
+`nmcli con up static-ip`
 
 # Now set up the component using kubeadm utility.
 `rm -rf /etc/containerd/config.toml`
 `systemctl restart containerd`
 * If we did not delete this file, kubeadm will look for cri-o not containerd.
-`kubeadm init --ignore-preflight-errors=all`
+`kubeadm init --apiserver-advertise-address=192.168.22.1 --pod-network-cidr=10.0.0.0/8`
+`cp -i /etc/kubernetes/admin.conf $HOME/.kube/config`
+
+# To check the Component status and health.
+`kubectl get pod -A`
+`kubectl get componentstatus`
+
+
+
+kubeadm join 192.168.22.1:6443 --token 3s04y1.gkfrr61e5sz16lik --discovery-token-ca-cert-hash sha256:99f18805fe8fddf2bca58de4c840ccbeedc4eb84b96905fcfd4423cb039290f0
+
+
+
+
+
+
+https://admantium.medium.com/kubernetes-with-kubeadm-cluster-installation-from-scratch-810adc1b0a64
+
 
 
 
