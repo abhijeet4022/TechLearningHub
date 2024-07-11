@@ -19,6 +19,9 @@ Memory: 4GB
 # Kubernetes official documentation for installation using kubeadm
 `https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/`
 
+# Installation troubleshooting URL.
+https://admantium.medium.com/kubernetes-with-kubeadm-cluster-installation-from-scratch-810adc1b0a64
+
 # This overwrites any existing configuration in /etc/yum.repos.d/kubernetes.repo
 `cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
@@ -49,8 +52,15 @@ EOF`
 `sudo systemctl disable firewalld`
 
 # To enable ip_forwarding
-`echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf`
+`cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.ipv4.ip_forward = 1
+EOF`
+
+# Apply sysctl params without reboot
+`sudo sysctl --system`
 `sudo sysctl -p`
+# Verify that net.ipv4.ip_forward is set to 1 with:
+`sysctl net.ipv4.ip_forward`
 
 # Configure Static-ip
 `nmcli connection add con-name static-ip ifname ens224 ipv4.method manual autoconnect yes  type ethernet ipv4.addresses  192.168.22.1/24`
@@ -67,16 +77,41 @@ EOF`
 `kubectl get pod -A`
 `kubectl get componentstatus`
 
+# Container configuration
+`cat <<EOF | sudo tee /etc/containerd/config.toml
+version = 2
+[plugins]
+[plugins."io.containerd.grpc.v1.cri"]
+[plugins."io.containerd.grpc.v1.cri".containerd]
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+runtime_type = "io.containerd.runc.v2"
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+SystemdCgroup = true
+EOF`
 
 
-kubeadm join 192.168.22.1:6443 --token 3s04y1.gkfrr61e5sz16lik --discovery-token-ca-cert-hash sha256:99f18805fe8fddf2bca58de4c840ccbeedc4eb84b96905fcfd4423cb039290f0
+
+`systemct restart containerd`
+
+# Print the Join command for worker
+`kubeadm token list`
+`kubeadm token delete <token>`
+`kubeadm token create --print-join-command`
 
 
+https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises
+# Configure the calico
+# This needs to run on master node, and it will configure the L3 bridge network on all nodes including master node. 
 
+* Download the file.
+`curl https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml -O`
+* Deploy the yaml.
+`kubectl create -f calico.yaml`
+`kubectl get pod -A -o wide`
 
-
-
-https://admantium.medium.com/kubernetes-with-kubeadm-cluster-installation-from-scratch-810adc1b0a64
+# Certificate path.
+`/etc/kubernetes/pki/ca.crt`
 
 
 
