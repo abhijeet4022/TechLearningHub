@@ -11,4 +11,6 @@
 * Deployments come with all the features of RS.
 * It additionally supports Rollout and Rollback.
 * When we create deployment automatically, it will create on RS in backend to achieve the HA and Scalability. 
+* rolling update means it;s a blue green deployment strategy
+* recreate means it's cannery deployment strategy
  
