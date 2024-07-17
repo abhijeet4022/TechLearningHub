@@ -8,8 +8,14 @@
 **2. Node label and Selector-based:**
 * Node label and selector-based scheduling in Kubernetes allows you to control where your pods are scheduled based on labels assigned to nodes and selectors specified in pod specifications.
 * We can use Node label and Selector-based on two label.
-  1. Pod label
-  2. Name Space Label
+  1. Pod label:
+  2. Name Space Label:
+     *  By default this setting is disable we have to enable it by editing the `/etc/kubernetes/manifests/kube-apiserver.yaml` file.
+     * `- --enable-admission-plugins=NodeRestriction,PodNodeSelector`
+     * Then wait to restart the API to apply the changes
+     * Then edit the Name Space by providing the annotation. 
+
+
 * 
 * 
     * Taint and Toleration based scheduling
