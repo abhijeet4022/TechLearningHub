@@ -5,9 +5,11 @@
 * It does not support High Availability (HA) and failover mechanisms. If the designated node becomes unavailable, all pods assigned to it will remain in a pending state until the node is restored or manually rescheduled.
 * In this mode of scheduling, the Kubernetes scheduler service is bypassed because the node assignment is explicitly defined, thereby eliminating the need for the scheduler to make placement decisions.
 
-2. 
-
-    * Nodelabel and Selector based
+**2. Node label and Selector-based:**
+* Node label and selector-based scheduling in Kubernetes allows you to control where your pods are scheduled based on labels assigned to nodes and selectors specified in pod specifications.
+* 
+* 
+* 
     * Taint and Toleration based scheduling
     * Affinity and Anti-Affinity based scheduling
 
