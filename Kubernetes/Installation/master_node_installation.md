@@ -27,7 +27,8 @@
 # Continue with Installation.
 * Configure the kubernetes repository /etc/yum.repos.d/kubernetes.repo.
 
-`cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+```
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
 baseurl=https://pkgs.k8s.io/core:/stable:/v1.30/rpm/
@@ -35,7 +36,8 @@ enabled=1
 gpgcheck=0
 #gpgkey=https://pkgs.k8s.io/core:/stable:/v1.30/rpm/repodata/repomd.xml.key
 exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
-EOF`
+EOF
+```
 * **Note:** The excluded parameter in the repository definition ensures that the packages related to Kubernetes are not upgraded upon running yum update as there's a special procedure that must be followed for upgrading Kubernetes.
 
 * Set up the repo for containerd. 
@@ -56,10 +58,11 @@ EOF`
 
 # Enable ip_forwarding is not required.
 * To enable ip_forwarding
-
-1. `cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+```
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.ipv4.ip_forward = 1
-EOF`
+EOF
+```
 
 * Apply sysctl params without a reboot.
   1. `sudo sysctl --system`
