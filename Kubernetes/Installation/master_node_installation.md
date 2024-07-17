@@ -76,7 +76,8 @@ EOF`
 1. `rm -rf /etc/containerd/config.toml`
 * If we do not delete this file, kubeadm will look for cri-o not containerd.
 * Container configuration for containerd.
-2`cat <<EOF | sudo tee /etc/containerd/config.toml
+
+2. `cat <<EOF | sudo tee /etc/containerd/config.toml
 version = 2
 [plugins]
 [plugins."io.containerd.grpc.v1.cri"]
