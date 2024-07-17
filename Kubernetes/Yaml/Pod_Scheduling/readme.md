@@ -33,9 +33,9 @@
 
   **2. Team or Application Isolation:** Taints can isolate nodes for specific teams or applications, ensuring resource segregation.
 
-* **Taint Effect:\n**
-  **1. NoSchedule:** It does not evict existing pod even we did not mention tolerations on deployment.
-  **2. NoExecute:** It will evict existing pod if we did not mention tolerations.
+* Taint Effect:
+  1. NoSchedule: It does not evict existing pod even we did not mention tolerations on deployment.
+  2. NoExecute: It will evict existing pod if we did not mention tolerations.
 * 
 * 
  
