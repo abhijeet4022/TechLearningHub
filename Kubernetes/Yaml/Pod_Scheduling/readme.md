@@ -28,6 +28,7 @@
 * Master node by default comes with tained; that's why no container will spin in Master Node.
 * In industry, we will use both taint-tolerations with node selector. Taint won't allow other containers to spin and node selector will restrict the container to spin on selected node only.
 * **Use Cases:**
+
   **1. Node Specialization:** Taints can be used to mark nodes with specialized hardware (e.g., GPUs) so that only pods requiring those resources are scheduled there.
 
   **2. Team or Application Isolation:** Taints can isolate nodes for specific teams or applications, ensuring resource segregation.
