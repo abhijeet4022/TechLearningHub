@@ -20,10 +20,23 @@
        scheduler.alpha.kubernetes.io/node-selector: "your-node-label-key=your-node-label-value"
        `
      * Once annotated, all pods created within that namespace will look for the specified node label and schedule pods accordingly.
+     
+**3. Taint and Toleration based scheduling**
+* Taints and tolerations based scheduling in Kubernetes provide a mechanism for controlling which pods can be scheduled on which nodes, based on node "taints" and pod "tolerations".
+* This is helpful when we don't want to create any unwanted pod on any particular node.
+* Taint Node: `Node Side` and Toleration: `Deployment Side`
+* Master node by default comes with tained; that's why no container will spin in Master Node.
+* In industry, we will use both taint-tolerations with node selector. Taint won't allow other containers to spin and node selector will restrict the container to spin on selected node only.
+*** Use Cases:**
+  **1. Node Specialization:** Taints can be used to mark nodes with specialized hardware (e.g., GPUs) so that only pods requiring those resources are scheduled there.
 
-
+  **2. Team or Application Isolation:** Taints can isolate nodes for specific teams or applications, ensuring resource segregation.
+*** Taint Effect:**
+1. NoSchedule: It does not evict existing pod even we did not mention tolerations on deployment.
+2. NoExecute: It will evict existing pod if we did not mention tolerations.
 * 
 * 
-    * Taint and Toleration based scheduling
+ 
+
     * Affinity and Anti-Affinity based scheduling
 
