@@ -5,19 +5,19 @@
   1. OS: Centos 9
   2. CPU: 2VCPUs
   3. Memory: 4GB
-* It's recommended to disable the SWAP partition on all node and SELINUX should be disabled in Master Node.
+* It's recommended to disable the SWAP partition on all nodes, and SELINUX should be disabled in Master Node.
 * To disable the swap.
-    `swapon -s`
-    `swapoff -a`
-    `Remove the SWAP mount point entry from /etc/fstab`
+  1. `swapon -s`
+  2. `swapoff -a`
+  3. `Remove the SWAP mount point entry from /etc/fstab`
 * Set SELinux in permissive mode (effectively disabling it).
-    `sudo setenforce 0`
-    `sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config`
+  1. `sudo setenforce 0`
+  2. `sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config`
 * Stop and Disable the firewall.
-    `sudo systemctl stop firewalld`
-    `sudo systemctl disable firewalld`
+  1. `sudo systemctl stop firewalld`
+  2. `sudo systemctl disable firewalld`
 * Reboot the VM.
-    `init 6`
+  1. `init 6`
 
 
 # Kubernetes official documentation for installation using kubeadm.
