@@ -26,6 +26,9 @@ spec:
           operator: "Exists"
           #value: "value"
           effect: "NoSchedule"
+      nodeSelector:
+        disk: ssd
+        env: dev
       containers:
         - image: nginx:1.14
           imagePullPolicy: IfNotPresent
