@@ -104,16 +104,15 @@ EOF`
 
 https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises
 # Configure the calico
-# This needs to run on master node, and it will configure the L3 bridge network on all nodes including master node. 
-
+* This needs to run on master node, and it will configure the L3 bridge network on all nodes including master node. 
 * Download the file.
-`curl https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml -O`
+1. `curl https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml -O`
 * Deploy the yaml.
-`kubectl create -f calico.yaml`
-`kubectl get pod -A -o wide`
+1. `kubectl create -f calico.yaml`
+2. `kubectl get pod -A -o wide`
 
 # Certificate path.
-`/etc/kubernetes/pki/ca.crt`
+1. `/etc/kubernetes/pki/ca.crt`
 
 
 
