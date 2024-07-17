@@ -57,9 +57,9 @@ EOF`
 # Enable ip_forwarding is not required.
 * To enable ip_forwarding
 
-"`cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+1. `cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.ipv4.ip_forward = 1
-EOF`"
+EOF`
 
 * Apply sysctl params without a reboot.
   1. `sudo sysctl --system`
