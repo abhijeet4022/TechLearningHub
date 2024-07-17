@@ -19,13 +19,14 @@
 * Reboot the VM.
   1. `init 6`
 
-
 # Kubernetes official documentation for installation using kubeadm.
     `https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/`
 # Installation troubleshooting URL.
     `https://admantium.medium.com/kubernetes-with-kubeadm-cluster-installation-from-scratch-810adc1b0a64`
 
-* Configure the kubernetes repository /etc/yum.repos.d/kubernetes.repo. 
+# Continue with Installation.
+* Configure the kubernetes repository /etc/yum.repos.d/kubernetes.repo.
+
 `cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
