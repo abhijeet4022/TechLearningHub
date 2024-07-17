@@ -42,7 +42,7 @@ EOF`
   1. `sudo yum install -y yum-utils`
   2. `sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo`
 
-* Install kubelet, kubeadm and kubectl:
+* Install docker, kubelet, kubeadm and kubectl:
   1. `sudo yum install -y docker-ce containerd kubelet kubeadm kubectl --disableexcludes=kubernetes`
 
 * Enable the kubelet service before running kubeadm:
@@ -68,13 +68,13 @@ EOF`"
 * Verify that net.ipv4.ip_forward is set to 1 with:
   1. `sysctl net.ipv4.ip_forward`
 
-* Configure Static-ip
+# Configure Static-ip
   1. `nmcli connection add con-name static-ip ifname ens224 ipv4.method manual autoconnect yes  type ethernet ipv4.addresses  192.168.22.1/24`
   2. `nmcli con up static-ip`
 
 # Now set up the component using kubeadm utility.
-`rm -rf /etc/containerd/config.toml`
-* If we did not delete this file, kubeadm will look for cri-o not containerd.
+  1. `rm -rf /etc/containerd/config.toml`
+* If we do not delete this file, kubeadm will look for cri-o not containerd.
 # Container configuration for containerd.
 `cat <<EOF | sudo tee /etc/containerd/config.toml
 version = 2
@@ -94,13 +94,13 @@ EOF`
 `cp -i /etc/kubernetes/admin.conf $HOME/.kube/config`
 
 # To check the Component status and health.
-`kubectl get pod -A`
-`kubectl get componentstatus`
+  1. `kubectl get pod -A`
+  2. `kubectl get componentstatus`
 
 # Print the Join command for worker
-`kubeadm token list`
-`kubeadm token delete <token>`
-`kubeadm token create --print-join-command`
+1. `kubeadm token list`
+2. `kubeadm token delete <token>`
+3. `kubeadm token create --print-join-command`
 
 
 https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises
