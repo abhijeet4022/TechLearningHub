@@ -93,7 +93,6 @@ runtime_type = "io.containerd.runc.v2"
 SystemdCgroup = true
 EOF
 ```
-
 2. `systemct restart containerd`
 3. `kubeadm init --apiserver-advertise-address=192.168.22.1 --pod-network-cidr=10.0.0.0/8`
 4. `cp -i /etc/kubernetes/admin.conf $HOME/.kube/config`
