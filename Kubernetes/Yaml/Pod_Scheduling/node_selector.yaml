@@ -33,7 +33,6 @@ spec:
       terminationGracePeriodSeconds: 120
 ---
 # Name Space-Based.
-# Pod-Based Node Selector
 apiVersion: apps/v1
 kind: Deployment
 metadata:
