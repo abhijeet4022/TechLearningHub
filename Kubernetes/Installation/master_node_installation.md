@@ -39,31 +39,34 @@ EOF`
 * **Note:** The excluded parameter in the repository definition ensures that the packages related to Kubernetes are not upgraded upon running yum update as there's a special procedure that must be followed for upgrading Kubernetes.
 
 * Set up the repo for containerd. 
-    `sudo yum install -y yum-utils`
-    `sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo`
+  1. `sudo yum install -y yum-utils`
+  2. `sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo`
 
 * Install kubelet, kubeadm and kubectl:
-    `sudo yum install -y docker-ce containerd kubelet kubeadm kubectl --disableexcludes=kubernetes`
+  1. `sudo yum install -y docker-ce containerd kubelet kubeadm kubectl --disableexcludes=kubernetes`
 
-# Enable the kubelet service before running kubeadm:
-`sudo systemctl start docker`
-`sudo systemctl enable docker`
-`sudo systemctl start containerd`
-`sudo systemctl enable containerd`
-`sudo systemctl start kubelet`
-`sudo systemctl enable kubelet`
+* Enable the kubelet service before running kubeadm:
+  1. `sudo systemctl start docker`
+  2. `sudo systemctl enable docker`
+  3. `sudo systemctl start containerd`
+  4. `sudo systemctl enable containerd`
+  5. `sudo systemctl start kubelet`
+  6. `sudo systemctl enable kubelet`
 
 
-# To enable ip_forwarding
-`cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+# Enable ip_forwarding is not required.
+* To enable ip_forwarding
+
+"`cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.ipv4.ip_forward = 1
-EOF`
+EOF`"
 
-# Apply sysctl params without reboot
-`sudo sysctl --system`
-`sudo sysctl -p`
-# Verify that net.ipv4.ip_forward is set to 1 with:
-`sysctl net.ipv4.ip_forward`
+* Apply sysctl params without reboot.
+  1. `sudo sysctl --system`
+  2. `sudo sysctl -p`
+  
+* Verify that net.ipv4.ip_forward is set to 1 with:
+  1. `sysctl net.ipv4.ip_forward`
 
 # Configure Static-ip
 `nmcli connection add con-name static-ip ifname ens224 ipv4.method manual autoconnect yes  type ethernet ipv4.addresses  192.168.22.1/24`
