@@ -32,9 +32,10 @@
   **1. Node Specialization:** Taints can be used to mark nodes with specialized hardware (e.g., GPUs) so that only pods requiring those resources are scheduled there.
 
   **2. Team or Application Isolation:** Taints can isolate nodes for specific teams or applications, ensuring resource segregation.
+
 * **Taint Effect:**
-     **1. NoSchedule:** It does not evict existing pod even we did not mention tolerations on deployment.
-     **2. NoExecute:** It will evict existing pod if we did not mention tolerations.
+  **1. NoSchedule:** It does not evict existing pod even we did not mention tolerations on deployment.
+  **2. NoExecute:** It will evict existing pod if we did not mention tolerations.
 * 
 * 
  
