@@ -38,8 +38,7 @@
   **1. NoSchedule:** It does not evict existing pod even we did not mention tolerations on deployment.
 
   **2. NoExecute:** It will evict existing pod if we did not mention tolerations.
-* 
-* 
+
  
 
     * Affinity and Anti-Affinity based scheduling
