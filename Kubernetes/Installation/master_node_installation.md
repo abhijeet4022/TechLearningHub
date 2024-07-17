@@ -73,11 +73,10 @@ EOF`"
   2. `nmcli con up static-ip`
 
 # Now set up the component using kubeadm utility.
-  1. `rm -rf /etc/containerd/config.toml`
+1. `rm -rf /etc/containerd/config.toml`
 * If we do not delete this file, kubeadm will look for cri-o not containerd.
-
-# Container configuration for containerd.
-1. `cat <<EOF | sudo tee /etc/containerd/config.toml
+* Container configuration for containerd.
+2`cat <<EOF | sudo tee /etc/containerd/config.toml
 version = 2
 [plugins]
 [plugins."io.containerd.grpc.v1.cri"]
@@ -89,10 +88,9 @@ runtime_type = "io.containerd.runc.v2"
 SystemdCgroup = true
 EOF`
 
-2. `systemct restart containerd`
-
-3. `kubeadm init --apiserver-advertise-address=192.168.22.1 --pod-network-cidr=10.0.0.0/8`
-4. `cp -i /etc/kubernetes/admin.conf $HOME/.kube/config`
+3. `systemct restart containerd`
+4. `kubeadm init --apiserver-advertise-address=192.168.22.1 --pod-network-cidr=10.0.0.0/8`
+5. `cp -i /etc/kubernetes/admin.conf $HOME/.kube/config`
 
 # To check the Component status and health.
 1. `kubectl get pod -A`
