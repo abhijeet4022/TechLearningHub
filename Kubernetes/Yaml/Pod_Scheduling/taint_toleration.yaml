@@ -21,6 +21,11 @@ spec:
       labels:
         app: nginx
     spec:
+      tolerations:
+        - key: "security"
+          operator: "Exists"
+          #value: "value"
+          effect: "NoSchedule"
       containers:
         - image: nginx:1.14
           imagePullPolicy: IfNotPresent
