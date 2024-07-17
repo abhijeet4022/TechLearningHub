@@ -1,9 +1,11 @@
 # Pod scheduling will decide in which node any particular pod will run based on architecture.
 # There are four types of pod scheduling
+
 **1. Node-Based Scheduling:** 
 * This type involves directly specifying the node on which a pod will run using `nodeName` in the pod specification.
 * It does not support High Availability (HA) and failover mechanisms. If the designated node becomes unavailable, all pods assigned to it will remain in a pending state until the node is restored or manually rescheduled.
 * In this mode of scheduling, the Kubernetes scheduler service is bypassed because the node assignment is explicitly defined, thereby eliminating the need for the scheduler to make placement decisions.
+
 
 **2. Node label and Selector-based:**
 * Node label and selector-based scheduling in Kubernetes allows you to control where your pods are scheduled based on labels assigned to nodes and selectors specified in pod specifications.
@@ -20,7 +22,8 @@
        scheduler.alpha.kubernetes.io/node-selector: "your-node-label-key=your-node-label-value"
        `
      * Once annotated, all pods created within that namespace will look for the specified node label and schedule pods accordingly.
-     
+ 
+    
 **3. Taint and Toleration based scheduling**
 * Taints and tolerations based scheduling in Kubernetes provide a mechanism for controlling which pods can be scheduled on which nodes, based on node "taints" and pod "tolerations".
 * This is helpful when we don't want to create any unwanted pod on any particular node.
@@ -39,7 +42,6 @@
 
   **2. NoExecute:** It will evict existing pod if we did not mention tolerations.
 
- 
 
-    * Affinity and Anti-Affinity based scheduling
+**4. Affinity and Anti-Affinity based scheduling:**
 

@@ -1,28 +1,31 @@
-# Master Node installation
+# Master Node installation on VM Workstation CentOS 9.
 
-# Pre-requisite 
-OS: Centos
-CPU: 2vcpu
-Memory: 4GB
+# Pre-requisite.
+* System Configuration:
+  1. OS: Centos 9
+  2. CPU: 2VCPUs
+  3. Memory: 4GB
+* It's recommended to disable the SWAP partition on all node and SELINUX should be disabled in Master Node.
+* To disable the swap.
+    `swapon -s`
+    `swapoff -a`
+    `Remove the SWAP mount point entry from /etc/fstab`
+* Set SELinux in permissive mode (effectively disabling it).
+    `sudo setenforce 0`
+    `sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config`
+* Stop and Disable the firewall.
+    `sudo systemctl stop firewalld`
+    `sudo systemctl disable firewalld`
+* Reboot the VM.
+    `init 6`
 
-# It's recommended to disable the SWAP partition on all node and SELINUX should be disabled in Master Node.
 
-# To check the swap status
-`swapon -s`
-`swapoff -a`
-
-# Set SELinux in permissive mode (effectively disabling it)
-`sudo setenforce 0`
-`sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config`
-
-
-# Kubernetes official documentation for installation using kubeadm
-`https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/`
-
+# Kubernetes official documentation for installation using kubeadm.
+    `https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/`
 # Installation troubleshooting URL.
-https://admantium.medium.com/kubernetes-with-kubeadm-cluster-installation-from-scratch-810adc1b0a64
+    `https://admantium.medium.com/kubernetes-with-kubeadm-cluster-installation-from-scratch-810adc1b0a64`
 
-# This overwrites any existing configuration in /etc/yum.repos.d/kubernetes.repo
+* Configure the kubernetes repository /etc/yum.repos.d/kubernetes.repo. 
 `cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -32,14 +35,14 @@ gpgcheck=0
 #gpgkey=https://pkgs.k8s.io/core:/stable:/v1.30/rpm/repodata/repomd.xml.key
 exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 EOF`
-# Note: The exclude parameter in the repository definition ensures that the packages related to Kubernetes are not upgraded upon running yum update as there's a special procedure that must be followed for upgrading Kubernetes.
+* **Note:** The excluded parameter in the repository definition ensures that the packages related to Kubernetes are not upgraded upon running yum update as there's a special procedure that must be followed for upgrading Kubernetes.
 
-# Set up the repo for containerd 
-`sudo yum install -y yum-utils`
-`sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo`
+* Set up the repo for containerd. 
+    `sudo yum install -y yum-utils`
+    `sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo`
 
-# Install kubelet, kubeadm and kubectl:
-`sudo yum install -y docker-ce containerd kubelet kubeadm kubectl --disableexcludes=kubernetes`
+* Install kubelet, kubeadm and kubectl:
+    `sudo yum install -y docker-ce containerd kubelet kubeadm kubectl --disableexcludes=kubernetes`
 
 # Enable the kubelet service before running kubeadm:
 `sudo systemctl start docker`
@@ -47,9 +50,8 @@ EOF`
 `sudo systemctl start containerd`
 `sudo systemctl enable containerd`
 `sudo systemctl start kubelet`
-`sudo systemctl enable --now kubelet`
-`sudo systemctl stop firewalld`
-`sudo systemctl disable firewalld`
+`sudo systemctl enable kubelet`
+
 
 # To enable ip_forwarding
 `cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
@@ -68,16 +70,8 @@ EOF`
 
 # Now set up the component using kubeadm utility.
 `rm -rf /etc/containerd/config.toml`
-`systemctl restart containerd`
 * If we did not delete this file, kubeadm will look for cri-o not containerd.
-`kubeadm init --apiserver-advertise-address=192.168.22.1 --pod-network-cidr=10.0.0.0/8`
-`cp -i /etc/kubernetes/admin.conf $HOME/.kube/config`
-
-# To check the Component status and health.
-`kubectl get pod -A`
-`kubectl get componentstatus`
-
-# Container configuration
+# Container configuration for containerd.
 `cat <<EOF | sudo tee /etc/containerd/config.toml
 version = 2
 [plugins]
@@ -90,9 +84,14 @@ runtime_type = "io.containerd.runc.v2"
 SystemdCgroup = true
 EOF`
 
-
-
 `systemct restart containerd`
+
+`kubeadm init --apiserver-advertise-address=192.168.22.1 --pod-network-cidr=10.0.0.0/8`
+`cp -i /etc/kubernetes/admin.conf $HOME/.kube/config`
+
+# To check the Component status and health.
+`kubectl get pod -A`
+`kubectl get componentstatus`
 
 # Print the Join command for worker
 `kubeadm token list`
