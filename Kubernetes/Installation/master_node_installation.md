@@ -1,6 +1,6 @@
 # Master Node installation on VM Workstation CentOS 9.
 
-# Pre-requisite.
+# Pre-Requisite.
 * System Configuration:
   1. OS: Centos 9
   2. CPU: 2VCPUs
@@ -20,9 +20,9 @@
   1. `init 6`
 
 # Kubernetes official documentation for installation using kubeadm.
-    `https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/`
+1. https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 # Installation troubleshooting URL.
-    `https://admantium.medium.com/kubernetes-with-kubeadm-cluster-installation-from-scratch-810adc1b0a64`
+1. https://admantium.medium.com/kubernetes-with-kubeadm-cluster-installation-from-scratch-810adc1b0a64
 
 # Continue with Installation.
 * Configure the kubernetes repository /etc/yum.repos.d/kubernetes.repo.
@@ -101,9 +101,8 @@ EOF`
 2. `kubeadm token delete <token>`
 3. `kubeadm token create --print-join-command`
 
-
-https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises
 # Configure the calico
+1. https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises
 * This needs to run on master node, and it will configure the L3 bridge network on all nodes including master node. 
 * Download the file.
 1. `curl https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml -O`
