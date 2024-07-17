@@ -44,4 +44,23 @@
 
 
 **4. Affinity and Anti-Affinity based scheduling:**
+* Here we have more flexibility over the node selection based on label. In nodeSelector we can use only one type of condition, but here we can use more conditions.
+1. Affinity: "disk=ssd" It will create the pod on the node has label "disk=ssd"
+2. Anti-Affinity: "disk=ssd" It will create the pod on all node except the node labeled with "disk=ssd".
+
+* Affinity Operator
+1. In: It will match key and value.
+2. Exists: It will match only key not the value.
+
+* Anti-Affinity Operator
+1. NotIn: It will match key and value.
+2. DoesNotExists: It will match only key not the value.
+
+* Affinity and Anti-Affinity has two types:
+1. Node Type: It will check the nodes where to create the pod.
+2. Pod Type: It will check the created pod, where to create or not.
+   1. Inter Affinity: Two pods must run on the same node.
+   2. Inter Anti-Affinity: Two pods should not run on the same node.
+
+
 
