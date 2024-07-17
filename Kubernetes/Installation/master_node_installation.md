@@ -61,16 +61,16 @@ EOF`
 net.ipv4.ip_forward = 1
 EOF`"
 
-* Apply sysctl params without reboot.
+* Apply sysctl params without a reboot.
   1. `sudo sysctl --system`
   2. `sudo sysctl -p`
   
 * Verify that net.ipv4.ip_forward is set to 1 with:
   1. `sysctl net.ipv4.ip_forward`
 
-# Configure Static-ip
-`nmcli connection add con-name static-ip ifname ens224 ipv4.method manual autoconnect yes  type ethernet ipv4.addresses  192.168.22.1/24`
-`nmcli con up static-ip`
+* Configure Static-ip
+  1. `nmcli connection add con-name static-ip ifname ens224 ipv4.method manual autoconnect yes  type ethernet ipv4.addresses  192.168.22.1/24`
+  2. `nmcli con up static-ip`
 
 # Now set up the component using kubeadm utility.
 `rm -rf /etc/containerd/config.toml`
