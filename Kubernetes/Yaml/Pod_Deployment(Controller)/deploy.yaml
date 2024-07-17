@@ -3,10 +3,10 @@ kind: Deployment
 metadata:
   labels:
     app: nginx
-  name: nginx-deployment
+  name: nginx-web
   namespace: default
 spec:
-  replicas: 10
+  replicas: 6
   selector:
     matchLabels:
       app: nginx
