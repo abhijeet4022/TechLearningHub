@@ -11,7 +11,7 @@
   1. Pod labels: Labels assigned directly to pods/deployment yaml file.
   2. Name Space Label: Labels assigned to namespaces.
      *  By default, this setting is disabled. To enable it, you need to edit the `/etc/kubernetes/manifests/kube-apiserver.yaml` file.
-     * Add or modify the --enable-admission-plugins flag to include NodeRestriction and PodNodeSelector, like so
+     * Add or modify the `--enable-admission-plugins` flag to include "NodeRestriction" and "PodNodeSelector", like so.
      * `- --enable-admission-plugins=NodeRestriction,PodNodeSelector`
      * Save the file and wait for the API server to restart automatically.
      * Verify it by `ps -ef | grep -i API | grep -i PodNodeSelector`
