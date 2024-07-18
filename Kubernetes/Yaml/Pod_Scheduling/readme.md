@@ -61,6 +61,11 @@
 2. Pod Type: It will check the created pod, where to create or not.
    1. Inter Affinity: Two pods must run on the same node.
    2. Inter Anti-Affinity: Two pods should not run on the same node.
+* `requiredDuringSchedulingIgnoredDuringExecution` : Pods must be placed on nodes matching the criteria.
+* `matchExpressions` : Specifies that the node must have the label disk=ssd
+* `Required`: This is a "hard" rule. The node must match the criteria, or the pod won't be scheduled.
+* `Preferred`: This is a "soft" rule. Kubernetes will try to place the pod on a matching node, but if none are available, the pod will be scheduled on any available node, so it won't remain pending.
+
 
 
 
