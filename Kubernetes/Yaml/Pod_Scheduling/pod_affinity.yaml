@@ -73,6 +73,7 @@ spec:
                     values:
                       - redis
               topologyKey: "kubernetes.io/hostname"
+      # Using kubernetes.io/hostname ensures that the rule affects individual nodes.
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
