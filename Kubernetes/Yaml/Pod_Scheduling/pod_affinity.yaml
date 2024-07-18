@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
   labels:
     app: redis
-  name: nginx-redis
+  name: webserver-db
   namespace: default
 spec:
   replicas: 3
@@ -46,7 +46,7 @@ kind: Deployment
 metadata:
   labels:
     app: web
-  name: nginx-web
+  name: webserver-frontend
   namespace: default
 spec:
   replicas: 3
