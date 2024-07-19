@@ -1,0 +1,20 @@
+# This is helpful if we do not define the quota on resource level also user cannot define the unwanted minimum quota on deployment if mentioning.
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-resource-constraint
+spec:
+  limits:
+    - type: Container
+      defaultRequest: # this section defines default requests
+        memory: 128mi
+        cpu: 200m
+      default: # this section defines default limits
+        memory: 256Mi
+        cpu: 400m
+#      max: # max and min define the limit range
+#        cpu: "1"
+#      min:
+#        cpu: 100m
+
+
