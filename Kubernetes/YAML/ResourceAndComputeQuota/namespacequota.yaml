@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: testing
+  namespace: example
+spec:
+  hard:
+    cpu: 1000m
+    memory: 500Mi
+
