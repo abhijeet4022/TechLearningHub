@@ -1,4 +1,4 @@
-# Apply the quota on deployment.
+# Apply to Compute Label Deployment Quota.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
