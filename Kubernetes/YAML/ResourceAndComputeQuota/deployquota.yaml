@@ -5,7 +5,7 @@ metadata:
   labels:
     app: nginx
   name: nginx-web
-  namespace: default
+  #namespace: default
 spec:
   replicas: 6
   selector:
@@ -30,8 +30,8 @@ spec:
           resources:
             requests:
               memory: "128Mi"
-              cpu: "200m"
+              cpu: "150m"
             limits:
               memory: "256Mi"
-              cpu: "400m"
+              cpu: "300m"
       terminationGracePeriodSeconds: 120
