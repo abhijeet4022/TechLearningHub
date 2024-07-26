@@ -60,6 +60,7 @@ kubectl apply -f deployments/deployment/nginx-ingress.yaml
 echo -e "\e[32mDone\e[0m"
 
 echo -e "\n\e[32mNGINX Ingress Controller Status:\e[0m"
+sleep 120
 kubectl get pods --namespace=nginx-ingress
 echo -e "\e[32mDone\e[0m"
 
