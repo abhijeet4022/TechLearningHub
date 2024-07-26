@@ -6,7 +6,7 @@ echo -e "\e[32mDone\e[0m"
 echo -e "\n\e[32mExpose the deployment using ServiceIP:\e[0m"
 sleep 120
 kubectl expose deploy web --name=nginx-ingress-home --port=8080 --target-port=80 -n nginx-ingress
-kubectl describe service nginx-ingress -n nginx-ingress | grep -i Endpoints
+kubectl describe service nginx-ingress-home -n nginx-ingress | grep -i Endpoints
 echo -e "\e[32mDone\e[0m"
 
 echo -e "\n\e[32mCreate the Ingress-Controller rule:\e[0m"
