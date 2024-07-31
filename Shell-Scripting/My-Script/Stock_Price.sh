@@ -13,16 +13,21 @@ previous_close_nifty_midcap_100=$(curl -s "$URL_NIFTY_MIDCAP_100" | grep -i "pre
 # Get the previous day's date in the format YYYY-MM-DD
 previous_date=$(date -d "yesterday" '+%Y-%m-%d')
 
+# ANSI color codes
+RED='\e[31m'
+GREEN='\e[32m'
+NC='\e[0m' # No Color
+
 # Check if the Nifty 50 price was extracted successfully
 if [ -z "$previous_close_nifty_50" ]; then
-  echo "Failed to fetch Nifty 50 previous close value."
+  echo -e "${RED}Failed to fetch Nifty 50 previous close value.${NC}"
 else
-  echo "Nifty 50 Previous Close Value on $previous_date: $previous_close_nifty_50"
+  echo -e "Nifty 50 Previous Close Value on $previous_date: ${GREEN}$previous_close_nifty_50${NC}"
 fi
 
 # Check if the Nifty Midcap 100 price was extracted successfully
 if [ -z "$previous_close_nifty_midcap_100" ]; then
-  echo "Failed to fetch Nifty Midcap 100 previous close value."
+  echo -e "${RED}Failed to fetch Nifty Midcap 100 previous close value.${NC}"
 else
-  echo "Nifty Midcap 100 Previous Close Value on $previous_date: $previous_close_nifty_midcap_100"
+  echo -e "Nifty Midcap 100 Previous Close Value on $previous_date: ${GREEN}$previous_close_nifty_midcap_100${NC}"
 fi
