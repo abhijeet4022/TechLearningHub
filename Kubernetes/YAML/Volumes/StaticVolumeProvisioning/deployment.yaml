@@ -25,3 +25,22 @@ spec:
           volumeMounts:
             - name: logs
               mountPath: /usr/share/nginx/html
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: web
+  name: web
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 80
+      nodePort: 30001
+  selector:
+    app: web
+  type: NodePort
+
