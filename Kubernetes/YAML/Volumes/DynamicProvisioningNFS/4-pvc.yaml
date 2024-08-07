@@ -6,7 +6,7 @@ metadata:
 spec:
   storageClassName: nfs-storage 
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 100Mi
