@@ -1,4 +1,0 @@
-This is file from VM
-This is line from code editor
-This is 2nd line from VM
-
