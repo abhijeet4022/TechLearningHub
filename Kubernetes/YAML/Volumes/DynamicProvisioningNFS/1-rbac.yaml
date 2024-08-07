@@ -28,7 +28,8 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: nfs-client-provisioner
-    namespace: default
+    # replace with namespace where provisioner and SA is deployed
+    namespace: singtel
 roleRef:
   kind: ClusterRole
   name: nfs-client-provisioner-runner
@@ -51,7 +52,7 @@ subjects:
   - kind: ServiceAccount
     name: nfs-client-provisioner
     # replace with namespace where provisioner is deployed
-    namespace: default
+    namespace: singtel
 roleRef:
   kind: Role
   name: leader-locking-nfs-client-provisioner

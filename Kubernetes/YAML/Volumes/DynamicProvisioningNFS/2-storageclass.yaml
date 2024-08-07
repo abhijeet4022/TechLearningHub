@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-storage
+provisioner: nfs-provisioner
+parameters:
+  archiveOnDelete: "false"
+reclaimPolicy: Delete
+allowVolumeExpansion: false  
