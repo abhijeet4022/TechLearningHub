@@ -1,0 +1,32 @@
+---
+- name: Install Firewall.
+  user: root
+  connection: ssh
+  hosts: devops
+  tasks:
+    -   name: Install Firewall
+        yum:
+            name: firewalld
+            state: present
+        notify:
+            - firewall installed
+    -   name: firewall installed
+        service: 
+            name: firewalld
+            state: started
+            enabled: yes
+    -   name: Enable port 80.
+        firewalld:
+            zone: public
+            port: 80/tcp
+            permanent: true
+            state: enabled
+    -   firewalld:
+            zone: public
+            service: http
+            permanent: yes
+            state: enabled
+    -   name: Restart service firewalld
+        service:
+            name: firewalld
+            state: restarted

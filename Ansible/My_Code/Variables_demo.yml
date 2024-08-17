@@ -1,0 +1,11 @@
+---
+- name: httpd installation using httpd.
+  hosts: devops
+  user: root
+  become: yes
+  connection: ssh
+  vars:
+    pkgname: httpd
+  tasks:
+    - name: Install httpd on linux machine.
+      action: yum name='{{pkgname}}' state=present 

@@ -1,0 +1,28 @@
+- name: Importing SSM-Agent Tasks.
+  ansible.builtin.import_tasks: amazon-ssm-agent.yml
+
+- name: Disable current nodejs module.
+  ansible.builtin.shell: dnf module disable nodejs -y
+
+- name: Enable current nodejs module.
+  ansible.builtin.shell: dnf module enable nodejs:18 -y
+
+- name: Installing NodeJS.
+  ansible.builtin.yum:
+    name: nodejs
+    state: latest
+
+- name: Catalogue Configuration
+  ansible.builtin.import_tasks: appprereq.yml
+
+- name: Installing the application dependency.
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+- name: Schema setup
+  ansible.builtin.import_tasks: schema.yml
+  when: schema is defined
+
+- name: Systemd {{component}} service setup.
+  ansible.builtin.import_tasks: systemd.yml

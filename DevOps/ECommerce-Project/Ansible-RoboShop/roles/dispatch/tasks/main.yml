@@ -1,0 +1,24 @@
+- name: Importing SSM-Agent Tasks.
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: amazon-ssm-agent
+
+- name: Installing the golang package.
+  ansible.builtin.yum:
+    name: golang
+    state: installed
+
+- name: Importing App Prerequisite Tasks.
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: appprereq
+
+- name: Downloading the application dependency and creating artifact.
+  ansible.builtin.shell: go mod init dispatch ; go get ; go build
+  args:
+    chdir: /app
+
+- name: Importing Systemd Tasks.
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd

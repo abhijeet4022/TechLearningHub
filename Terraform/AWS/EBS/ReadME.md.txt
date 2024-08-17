@@ -1,0 +1,1 @@
+How to attach EBS volume with instance.

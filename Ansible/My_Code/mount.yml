@@ -1,0 +1,28 @@
+---
+        - name: creation partition
+          hosts: server
+          user: root
+          become: yes
+          tasks:
+                - name: create 4GB partition
+                  parted:
+                        device: /dev/sdb1
+                        number: 1
+                        state: present
+                        part_start: 2GB
+                        part_end: 4GB
+                - name: format the disk
+                  filesystem:
+                        fstype: ext4
+                        dev: /dev/sdb1
+                - name: create directory
+                  file:
+                        path: /mnt/sdb1
+                        state: directory
+                        mode: '0755'
+                - name: mount partition
+                  mount:
+                        path: /mnt/mount
+                        src: /dev/sdb1
+                        fstype: ext4
+                        state: mounted

@@ -1,0 +1,27 @@
+- name: Configuring Repo for MySQL 5.
+  ansible.builtin.copy:
+    src: mysql.repo
+    dest: /etc/yum.repos.d
+
+- name: Disable existing mysql.
+  ansible.builtin.shell: dnf module disable mysql -y
+
+- name: Installing Mysql-community-server package.
+  ansible.builtin.yum:
+    name: mysql-community-server
+    state: installed
+
+- name: Starting the mysqld service.
+  ansible.builtin.systemd:
+    name: mysqld
+    state: restarted
+
+
+- name: Resetting mysql root password.
+  ansible.builtin.shell: mysql_secure_installation --set-root-pass RoboShop@1
+
+- name: Reloading the mysqld service.
+  ansible.builtin.systemd:
+    name: mysqld
+    state: restarted
+    enabled: yes

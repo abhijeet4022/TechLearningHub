@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend
+spec:
+  # modify replicas according to your case
+  replicas: 2
+  selector:
+    matchExpressions:
+      - key: tier
+        operator: In
+        values:
+          - frontend
+      - key: env
+        operator: In
+        values:
+          - dev
+  template:
+    metadata:
+      labels:
+        tier: frontend
+        env: dev
+    spec:
+      containers:
+        - name: php-redis
+          image: us-docker.pkg.dev/google-samples/containers/gke/gb-frontend:v5

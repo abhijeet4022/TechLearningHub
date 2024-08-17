@@ -1,0 +1,10 @@
+---
+- hosts: devops
+  user: root
+  become: yes
+  connection: ssh
+  tasks:
+   -    name: install httpd on centos7
+        action: yum name=httpd state=installed
+        
+        

@@ -1,0 +1,18 @@
+- name: Copying repo file.
+  ansible.builtin.copy:
+    src: mongodb.repo
+    dest: /etc/yum.repos.d
+- name: Installing mongodb-org.
+  ansible.builtin.yum:
+    name: mongodb-org
+    state: latest
+- name: Changing mondodb config from localhost to internet.
+  ansible.builtin.replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+- name: Restarting the mongod service.
+  ansible.builtin.systemd:
+    name: mongod
+    state: restarted
+    enabled: yes

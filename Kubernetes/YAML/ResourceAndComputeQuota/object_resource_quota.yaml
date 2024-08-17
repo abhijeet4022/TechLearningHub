@@ -1,0 +1,13 @@
+# It will allow creating only 4 pods in example NS.
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  creationTimestamp: null
+  name: test
+  namespace: example
+spec:
+  hard:
+    cpu: 500m
+    memory: 400Mi
+    pods: "4"
+

@@ -1,0 +1,34 @@
+---
+        - name: lvm create
+          hosts: server
+          user: root
+          become: yes
+          connection: ssh
+          tasks:
+                - name: Create Partition
+                  parted:
+                        device: /dev/sdb
+                        number: 1 
+                        flags: [lvm]
+                        state: present
+                        part_end: 5GB
+                - name: vgcreate
+                  lvg:
+                        vg: vg1
+                        pvs: /dev/sdb1
+                - name: Lv creation
+                  lvol:
+                        vg: vg1
+                        lv: lv1
+                        size: 4G
+                - name: Creating file system
+                  filesystem:
+                        fstype: ext4
+                        dev: /dev/vg1/lv1
+                - name: Mounting file system
+                  mount:
+                        name: /mnt/lvm
+                        src: /dev/vg1/lv1
+                        fstype: ext4
+                        state: mounted
+

@@ -1,0 +1,36 @@
+- name: Installing NGINX WebServer.
+  ansible.builtin.yum:
+    name: nginx
+    state: latest
+
+- name: Copying reverse proxy file.
+  ansible.builtin.copy:
+    src: roboshop.conf
+    dest: /etc/nginx/default.d/roboshop.conf
+
+- name: Removing default nginx content.
+  ansible.builtin.file:
+    path: /usr/share/nginx/html
+    state: absent
+
+- name: Creating Nginx content directory
+  ansible.builtin.file:
+    path: /usr/share/nginx/html
+    state: directory
+
+- name: Downloading the frontend content.
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/{{component}}.zip
+    dest: /usr/share/nginx/html
+    remote_src: yes
+
+- name: Restarting NGINX WebServer.
+  ansible.builtin.systemd:
+    name: nginx
+    state: restarted
+    enabled: yes
+    daemon_reload: true
+
+
+
+

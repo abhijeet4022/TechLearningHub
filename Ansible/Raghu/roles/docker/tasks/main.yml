@@ -1,0 +1,9 @@
+- name: Install docker
+  ansible.builtin.yum:
+    name: docker
+    state: latest
+- name: Start docker
+  ansible.builtin.systemd:
+    name: docker
+    state: restarted
+    enabled: yes

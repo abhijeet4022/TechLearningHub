@@ -1,0 +1,35 @@
+# intellij Installation for Amazon-Linux-2
+
+# Downloading and Setting up IntelliJ IDEA
+wget https://download.jetbrains.com/idea/ideaIC-2023.3.2.tar.gz
+
+# Optional
+wget https://download.jetbrains.com/toolbox/jetbrains-toolbox-2.2.2.20062.tar.gz
+
+
+# 3.1. Extracting the Downloaded File
+tar -zxvf ideaIC-2023.3.2.tar.gz -C /opt
+
+# Install GUI in AMAZON-LINUX-2
+amazon-linux-extras install mate-desktop1.x -y
+sudo bash -c 'echo PREFERRED=/usr/bin/mate-session > /etc/sysconfig/desktop'
+yum install -y tigervnc-server
+vncpasswd
+mkdir /etc/tigervnc 
+sudo bash -c 'echo localhost > /etc/tigervnc/vncserver-config-mandatory'
+sudo cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@.service
+sudo sed -i 's/<USER>/ec2-user/' /etc/systemd/system/vncserver@.service
+systemctl daemon-reload 
+sudo systemctl enable vncserver@:1
+sudo systemctl start vncserver@:1
+In window machine install tigervnc64-x.y.z.exe
+
+ssh -L 5901:localhost:5901 -i "Linux.pem" ec2-user@ec2-13-235-79-2.ap-south-1.compute.amazonaws.com
+
+
+
+# 3.2. Installing and Running IntelliJ IDEA
+cd /opt/idea-IC-233.13135.103/bin
+
+# Then, let’s run the IntelliJ IDEA application:
+./idea.sh

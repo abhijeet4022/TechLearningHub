@@ -1,0 +1,1 @@
+we have to create the user password from the console or using aws CLI otherwise password will capture in tfstate file.

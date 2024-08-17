@@ -1,0 +1,10 @@
+- name: Installing MySQL.
+  ansible.builtin.yum:
+    name: mysql
+    state: installed
+
+- name: Loading the schema.
+  ansible.builtin.shell: mysql -h mysql-dev.learntechnology.cloud -uroot -pRoboShop@1 < /app/schema/{{component}}.sql
+
+
+

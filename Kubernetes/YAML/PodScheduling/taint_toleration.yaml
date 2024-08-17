@@ -1,0 +1,38 @@
+# Taint Toleration
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx-taint
+  namespace: default
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      tolerations:
+        - key: "security"
+          operator: "Exists"
+          #value: "value"
+          effect: "NoSchedule"
+      nodeSelector:
+        disk: ssd
+        env: dev
+      containers:
+        - image: nginx:1.14
+          imagePullPolicy: IfNotPresent
+          name: nginx
+          ports:
+            - containerPort: 80
+      terminationGracePeriodSeconds: 120

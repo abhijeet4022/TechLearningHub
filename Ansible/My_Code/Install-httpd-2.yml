@@ -1,0 +1,17 @@
+---
+- name: httpd installation
+  hosts: devops
+  user: root
+  become: yes
+  connection: ssh
+  tasks: 
+     -   name: Copying repository.
+         copy: src=/etc/yum.repos.d/ dest=/etc/yum.repos.d/
+     -   name: Installing httpd.
+         action: yum name=httpd state=installed
+     -   name: Copying index.html file.
+         copy: src=/root/web/index.html dest=/var/www/html/
+     -   name: Restarting the httpd service.
+         service:
+            name: httpd
+            state: restarted

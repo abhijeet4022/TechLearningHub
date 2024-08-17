@@ -1,0 +1,78 @@
+---
+- name: WebServer Configuration.
+  user: root
+  connection: ssh
+  hosts: devops
+  vars:
+    pkgname: httpd
+  tasks:
+  
+# Copy repository to download httpd package.  
+    - name: Repo Configuration.
+      copy: src=/etc/yum.repos.d/ dest=/etc/yum.repos.d/
+      
+      notify:
+          - Installing Apache
+          
+# Installing httpd package
+    - name: Installing Apache
+      yum:
+        name: '{{pkgname}}'
+        state: present
+
+# Start the httpd package.       
+    - name: Start Httpd
+      service: 
+        name: '{{pkgname}}'
+        state: started
+        enabled: yes
+    
+# Creating 1st webpage.          
+    - name: Copy Index.html
+      command: echo "This is webserver" > /var/www/html
+      
+# Restart the httpd service.      
+    - name: Restarting the httpd service.
+      service:
+        name: '{{pkgname}}'
+        state: restarted 
+
+# Firewall Installation and configuration.      
+    - name: Firewall Configuration
+      yum:
+        name: firewalld
+        state: present
+      notify: 
+        - Start Firewall
+        
+# Start the firewalld
+  handlers:
+    - name: Start Firewall
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+        
+# Enable the port 80 for http.
+    - name: Enabling the port 80.
+      firewalld:
+        zone: public
+        port: 80/tcp
+        permanent: true
+        state: enabled
+        
+# Enable the http service
+    - name: Enable the http service.
+      firewalld:
+        zone: public
+        service: http
+        permanent: yes
+        state: enabled
+        
+# Restart the firewalld.
+    - name: Restart the firewalld
+      service:
+        name: firewalld
+        state: restarted
+    
+      

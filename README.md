@@ -1,2 +1,2 @@
 # TechLearningHub
-This repository is dedicated for learning purpose
+A repository dedicated to storing learning materials and code examples for various technologies.

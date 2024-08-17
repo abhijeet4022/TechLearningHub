@@ -1,0 +1,11 @@
+- name: Print URL
+  hosts: all
+  become: yes
+  vars:
+    URL: www.google.com
+  tasks:
+    - name: Printing URL.
+      ansible.builtin.debug:
+        msg: URL is {{URL}}
+# Ansible access variable with two flower braces.
+

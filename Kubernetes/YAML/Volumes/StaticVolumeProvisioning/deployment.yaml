@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: web
+  name: web
+  namespace:  singtel
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      volumes:
+        - name: logs
+          persistentVolumeClaim:
+            claimName: web-pvc
+      containers:
+        - image: nginx
+          name: nginx
+          volumeMounts:
+            - name: logs
+              mountPath: /usr/share/nginx/html
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: web
+  name: web
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 80
+      nodePort: 30001
+  selector:
+    app: web
+  type: NodePort
+
