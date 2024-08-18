@@ -689,6 +689,238 @@ A.
 Q. What feature of Terraform provides an abstraction above the upstream API and is responsible for understanding API interactions and exposing resources?
 A. Terraform provider
 
-Q. 
+
+
+# Terraform practice set 4
+
+Q. Steve is a developer who is deploying resources to AWS using Terraform. Steve needs to gather detailed information about an EC2 instance that he deployed earlier in the day. What command can Steve use to view this detailed information?
+A. `terraform state show aws_instance.frontend`
+
+Q. You have an existing resource in your public cloud that was deployed manually, but you want the ability to reference different attributes of that resource throughout your configuration without hardcoding any values. How can you accomplish this?
+A. Add a `data` block to your configuration to query the existing resource. Use the available exported attributes of that resource type as needed throughout your configuration to get the values you need.
+
+Q. What Terraform command can be used to evaluate and experiment with expressions in your configuration?
+A. `terraform console`
+
+Q. Which of the following Terraform offerings provides the ability to use a private registry?
+A. Terraform Cloud
+
+Q. Your co-worker has decided to migrate Terraform state to a remote backend. They configure Terraform with the backend configuration, including the type, location, and credentials. However, you want to secure this configuration better.
+Rather than storing them in plaintext, where should you store the credentials for the remote backend? (select two)
+A. 
+1. credentials file
+2. environment variables
+
+Q. Which of the following tasks does terraform init perform? (select three)
+A.
+1. prepares the working directory for use with Terraform
+2. caches the source code locally for referenced modules
+3. downloads required providers used in your configuration file
+
+Q. When developing Terraform code, you must include a provider block for each unique provider so Terraform knows which ones you want to download and use.
+A. False
+
+Q. You are worried about unauthorized access to the Terraform state file since it might contain sensitive information. What are some ways you can protect the state file? (select two)
+A. 
+1. use the S3 backend using the encrypt option to ensure state is encrypted
+2. store in a remote backend that encrypts state at rest
+
+Q.  Running a terraform fmt will modify Terraform configuration files in the current working directory and all subdirectories.
+A. False, terraform fmt` command will only format the Terraform configuration files in the current working directory, not in all subdirectories. 
+`terraform fmt -recursive` will include the sub directory as well.
+
+Q. You are using Terraform Cloud to manage a new data analytics environment for your organization. You have decided to use Sentinel to enforce standardization and security controls. At what step are the Sentinel policies enforced during a run?
+A. after the plan, run tasks, cost estimation phases but before the apply phase
+
+Q. `terraform validate` will validate the syntax of your HCL files.
+A. True
+
+Q. You need to use multiple resources from different providers in Terraform to accomplish a task. Which of the following can be used to configure the settings for each of the providers?
+A.
+```
+provider "consul" {
+address = "https://consul.krausen.com:8500"  
+namespace = "developer"
+token = "45a3bd52-07c7-47a4-52fd-0745e0cfe967"
+}
+
+provider "vault" {
+address = "https://vault.krausen.com:8200"
+namespace = "developer"
+}
+```
+
+Q. If supported by your backend, Terraform will lock your state for all operations that could write state. What purpose does this serve?
+A. This prevents others from acquiring the lock and potentially corrupting your state.
+
+Q. Which of the following are true regarding Terraform variables? (select two)
+A. 
+1. variables marked as sensitive are still stored in the state file, even though the values are obfuscated from the CLI output
+2. the default value will be found in the state file if no other value was set for the variable
+
+Q. Which of the following are true about Terraform providers
+A.
+1. they allow anybody to write a provider and publish it to the registry
+2. some providers are maintained by HashiCorp
+3. some providers are community-supported
+4. providers can be written and maintained by an outside organization, such as AWS, F5, or Microsoft
+
+Q. You work for a retail organization that has multiple peak seasons throughout the year. During those peak seasons, your applications need to be scaled up quickly to handle the increased demand. However, the deployment of application servers is manual and new servers are only deployed when problems are reported by users.
+How can you reduce the effort required to deploy new resources, increase the speed of deployments, and reduce or eliminate the negative experiences of your customers?
+A. Develop code that provisions new application servers programmatically. Use monitoring software to trigger a pipeline that deploys additional servers during periods of increased demand.
+
+
+Q. Which of the following is not true about the terraform.tfstate file used by Terraform?
+A. it always matches the infrastructure deployed with Terraform.
+The one thing that cannot be guaranteed is that the terraform.tfstate file ALWAYS matches the deployed infrastructure since changes can easily be made outside of Terraform. 
+
+
+Q. When using Terraform Cloud, committing code to your version control system (VCS) can automatically trigger a speculative plan.
+A. True
+
+Q. You are using Terraform to manage resources in Azure. Due to unique requirements, you need to specify the version of the Azure provider so it remains the same until newer versions are thoroughly tested.
+What block would properly configure Terraform to ensure it always installs the same Azure provider version?
+A. 
+```
+terraform {
+required_providers {
+azurerm = {
+source = "hashicorp/azurerm"
+version = "2.90.0"
+}
+}
+}
+```
+
+Q. Which of the following is the best description of a dynamic block?
+A. produces nested configuration blocks instead of a complex typed value
+
+Q. You can continue using your local Terraform CLI to execute terraform plan and terraform apply operations while using Terraform Cloud as the backend.
+A. True
+
+
+Q. min, max, format, join, trim, and length are examples of different expressions in Terraform.
+A. False
+
+Q. What are some of the benefits that Terraform providers offer to users? (select three)
+A.
+1. enables a plugin architecture that allows Terraform to be extensible without having to update Terraform core
+2. abstracts the target platform's API from the end-user
+3. enables the deployment of resources to multiple platforms, such as public cloud, private cloud, or other SaaS, PaaS, or IaaS services
+
+Q. Terraform can only manage dependencies between resources if the depends_on argument is explicitly set for the dependent resources.
+A. False
+
+Q. In both Terraform OSS and Terraform Cloud, workspaces provide similar functionality of using a separate state file for each workspace.
+A. True 
+
+Q. Your organization uses IaC to provision and manage resources in a public cloud platform. A new employee has developed changes to existing code and wants to push it into production.
+What best practice should the new employee follow to submit the new code?
+A. Submit a merge/pull request of the proposed changes. Have a team member validate the changes and approve the request.
+
+Q. Which of the following best describes the primary use of Infrastructure as Code (IaC)?
+A. the ability to programmatically deploy and configure resources
+
+Q. You are using Terraform OSS and need to spin up a copy of your GCP environment in a second region to test some new features. You create a new workspace. Which of the following is true about this new workspace? (select four)
+A.
+1. you can use a different variables file for this workspace if needed
+2. it has its own state file
+3. it uses the same Terraform code in the current directory
+4. changes to this workspace won't impact other workspaces
+
+Q. What CLI commands will completely tear down and delete all resources that Terraform is currently managing? (select two)
+A.
+1. terraform destroy
+2. terraform apply -destroy
+
+Q. After using Terraform locally to deploy cloud resources, you have decided to move your state file to an Amazon S3 remote backend. You configure Terraform with the proper configuration as shown below. What command should be run in order to complete the state migration while copying the existing state to the new backend?
+```
+terraform {
+  backend "s3" {
+    bucket = "tf-bucket"
+    key = "terraform/krausen/"
+    region = "us-east-1"
+  }
+}
+```
+A. terraform init -migrate-state
+
+Q. You are using modules to deploy various resources in your environment. You want to provide a "friendly name" for the DNS of a new web server so you can simply click the CLI output and access the new website. Which of the following code snippets would satisfy these requirements?
+A.
+```
+output "website" {
+  description = "Outputs the URL of the provisioned website" 
+  value       = "https://${module.web.public_dns}:8080/index.html"
+}
+
+``` 
+
+Q. Thomas has recently developed a new Terraform configuration in a new working directory and is very cost-conscious. After running a terraform init, how can Thomas perform a dry run to ensure Terraform will create the right resources without deploying real-world resources?
+A. `terraform plan -out=thomas`
+
+Q. Which of the following is true about working with modules?
+A. a single module can be called many times in a single configuration file
+
+Q. Which of the following code snippets will properly configure a Terraform backend?
+A.
+```
+terraform {
+  backend "remote" {
+    hostname = "app.terraform.io"
+    organization = "btk"
+ 
+  workspaces {
+    name = "bryan-prod"
+  }
+ }
+}
+```
+
+Q. Which of the following statements are true about using terraform import
+A.
+1. using terraform import will bring the imported resource under Terraform management and add the new resource to the state file
+2. the resource address (example: aws_instance.web) and resource ID (example: i-abdcef12345) must be provided when importing a resource
+3. you must update your Terraform configuration for the imported resource before attempting to import the resource
+
+Q. Which of the following are advantages of using infrastructure as code (IaC) for your day-to-day operations?
+A.
+1. enables self-service for developers and operators alike
+2. API-driven workflows
+3. provides the ability to version control the infrastructure and application architecture
+
+Q. You are working on updating your infrastructure managed by Terraform. Before lunch, you update your configuration file and run a terraform plan to validate the changes. While you are away, a colleague manually updates a tag on a managed resource directly in the console (UI).
+What will happen when you run a terraform apply?
+
+A. Before applying the new configuration, Terraform will refresh the state and recognize the manual change. It will update the resource based on the desired state as configured in the Terraform configuration. The manual change will no longer exist.
+
+Q. If you have properly locked down access to your state file, it is safe to provide sensitive values inside of your Terraform configuration.
+A. False
+
+Q. You have deployed your network architecture in AWS using Terraform. A colleague recently logged in to the AWS console and made a change manually and now you need to be sure your Terraform state reflects the new change.
+
+What command should you run to update your Terraform state?
+A. `terraform apply -refresh-only`
+
+Q. When using Terraform, where can you install providers from?
+A.
+1. Terraform plugin cache
+2. official HashiCorp releases site
+3. Terraform registry
+4. plugins directory
+
+Q. The terraform graph command can be used to generate a visual representation of a configuration or execution plan.
+A. True
+
+Q. Which common action does not cause Terraform to refresh its state?
+A. `terraform state list`
+
+Q. You have declared a variable named db_connection_string inside of the app module. However, when you run a terraform apply, you get the following error message:
+A. since the variable was declared within the module, it cannot be referenced outside of the module
+
+Q. Your organization has standardized on Microsoft Azure to run its applications on PaaS, SaaS, and IaaS offerings. The deployment quickly standardized on Azure ARM to provision these resources quickly and efficiently.
+Which of the following is true about how the team currently deploys its infrastructure?
+A. the adoption of another public cloud provider will prove to be more challenging since all of its codebase is based on ARM
+
+
 
 
