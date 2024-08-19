@@ -925,46 +925,46 @@ A. the adoption of another public cloud provider will prove to be more challengi
 
 # Fill in the blanks
 Q. To specify a specific Terraform workspace named "production" when running commands, you can use the command __
-A. terraform workspace select production
+A. `terraform workspace select production`
 
 Q. The command __ is used to extract the output variables defined in the Terraform configuration.
-A. terraform output
+A. `terraform output`
 
 Q. To force the destruction of resources without being prompted for confirmation, you can use the command __
-A. terraform destroy -auto-approve
+A. `terraform destroy -auto-approve`
 
 Q. To list all resources in the current state, you can use the command __
-A. terraform state list
+A. `terraform state list`
 
 Q. To skip the refresh step during Terraform apply, you can use the command __
-A. terraform apply -refresh=false
+A. `terraform apply -refresh=false`
 
 Q. How can you reference all of the subnets created by this resource block? #Deploy the private subnets resource "aws_subnet" "private_subnets" { for_each = var.private_subnets vpc_id = aws_vpc.vpc.id cidr_block = cidrsubnet(var.vpc_cidr, 8, each.value) availability_zone = tolist(data.aws_availability_zones.available.names)[each.value] tags = { Name = each.key Terraform = "true" } } __
-A. aws_subnet.private_subnets[*]
+A. `aws_subnet.private_subnets[*]`
 
 Q. You are using Terraform Cloud to store your state file. Before you can use Terraform Cloud, you should run the command __ to obtain and save credentials for the remote backend.
-A. Terraform login
+A. `Terraform login`
 
 Q. What command can you use to display details about the resource as shown below? resource "aws_internet_gateway" "demo" { vpc_id = aws_vpc.vpc.id tags = { Name = "demo_igw" } } 
-A. terraform state show aws_internet_gateway.demo
+A. `terraform state show aws_internet_gateway.demo`
 
 Q. In order to check the current version of Terraform you have installed, you can use the command __
-A. terraform version
+A. `terraform version`
 
 Q. You have recently added new resource blocks from a different provider to your configuration. Type in the command you need to run before you can run a terraform plan/apply? __
-A. terraform init
+A. `terraform init`
 
 Q. What command can be used to perform a dry-run of your changes and save the proposed changes to a file named bryan for future use? __
-A. terraform plan -out=bryan
+A. `terraform plan -out=bryan`
 
 Q. The __ command can be used to get an interactive console to evaluate expressions in your Terraform code.
-A. terraform console
+A. `terraform console`
 
 Q. The __ or the __ commands are available to delete all of your managed infrastructure.
-A. terraform destroy, terraform apply -destroy
+A. `terraform destroy, terraform apply -destroy`
 
 Q. You need to access the attributes of a data source in your Terraform configuration for the following code. How should you reference the ID of the returned data? __ data "aws_ami" "ubuntu" { most_recent = true filter { name = "name" values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"] } owners = ["099720109477"] }
-A. data.aws_ami.ubuntu.id
+A. `data.aws_ami.ubuntu.id`
 
 
 
