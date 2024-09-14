@@ -15,6 +15,16 @@ rm -f google-chrome-stable_current_x86_64.rpm
 echo "Setting up alias for Google Chrome..."
 echo "alias chrome='google-chrome --no-sandbox > /dev/null 2>&1 & disown'" >> ~/.bashrc
 
+######################################
+# Define the alias
+#alias_cmd="alias chrome='google-chrome --no-sandbox > /dev/null 2>&1 & disown'"
+
+# Check if the alias is already in .bashrc and add it only if not present
+#if ! grep -qF "$alias_cmd" ~/.bashrc; then
+#    echo "$alias_cmd" >> ~/.bashrc
+#fi
+###########################################
+
 # Apply the changes
 source ~/.bashrc
 
