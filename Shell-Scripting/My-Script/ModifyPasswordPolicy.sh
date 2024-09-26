@@ -7,11 +7,14 @@ WARNING_DAYS=14
 INACTIVE_DAYS=7
 
 # Iterate over users with UID > 1000 and login shell /bin/bash
-for user in $(awk -F: '($3 > 1000 && $7 == "/bin/bash") {print $1}' /etc/passwd); do
+for user in $(awk -F: '($3 >= 1000 && $7 == "/bin/bash") {print $1}' /etc/passwd); do
     echo "Updating password policy for user: $user"
 
     # Set password aging limits
     chage -m $MIN_DAYS -M $MAX_DAYS -W $WARNING_DAYS -I $INACTIVE_DAYS $user
+
+    # Expire password immediately to prompt reset on next login
+    chage -d 0 $user
 
     echo "Password policy updated for user: $user"
 done
