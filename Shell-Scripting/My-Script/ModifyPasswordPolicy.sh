@@ -5,7 +5,7 @@ MIN_DAYS=0
 MAX_DAYS=60
 WARNING_DAYS=14
 INACTIVE_DAYS=7
-EXPIRE_DAYS=30
+
 
 
 # Iterate over users with UID > 1000 and login shell /bin/bash
