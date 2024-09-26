@@ -6,8 +6,6 @@ MAX_DAYS=60
 WARNING_DAYS=14
 INACTIVE_DAYS=7
 
-
-
 # Iterate over users with UID > 1000 and login shell /bin/bash
 for user in $(awk -F: '($3 > 1000 && $7 == "/bin/bash") {print $1}' /etc/passwd); do
     echo "Updating password policy for user: $user"
