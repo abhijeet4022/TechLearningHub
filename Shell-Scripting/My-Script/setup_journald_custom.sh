@@ -9,7 +9,7 @@ JOURNAL_DIR="/var/log/journal"
 if [ ! -d "$JOURNAL_DIR" ]; then
     echo "Creating journal directory: $JOURNAL_DIR"
     sudo mkdir -p "$JOURNAL_DIR"
-    sudo chmod 2755 "$JOURNAL_DIR"  # Set appropriate permissions
+    sudo chmod 2750 "$JOURNAL_DIR"  # Set appropriate permissions
     # Ensure the journal directory and files are created properly
     echo "Ensuring correct setup for journal logs..."
     sudo systemd-tmpfiles --create --prefix /var/log/journal
