@@ -66,5 +66,5 @@ echo "Custom persistent logging setup completed successfully."
 # Force a Log Flush: You can manually flush the journal logs to ensure they are written to disk:
 # `sudo systemctl kill --kill-who=main systemd-journald`
 # `sudo systemctl restart systemd-journald`
-# `journalctl -b -1`
+# `journalctl -b -1` # to check the logs on last reboot
 
