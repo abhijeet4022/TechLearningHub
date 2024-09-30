@@ -1,0 +1,34 @@
+---
+- name: Disable firewalld and SELinux, install packages on CentOS 9
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Stop and disable firewalld service
+      ansible.builtin.service:
+        name: firewalld
+        state: stopped
+        enabled: false
+
+    - name: Set SELinux to disabled in config file
+      ansible.builtin.replace:
+        path: /etc/selinux/config
+        regexp: '^SELINUX=enforcing'
+        replace: 'SELINUX=disabled'
+
+    - name: Disable SELinux enforcement for the current session
+      ansible.builtin.command: setenforce 0
+      ignore_errors: yes
+
+    - name: Install required packages (nmap, telnet, git)
+      ansible.builtin.yum:
+        name:
+          - nmap
+          - telnet
+          - git
+        state: present
+
+    - name: Reboot the server for SELinux changes to take effect
+      ansible.builtin.reboot:
+        msg: "Rebooting to apply SELinux disabled mode"
+        reboot_timeout: 300
