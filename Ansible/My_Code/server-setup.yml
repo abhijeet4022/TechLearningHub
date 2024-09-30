@@ -32,3 +32,4 @@
       ansible.builtin.reboot:
         msg: "Rebooting to apply SELinux disabled mode"
         reboot_timeout: 300
+      when: ansible_connection != 'local'
