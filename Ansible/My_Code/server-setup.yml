@@ -15,7 +15,7 @@
         path: /etc/selinux/config
         regexp: '^SELINUX=enforcing'
         replace: 'SELINUX=disabled'
-      when: ansible_facts['selinux']['status'] == 'enabled'
+      #when: ansible_facts['selinux']['status'] == 'enabled'
 
     - name: Disable SELinux enforcement for the current session
       ansible.builtin.command: setenforce 0
