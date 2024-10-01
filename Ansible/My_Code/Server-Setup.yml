@@ -1,5 +1,5 @@
 ---
-- name: Disable firewalld and SELinux, install packages on CentOS 9
+- name: Disable firewalld, SELinux, install packages, and configure logrotate on CentOS 9
   hosts: all
   become: true
   tasks:
@@ -34,3 +34,27 @@
         msg: "Rebooting to apply SELinux disabled mode"
         reboot_timeout: 300
       when: ansible_connection != 'local'
+
+    - name: Copy logrotate configuration for /var/log/messages
+      ansible.builtin.copy:
+        dest: /etc/logrotate.d/messages
+        content: |
+          /var/log/messages {
+              weekly
+              rotate 4
+              dateext
+              delaycompress
+              compress
+              missingok
+              notifempty
+              postrotate
+                  /bin/systemctl reload rsyslog > /dev/null 2>&1 || true
+              endscript
+          }
+
+    - name: Set ownership and permissions for logrotate file
+      ansible.builtin.file:
+        path: /etc/logrotate.d/messages
+        owner: root
+        group: root
+        mode: '0644'
