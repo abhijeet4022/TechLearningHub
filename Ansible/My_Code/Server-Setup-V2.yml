@@ -79,7 +79,7 @@
     # === Set Password Aging Policy Script ===
     - name: Create password aging policy script
       ansible.builtin.copy:
-        dest: /usr/local/bin/update_password_policy.sh
+        dest: /tmp/update_password_policy.sh
         content: |
           #!/bin/bash
           MIN_DAYS=0
@@ -114,7 +114,13 @@
 
     # === Run Password Aging Policy Script ===
     - name: Run password aging policy script
-      ansible.builtin.command: /usr/local/bin/update_password_policy.sh
+      ansible.builtin.command: /tmp/update_password_policy.sh
+
+    # === Delete Password Aging Policy Script ===
+    - name: Remove the password aging policy script
+      ansible.builtin.file:
+        path: /tmp/update_password_policy.sh
+        state: absent
 
     # === Ensure Journal Directory Exists ===
     - name: Ensure journal directory exists
