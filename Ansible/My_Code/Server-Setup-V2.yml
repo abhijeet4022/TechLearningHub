@@ -1,0 +1,137 @@
+---
+- name: Disable firewalld, SELinux, install packages, configure logrotate, manage sudoers, set password policy, and configure journald on CentOS 9
+  hosts: all
+  become: true
+  tasks:
+
+    # === Stop and Disable Firewalld ===
+    - name: Stop and disable firewalld service
+      ansible.builtin.service:
+        name: firewalld
+        state: stopped
+        enabled: false
+
+    # === Disable SELinux in Config File ===
+    - name: Ensure SELinux is disabled in config file
+      ansible.builtin.replace:
+        path: /etc/selinux/config
+        regexp: '^SELINUX=enforcing'
+        replace: 'SELINUX=disabled'
+
+    # === Disable SELinux for Current Session ===
+    - name: Disable SELinux enforcement for the current session
+      ansible.builtin.command: setenforce 0
+      ignore_errors: yes
+
+    # === Install Required Packages (nmap, telnet, git) ===
+    - name: Install required packages (nmap, telnet, git)
+      ansible.builtin.yum:
+        name:
+          - nmap
+          - telnet
+          - git
+        state: present
+
+    # === Reboot Server for SELinux Changes ===
+    - name: Reboot the server for SELinux changes to take effect
+      ansible.builtin.reboot:
+        msg: "Rebooting to apply SELinux disabled mode"
+        reboot_timeout: 300
+      when: ansible_connection != 'local'
+
+    # === Configure Logrotate for /var/log/messages ===
+    - name: Copy logrotate configuration for /var/log/messages
+      ansible.builtin.copy:
+        dest: /etc/logrotate.d/messages
+        content: |
+          /var/log/messages {
+              weekly
+              rotate 4
+              dateext
+              delaycompress
+              compress
+              missingok
+              notifempty
+              postrotate
+                  /bin/systemctl reload rsyslog > /dev/null 2>&1 || true
+              endscript
+          }
+
+    # === Set Ownership and Permissions for Logrotate File ===
+    - name: Set ownership and permissions for logrotate file
+      ansible.builtin.file:
+        path: /etc/logrotate.d/messages
+        owner: root
+        group: root
+        mode: '0644'
+
+    # === Configure Sudoers File with Restricted Commands ===
+    - name: Create or update sudoers file with restricted commands
+      ansible.builtin.copy:
+        dest: /etc/sudoers.d/restricted_commands
+        content: |
+          ## Allow sudo permission to user except su and shutdown commands
+          abhijeet ALL=(ALL) ALL, !/sbin/shutdown, !/sbin/init 0, !/sbin/poweroff, !/bin/su -, !/bin/su
+        owner: root
+        group: root
+        mode: '0440'
+
+    # === Set Password Aging Policy for Users ===
+    - name: Set password aging policy for users with UID >= 1000 and /bin/bash shell
+      ansible.builtin.shell: |
+        MIN_DAYS=0
+        MAX_DAYS=60
+        WARNING_DAYS=14
+        INACTIVE_DAYS=7
+
+        # Iterate over users with UID >= 1000 and /bin/bash shell
+        for user in $(awk -F: '($3 >= 1000 && $7 == "/bin/bash") {print $1}' /etc/passwd); do
+            echo "Updating password policy for user: $user"
+
+            # Set password aging limits
+            chage -m $MIN_DAYS -M $MAX_DAYS -W $WARNING_DAYS -I $INACTIVE_DAYS $user
+
+            # Expire password immediately to prompt reset on next login
+            chage -d 0 $user
+
+            echo "Password policy updated for user: $user"
+        done
+        echo "Password policy update complete."
+      args:
+        executable: /bin/bash
+
+    # === Ensure Journal Directory Exists ===
+    - name: Ensure journal directory exists
+      ansible.builtin.file:
+        path: /var/log/journal
+        state: directory
+        mode: '2750'
+
+    # === Ensure Correct Setup for Journal Logs (systemd-tmpfiles) ===
+    - name: Ensure correct setup for journal logs with systemd-tmpfiles
+      ansible.builtin.command: systemd-tmpfiles --create --prefix /var/log/journal
+
+    # === Create Custom Journald Configuration Directory ===
+    - name: Create custom journald configuration directory
+      ansible.builtin.file:
+        path: /etc/systemd/journald.conf.d
+        state: directory
+
+    # === Create or Update Custom Journald Configuration ===
+    - name: Create or update custom journald configuration
+      ansible.builtin.copy:
+        dest: /etc/systemd/journald.conf.d/99-custom.conf
+        content: |
+          [Journal]
+          Storage=persistent
+          MaxRetentionSec=7d
+        owner: root
+        group: root
+        mode: '0644'
+
+    # === Restart Systemd-Journald to Apply Changes ===
+    - name: Restart systemd-journald to apply changes
+      ansible.builtin.systemd:
+        name: systemd-journald
+        state: restarted
+
