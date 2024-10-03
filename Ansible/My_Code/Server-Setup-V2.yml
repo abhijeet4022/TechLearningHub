@@ -76,39 +76,45 @@
         group: root
         mode: '0440'
 
-    # === Set Password Aging Policy for Users ===
-    - name: Set password aging policy for users with UID >= 1000 and /bin/bash shell
-      ansible.builtin.shell: |
-        MIN_DAYS=0
-        MAX_DAYS=60
-        WARNING_DAYS=14
-        INACTIVE_DAYS=7
+    # === Set Password Aging Policy Script ===
+    - name: Create password aging policy script
+      ansible.builtin.copy:
+        dest: /usr/local/bin/update_password_policy.sh
+        content: |
+          #!/bin/bash
+          MIN_DAYS=0
+          MAX_DAYS=60
+          WARNING_DAYS=14
+          INACTIVE_DAYS=7
 
-        # Iterate over users with UID >= 1000 and /bin/bash shell
-        for user in $(awk -F: '($3 >= 1000 && $7 == "/bin/bash") {print $1}' /etc/passwd); do
-            echo "Checking password aging policy for user: $user"
+          # Iterate over users with UID >= 1000 and /bin/bash shell
+          for user in $(awk -F: '($3 >= 1000 && $7 == "/bin/bash") {print $1}' /etc/passwd); do
+              echo "Checking password aging policy for user: $user"
 
-            # Get the current password age (last change in days)
-            last_change=$(chage -l $user | grep "Last password change" | awk -F: '{ print $2 }' | xargs -I{} date -d {} +%s)
-            current_date=$(date +%s)
+              # Get the current password age (last change in days)
+              last_change=$(chage -l $user | grep "Last password change" | awk -F: '{ print $2 }' | xargs -I{} date -d {} +%s)
+              current_date=$(date +%s)
 
-            # Calculate days since last password change
-            days_since_change=$(( (current_date - last_change) / (60*60*24) ))
+              # Calculate days since last password change
+              days_since_change=$(( (current_date - last_change) / (60*60*24) ))
 
-            # Apply password aging settings
-            chage -m $MIN_DAYS -M $MAX_DAYS -W $WARNING_DAYS -I $INACTIVE_DAYS $user
+              # Apply password aging settings
+              chage -m $MIN_DAYS -M $MAX_DAYS -W $WARNING_DAYS -I $INACTIVE_DAYS $user
 
-            # Expire the password only if it hasn't been changed in the last MAX_DAYS days
-            if [ "$days_since_change" -gt "$MAX_DAYS" ]; then
-                echo "Expiring password for user: $user (password hasn't been changed in over $MAX_DAYS days)"
-                chage -d 0 $user
-            else
-                echo "User $user has recently changed their password, skipping expiration."
-            fi
-        done
-        echo "Password policy update complete."
-      args:
-        executable: /bin/bash
+              # Expire the password only if it hasn't been changed in the last MAX_DAYS days
+              if [ "$days_since_change" -gt "$MAX_DAYS" ]; then
+                  echo "Expiring password for user: $user (password hasn't been changed in over $MAX_DAYS days)"
+                  chage -d 0 $user
+              else
+                  echo "User $user has recently changed their password, skipping expiration."
+              fi
+          done
+          echo "Password policy update complete."
+        mode: '0755'
+
+    # === Run Password Aging Policy Script ===
+    - name: Run password aging policy script
+      ansible.builtin.command: /usr/local/bin/update_password_policy.sh
 
     # === Ensure Journal Directory Exists ===
     - name: Ensure journal directory exists
@@ -144,4 +150,3 @@
       ansible.builtin.systemd:
         name: systemd-journald
         state: restarted
-
