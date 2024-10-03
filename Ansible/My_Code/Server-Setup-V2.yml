@@ -122,6 +122,15 @@
         path: /var/log/journal
         state: directory
         mode: '2750'
+      register: journal_dir
+      check_mode: false
+
+    # === Only set mode if it was not already set ===
+    - name: Set journal directory permissions if necessary
+      ansible.builtin.file:
+        path: /var/log/journal
+        mode: '2750'
+      when: journal_dir.changed
 
     # === Ensure Correct Setup for Journal Logs (systemd-tmpfiles) ===
     - name: Ensure correct setup for journal logs with systemd-tmpfiles
