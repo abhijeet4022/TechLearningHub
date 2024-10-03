@@ -25,10 +25,8 @@
 # To check security update.
 `apt list --upgradable | grep -i security`
 
-
 # To check when it's installed.
 `grep "linux-image-6.8.0-1014-azure" /var/log/dpkg.log*`
-
 
 # It indicates auto update is enabled
 root@FPLSINPROXYCS01:~# cat /etc/apt/apt.conf.d/20auto-upgrades
