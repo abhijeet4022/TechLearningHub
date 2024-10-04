@@ -37,3 +37,6 @@ APT::Periodic::Unattended-Upgrade "1";
 * Config file: `sudo cat /etc/default/grub`
 * Make it 0 to load default kernel: `GRUB_DEFAULT=0`
 * Update the Grub: `sudo update-grub`
+
+* To check an installed patch.
+`grep -i "install" /var/log/dpkg.log | tail -n 20`
