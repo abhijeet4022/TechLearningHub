@@ -18,6 +18,7 @@ greeting() {
 }
 # By using the greeting function we can print all three line.
 greeting
+
 echo Function exit status is - $?
 
 
