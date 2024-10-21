@@ -1,0 +1,31 @@
+# Farget
+
+* AWS Fargate is a serverless compute engine that allows you to run containers without needing to manage the underlying infrastructure. It works with both Amazon Elastic Container Service (ECS) and Amazon Elastic Kubernetes Service (EKS).
+
+* Key Features of AWS Fargate:
+- Serverless: You don’t have to provision, scale, or manage servers. Fargate automatically handles the compute resources required for your containers.
+- Pay-as-you-go: You are billed based on the resources your containers use (CPU and memory), which helps control costs.
+- Scalability: Fargate can automatically scale your applications based on demand, ensuring that you have the right amount of resources available at all times.
+- Isolation: Each task or pod runs in its own isolated environment, providing improved security and resource allocation.
+- Integration: Works seamlessly with ECS and EKS, making it flexible for different container orchestration needs.
+- Fargate complements EKS by enabling serverless operation for your Kubernetes applications. With Fargate, you can run your containers in a fully managed environment without needing to provision and manage EC2 instances, simplifying the process and allowing for better resource utilization and cost management. This integration allows developers to focus more on building and deploying applications while AWS takes care of the operational overhead.
+
+
+
+* Container VS Pod
+- Pod:
+    * Definition: A pod is the smallest deployable unit in Kubernetes that can contain one or more containers. It represents a logical host for the containers and manages their deployment and lifecycle.
+    * A pod is a group that can contain one or more containers that work together. It’s the smallest unit you can deploy in Kubernetes.
+    * Sharing: Containers in the same pod can easily communicate with each other and share resources (like storage).
+    * Example: Think of a pod as a room where multiple boxes (containers) work together on a specific task.
+
+
+- Container:
+    * Definition: A container is a lightweight, standalone, and executable software package that includes everything needed to run a piece of software, including the code, runtime, libraries, and system tools.
+    * A container is a lightweight, standalone unit that packages an application and everything it needs to run (like libraries and settings).
+    * Isolation: Each container runs independently and is isolated from other containers and the host system.
+    * Example: Think of a container as a box that holds everything needed for an application.
+
+* Key Differences
+- Scope: A container is an individual application package, while a pod is a grouping of one or more containers.
+- Communication: Containers in a pod can communicate easily, while containers in different pods cannot.
