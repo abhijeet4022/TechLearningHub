@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webserver
+  namespace: nginx-ingress
+spec:
+  rules:
+    - host: www.example.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/image"
+            backend:
+              service:
+                name: nginx-ingress-image
+                port:
+                  number: 8080
