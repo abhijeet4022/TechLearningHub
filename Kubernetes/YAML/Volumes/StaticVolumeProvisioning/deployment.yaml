@@ -6,7 +6,7 @@ metadata:
   name: web
   namespace:  singtel
 spec:
-  replicas: 2
+  replicas: 6
   selector:
     matchLabels:
       app: web
