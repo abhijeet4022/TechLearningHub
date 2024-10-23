@@ -98,9 +98,10 @@ runtime_type = "io.containerd.runc.v2"
 SystemdCgroup = true
 EOF
 ```
-2. `systemct restart containerd`
+2. `systemctl restart containerd`
 3. `kubeadm init --apiserver-advertise-address=192.168.22.1 --pod-network-cidr=10.0.0.0/8`
-4. `cp -i /etc/kubernetes/admin.conf $HOME/.kube/config`
+4. `mkdir ~/.kube`
+5. `cp -i /etc/kubernetes/admin.conf $HOME/.kube/config`
 
 # To check the Component status and health.
 1. `kubectl get pod -A`
