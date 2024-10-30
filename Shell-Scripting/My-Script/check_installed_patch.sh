@@ -1,14 +1,11 @@
 #!/bin/bash
 
 # Replace the date and month as per the required details
-date="19"
+date="18"
 month="Oct"
 
 
 # Don't change anything from here
-
-
-
 
 # Define the output directory and file
 output_dir="/mnt/syslog17logs/patchdetails"
