@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Replace the date and month as per the required details
-date="22"
+date="19"
 month="Oct"
 
 
