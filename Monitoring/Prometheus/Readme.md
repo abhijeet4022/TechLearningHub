@@ -1,4 +1,4 @@
-# Prometheus is a metrics monitoring tool.
+# Prometheus is a completely open source metrics monitoring tool.
 # Server Configuration.
 - Install prometheus on prometheus server from `https://prometheus.io/download/`
 
@@ -25,3 +25,10 @@ scrape_configs:
     static_configs:
       - targets: ["172.16.0.2:9100"]
 ```
+
+* If the server ip is not fixed then use ec2_sd to fetch the IP dynamically.
+
+
+# Query
+* To check uptime.
+`UP`
