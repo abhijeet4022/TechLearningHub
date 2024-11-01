@@ -20,6 +20,6 @@ tar -xf $FILENAME
 rm -f $FILENAME
 mv $DIRNAME prometheus
 
-cp prometheus.service /etc/systemd/system/prometheus.service
+cp ./prometheus.service /etc/systemd/system/prometheus.service
 systemctl enable prometheus
 systemctl start prometheus

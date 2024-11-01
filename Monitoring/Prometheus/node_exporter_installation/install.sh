@@ -22,6 +22,8 @@ tar -xf $FILENAME
 rm -f $FILENAME
 mv $DIRNAME node_exporter
 
+echo -e "\e[1;32mCurrent Working Directory\e[0m"
+pwd
 echo -e "\e[1;32mCopying Service file\e[0m"
 cp ./prometheus.service /etc/systemd/system/node_exporter.service
 systemctl enable node_exporter
