@@ -28,5 +28,5 @@ systemctl restart prometheus
 if [ $? -eq 0 ]; then
   echo "Service started"
 else
-  echo "Failed tp start the Service"
+  echo "Failed to start the Service"
 fi
