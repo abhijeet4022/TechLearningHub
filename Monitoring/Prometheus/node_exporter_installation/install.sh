@@ -1,5 +1,5 @@
 #!/bin/bash
-
+git pull
 if [ $(id -u) -ne 0 ]; then
   echo "You should run as root user"
   exit 1
