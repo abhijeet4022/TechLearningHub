@@ -16,15 +16,15 @@ URL=$(curl -L -s https://prometheus.io/download/  | grep tar | grep node_exporte
 FILENAME=$(echo $URL | awk -F / '{print $NF}')
 DIRNAME=$(echo $FILENAME | sed -e 's/.tar.gz//')
 
+echo -e "\e[1;32mCopying Service file\e[0m"
+cp ./prometheus.service /etc/systemd/system/node_exporter.service
+
 cd /opt
 curl -s -L -O $URL
 tar -xf $FILENAME
 rm -f $FILENAME
 mv $DIRNAME node_exporter
 
-echo -e "\e[1;32mCurrent Working Directory\e[0m"
-pwd
-echo -e "\e[1;32mCopying Service file\e[0m"
-cp ./prometheus.service /etc/systemd/system/node_exporter.service
+
 systemctl enable node_exporter
 systemctl start node_exporter

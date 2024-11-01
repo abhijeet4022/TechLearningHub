@@ -14,12 +14,14 @@ URL=$(curl -L -s https://prometheus.io/download/  | grep tar | grep prometheus- 
 FILENAME=$(echo $URL | awk -F / '{print $NF}')
 DIRNAME=$(echo $FILENAME | sed -e 's/.tar.gz//')
 
+cp ./prometheus.service /etc/systemd/system/prometheus.service
+
 cd /opt
 curl -s -L -O $URL
 tar -xf $FILENAME
 rm -f $FILENAME
 mv $DIRNAME prometheus
 
-cp ./prometheus.service /etc/systemd/system/prometheus.service
+
 systemctl enable prometheus
 systemctl start prometheus
