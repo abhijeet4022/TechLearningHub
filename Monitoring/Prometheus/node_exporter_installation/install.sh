@@ -29,7 +29,7 @@ mv $DIRNAME node_exporter
 systemctl enable node_exporter
 systemctl restart node_exporter
 if [ $? -eq 0 ]; then
-  echo "Service started"
+  echo -e "\e[1;32mService Started file\e[0m"
 else
-  echo "Failed to start the Service"
+  echo -e "\e[1;31mFailed to start the Service\e[0m"
 fi
