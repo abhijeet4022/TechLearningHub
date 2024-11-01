@@ -28,3 +28,8 @@ mv $DIRNAME node_exporter
 
 systemctl enable node_exporter
 systemctl start node_exporter
+if [ $? -eq 0 ]; then
+  echo "Service started"
+else
+  echo "Failed tp start the Service"
+fi

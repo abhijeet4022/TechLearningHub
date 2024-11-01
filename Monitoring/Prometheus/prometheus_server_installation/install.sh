@@ -24,4 +24,9 @@ mv $DIRNAME prometheus
 
 
 systemctl enable prometheus
-systemctl start prometheus
+systemctl restart prometheus
+if [ $? -eq 0 ]; then
+  echo "Service started"
+else
+  echo "Failed tp start the Service"
+fi
