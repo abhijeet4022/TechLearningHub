@@ -40,6 +40,19 @@ scrape_configs:
 ```
 
 # To by default it will come with IP and port for the instance and it is difficult to recognise the Server. So we will use relabel config to add some label.
+```
+relabel_configs:
+  - source_labels: [ __meta_ec2_tag_Name ]
+    target_label: Na
+  - source_labels: [ __meta_ec2_tag_env ]
+    target_label: env
+  - source_labels: [ __meta_ec2_instance_type ]
+    target_label: instance_type
+  - source_labels: [ __meta_ec2_instance_state ]
+    target_label: instance_state
+```
+
+# Now if any node went down prometheus should create alert also.
 
 
 # Query
