@@ -53,6 +53,18 @@ relabel_configs:
 ```
 
 # Now if any node went down prometheus should create alert also.
+```
+groups:
+  - name: example
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance Down"
+```
 
 
 # Query
