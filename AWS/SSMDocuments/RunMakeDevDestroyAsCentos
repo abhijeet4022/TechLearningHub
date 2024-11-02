@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2.2",
+  "description": "Run 'make dev-destroy' as centos user in project-infra directory and then shutdown the server after 10 minutes",
+  "mainSteps": [
+    {
+      "action": "aws:runShellScript",
+      "name": "runMakeDevDestroy",
+      "inputs": {
+        "runCommand": [
+          "sudo -u centos make dev-destroy",
+          "sudo shutdown +10"
+        ],
+        "workingDirectory": "/home/centos/project-infra"
+      }
+    }
+  ]
+}
