@@ -27,6 +27,19 @@ scrape_configs:
 ```
 
 * If the server ip is not fixed then use ec2_sd to fetch the IP dynamically.
+* This is the Scrape Config to discover the EC2 based on tag "Monitor = yes"
+``` 
+scrape_configs:
+- job_name: 'ec2'
+  ec2_sd_configs:
+    - region: us-east-1
+      port: 9100
+      filters:
+        - name: "tag:Monitor"
+          values: ["yes"]
+```
+
+# To by default it will come with IP and port for the instance and it is difficult to recognise the Server. So we will use relabel config to add some label.
 
 
 # Query
