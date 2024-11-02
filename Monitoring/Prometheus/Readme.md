@@ -43,7 +43,7 @@ scrape_configs:
 ```
 relabel_configs:
   - source_labels: [ __meta_ec2_tag_Name ]
-    target_label: Na
+    target_label: name
   - source_labels: [ __meta_ec2_tag_env ]
     target_label: env
   - source_labels: [ __meta_ec2_instance_type ]
