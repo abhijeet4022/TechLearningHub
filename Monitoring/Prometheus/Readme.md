@@ -96,3 +96,8 @@ groups:
 `((node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes) / node_memory_MemTotal_bytes) * 100`
 * To Calculate Used Memory Percentage.
 `100 - (((node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes) / node_memory_MemTotal_bytes) * 100)`
+
+* Configure Nginx exporter to see nginx logs
+* Total Request
+`nginx_http_request_total` - Stat
+`rate(nginx_http_request_total[1m])` - TimeSeries
