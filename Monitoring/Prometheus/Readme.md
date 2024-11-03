@@ -83,7 +83,7 @@ groups:
 `100 - (rate(node_cpu_seconds_total{mode="idle"}[1m]) * 100)`
 * For multiple core.
 `avg by (name) (100 - (rate(node_cpu_seconds_total{mode="idle"}[1m]) * 100))` or
-`avg by (instance,name,job,instance_state,instance-type) (100 - (rate(node_cpu_seconds_total{mode="idle"}[1m]) * 100))`
+`avg by (instance,name,job,instance_state,instance_type) (100 - (rate(node_cpu_seconds_total{mode="idle"}[1m]) * 100))`
 * Full Explanation of Query Logic
 - Step 1: node_cpu_seconds_total{mode="idle"} filters only the idle time of the CPU, allowing us to focus on how much time the CPU spends in an idle state.
 - Step 2: rate(...[5m]) calculates the per-second rate of increase in idle time over the last 5 minutes, giving us the "idle rate."
@@ -99,5 +99,6 @@ groups:
 
 * Configure Nginx exporter to see nginx logs
 * Total Request
-`nginx_http_request_total` - Stat
-`rate(nginx_http_request_total[1m])` - TimeSeries
+`nginx_http_requests_total` - Stat
+`rate(nginx_http_requests_total[1m])` - TimeSeries
+  
