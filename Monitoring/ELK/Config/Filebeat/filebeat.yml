@@ -1,0 +1,42 @@
+# ============================== Filebeat inputs ===============================
+filebeat.inputs:
+  - type: filestream
+    id: nginx-node-1
+    enabled: true
+    paths:
+      - /var/log/nginx/access.log
+
+# ============================== Filebeat modules ==============================
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+# ======================= Elasticsearch template setting =======================
+setup.template.settings:
+  index.number_of_shards: 1
+
+# =================================== Kibana ===================================
+setup.kibana:
+
+# ================================== Outputs ===================================
+output.logstash:
+  hosts: ["172.16.0.1:5044"]
+
+# ================================= Processors =================================
+processors:
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_cloud_metadata:
+      enabled: false
+  - add_docker_metadata: ~
+  - add_kubernetes_metadata: ~
+
+# ================================= Logging ====================================
+logging:
+  level: info  # Set log level (debug, info, warning, error, critical)
+  to_files: true  # Enable writing logs to files
+  files:
+    path: /var/log/filebeat  # Path to store the logs
+    name: filebeat.log  # Log file name (can be filebeat.log or custom)
+    keepfiles: 7  # Number of log files to keep before rotation
+    permissions: 0644  # Permissions for log files
