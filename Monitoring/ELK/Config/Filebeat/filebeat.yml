@@ -23,20 +23,20 @@ output.logstash:
   hosts: ["172.16.0.1:5044"]
 
 # ================================= Processors =================================
-processors:
-  - add_host_metadata:
-      when.not.contains.tags: forwarded
-  - add_cloud_metadata:
-      enabled: false
-  - add_docker_metadata: ~
-  - add_kubernetes_metadata: ~
+#processors:
+#  - add_host_metadata:
+#      when.not.contains.tags: forwarded
+#  - add_cloud_metadata:
+#      enabled: false
+#  - add_docker_metadata: ~
+#  - add_kubernetes_metadata: ~
 
 # ================================= Logging ====================================
-logging:
-  level: info  # Set log level (debug, info, warning, error, critical)
-  to_files: true  # Enable writing logs to files
-  files:
-    path: /var/log/filebeat  # Path to store the logs
-    name: filebeat.log  # Log file name (can be filebeat.log or custom)
-    keepfiles: 7  # Number of log files to keep before rotation
-    permissions: 0644  # Permissions for log files
+#logging:
+#  level: info  # Set log level (debug, info, warning, error, critical)
+#  to_files: true  # Enable writing logs to files
+#  files:
+#    path: /var/log/filebeat  # Path to store the logs
+#    name: filebeat.log  # Log file name (can be filebeat.log or custom)
+#    keepfiles: 7  # Number of log files to keep before rotation
+#    permissions: 0644  # Permissions for log files
