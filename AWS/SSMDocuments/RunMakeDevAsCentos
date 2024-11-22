@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "2.2",
+  "description": "Run 'make dev' as centos user in project-infra directory",
+  "mainSteps": [
+    {
+      "action": "aws:runShellScript",
+      "name": "runMakeDev",
+      "inputs": {
+        "runCommand": [
+          "sudo -u centos make dev"
+        ],
+        "workingDirectory": "/home/centos/project-infra"
+      }
+    }
+  ]
+}
