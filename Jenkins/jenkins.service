@@ -18,7 +18,7 @@ Group=jenkins
 Environment="JENKINS_HOME=/var/lib/jenkins"
 WorkingDirectory=/var/lib/jenkins
 Environment="JENKINS_WEBROOT=%C/jenkins/war"
-Environment="JAVA_OPTS=-Djava.awt.headless=true -XX:InitialRAMPercentage=70.0 -XX:MaxRAMPercentage=80.0"
+Environment="JAVA_OPTS=-Djava.awt.headless=true -XX:InitialRAMPercentage=40.0 -XX:MaxRAMPercentage=70.0"
 #Environment="JAVA_OPTS=-Djava.awt.headless=true"
 Environment="JENKINS_PORT=8080"
 
