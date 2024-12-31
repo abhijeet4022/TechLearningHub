@@ -34,4 +34,6 @@ cp cluster.yaml /cluster_deployment/cluster.yaml &>> /tmp/userdata.log
 kops create -f cluster.yaml &>> /tmp/userdata.log
 kops update cluster --name learntechnology.cloud --yes --admin &>> /tmp/userdata.log
 # kops validate cluster --wait 10m
+# kops validate cluster --name learntechnology.cloud
+# kops delete cluster --name learntechnology.cloud --yes
 
