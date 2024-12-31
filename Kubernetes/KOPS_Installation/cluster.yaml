@@ -1,0 +1,135 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  creationTimestamp: null
+  name: learntechnology.cloud
+spec:
+  api:
+    dns: {}
+  authorization:
+    rbac: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://cluster.learntechnology.cloud/learntechnology.cloud
+  dnsZone: learntechnology.cloud
+  etcdClusters:
+    - cpuRequest: 200m
+      etcdMembers:
+        - encryptedVolume: true
+          instanceGroup: control-plane-us-east-1a
+          name: a
+      manager:
+        backupRetentionDays: 90
+      memoryRequest: 100Mi
+      name: main
+    - cpuRequest: 100m
+      etcdMembers:
+        - encryptedVolume: true
+          instanceGroup: control-plane-us-east-1a
+          name: a
+      manager:
+        backupRetentionDays: 90
+      memoryRequest: 100Mi
+      name: events
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+  kubeProxy:
+    enabled: false
+  kubelet:
+    anonymousAuth: false
+  kubernetesApiAccess:
+    - 0.0.0.0/0
+    - ::/0
+  kubernetesVersion: 1.30.8
+  masterPublicName: api.learntechnology.cloud
+  networkCIDR: 172.20.0.0/16
+  networking:
+    cilium:
+      enableNodePort: true
+  nonMasqueradeCIDR: 100.64.0.0/10
+  sshAccess:
+    - 0.0.0.0/0
+    - ::/0
+  subnets:
+    - cidr: 172.20.1.0/24
+      name: us-east-1a
+      type: Public
+      zone: us-east-1a
+    - cidr: 172.20.2.0/24
+      name: us-east-1b
+      type: Public
+      zone: us-east-1b
+  topology:
+    dns:
+      type: Public
+
+---
+
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: learntechnology.cloud
+  name: control-plane-us-east-1a
+spec:
+  image: 099720109477/ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20241211
+  machineType: t3.medium
+  maxSize: 1
+  minSize: 1
+  role: Master
+  rootVolumeSize: 10
+  subnets:
+    - us-east-1a
+
+---
+
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: learntechnology.cloud
+  name: nodes-us-east-1a
+spec:
+  image: 099720109477/ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20241211
+  machineType: t3.medium
+  maxSize: 1
+  minSize: 1
+  role: Node
+  rootVolumeSize: 10
+  subnets:
+    - us-east-1a
+
+---
+
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: learntechnology.cloud
+  name: nodes-us-east-1b
+spec:
+  image: 099720109477/ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20241211
+  machineType: t3.medium
+  maxSize: 1
+  minSize: 1
+  role: Node
+  rootVolumeSize: 10
+  subnets:
+    - us-east-1b
+
+---
+
+apiVersion: kops.k8s.io/v1alpha2
+kind: SSHCredential
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: learntechnology.cloud
+  name: admin
+spec:
+  publicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGERPxy4APh8x4JyuYpZ3he2EJGp8yDGlHCY9I/7BHnOSYn+BEwlpUkO0Qk2MmoQ5iFNAIzxVrwcsukrPpGW317dPf8Yr7nmSOA4hvmAdbNBtOeVWwT5Bw9BOkcq7SepfbY+j58D6cw5igW+uyAaasEZ0Zxx6N7ilRada2InrXH0sVKjIZ47foMgLsKjxuWSyrPiqSXuFDxpRjCpnSoa5T0B3tDXxSSKuxgst9Vjv978BpUa1XtspIfpQrkRuACTgVM3QkNIOClvN6OrJezkgMIIVbruUDA9NktI1Yuuw6FyJmFTfVpbV7Ge4svgyXK7gXwB/q24yzzYl8tjX6WJOD
+    root@ip-172-31-18-10
