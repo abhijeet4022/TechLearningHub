@@ -13,3 +13,11 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"] # Canonical
 }
+
+# Data source to get the VPC ID by name
+data "aws_vpc" "default_vpc" {
+  filter {
+	name   = "tag:Name"
+	values = ["default-vpc"] # Replace with your VPC name
+  }
+}
