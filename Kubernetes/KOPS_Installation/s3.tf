@@ -2,8 +2,6 @@
 resource "aws_s3_bucket" "bucket" {
   bucket           = "learntechnology.cloud" # Replace with a globally unique name
   tags             = { Name = "ExampleBucket" }
-  object_ownership = "BucketOwnerEnforced"
-
 }
 
 # Optional: Enable Versioning
