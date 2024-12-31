@@ -1,6 +1,6 @@
 # Security Group Resource
 resource "aws_security_group" "allow_all" {
-  name        = "allow-all"
+  name        = "allow-all-traffic"
   description = "Allow all inbound and outbound traffic"
   vpc_id      = data.aws_vpc.default_vpc.id
   tags        = { Name = "Allow-All-Security-Group" }
