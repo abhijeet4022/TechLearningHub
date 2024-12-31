@@ -23,5 +23,5 @@ resource "aws_instance" "management_node" {
 
 
 output "management_node_public_ip" {
-  value = "management_node public_ip is ${aws_instance.management_node.public_ip}"
+  value = "management_node public_ip is - ${aws_instance.management_node.public_ip}"
 }
