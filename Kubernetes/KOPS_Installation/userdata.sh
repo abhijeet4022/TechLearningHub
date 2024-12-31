@@ -9,7 +9,7 @@ chmod  777 kubectl
 
 cat <<EOF | tee -a ~/.bashrc
 export NAME=learntechnology.cloud
-export KOPS_STATE_STORE=s3://learntechnology.cloud
+export KOPS_STATE_STORE=s3://cluster.learntechnology.cloud
 export AWS_REGION=us-east-1
 export CLUSTER_NAME=learntechnology.cloud
 export EDITOR='/usr/bin/vim'
@@ -19,4 +19,4 @@ EOF
 
 source ~/.bashrc
 
-# ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa
+ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa -N ""

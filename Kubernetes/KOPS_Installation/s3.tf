@@ -1,6 +1,6 @@
 # S3 Bucket
 resource "aws_s3_bucket" "bucket" {
-  bucket           = "learntechnology.cloud" # Replace with a globally unique name
+  bucket           = "cluster.learntechnology.cloud" # Replace with a globally unique name
   tags             = { Name = "ExampleBucket" }
 }
 
