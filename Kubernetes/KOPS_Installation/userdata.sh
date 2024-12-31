@@ -20,7 +20,8 @@ sudo chmod 777 kops &>> /tmp/userdata.log
 sudo chmod 777 kubectl &>> /tmp/userdata.log
 
 # Add environment variables to .bashrc
-sudo tee -a ~/.bashrc <<EOF
+# Check if the variable and alias already exist in ~/.bashrc
+grep -q 'export NAME=learntechnology.cloud' ~/.bashrc || sudo tee -a ~/.bashrc <<EOF
 export NAME=learntechnology.cloud
 export KOPS_STATE_STORE=s3://cluster.learntechnology.cloud
 export AWS_REGION=us-east-1
@@ -28,6 +29,7 @@ export CLUSTER_NAME=learntechnology.cloud
 export EDITOR='/usr/bin/vim'
 alias k=kubectl
 EOF
+
 
 
 # Source .bashrc
