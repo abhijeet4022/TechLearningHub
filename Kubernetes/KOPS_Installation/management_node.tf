@@ -7,12 +7,13 @@ resource "aws_instance" "management_node" {
   vpc_security_group_ids      = [aws_security_group.allow_all.id]
   user_data                   = file("${path.module}/userdata.sh")
   iam_instance_profile        = aws_iam_instance_profile.admin_instance_profile.name
+  disable_api_termination     = true
 
   ebs_block_device {
-	device_name           = "/dev/sda1"
-	volume_size           = 20
-	delete_on_termination = true
-	tags                  = { Name = "management_node-os-disk" }
+    device_name           = "/dev/sda1"
+    volume_size           = 20
+    delete_on_termination = true
+    tags                  = { Name = "management_node-os-disk" }
   }
 
   tags = {
