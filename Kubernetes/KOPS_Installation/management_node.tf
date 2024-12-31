@@ -11,7 +11,7 @@ resource "aws_instance" "management_node" {
 
   ebs_block_device {
     device_name           = "/dev/sda1"
-    volume_size           = 20
+    volume_size           = 10
     delete_on_termination = true
     tags                  = { Name = "management_node-os-disk" }
   }
