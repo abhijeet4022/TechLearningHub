@@ -62,3 +62,5 @@ sudo kops update cluster --name learntechnology.cloud --yes --admin &>> /tmp/use
 # kops validate cluster --wait 10m
 # kops validate cluster --name learntechnology.cloud
 # kops delete cluster --name learntechnology.cloud --yes
+# aws s3 ls s3://cluster.learntechnology.cloud --recursive
+# aws s3 rm s3://cluster.learntechnology.cloud --recursive
