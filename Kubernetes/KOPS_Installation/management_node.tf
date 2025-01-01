@@ -26,7 +26,7 @@ resource "aws_instance" "management_node" {
     when    = destroy
     inline  = [
       "source /etc/profile",
-      "sudo kops delete cluster --name learntechnology.cloud --yes",
+      "sudo -E kops delete cluster --name learntechnology.cloud --yes",
       "echo $CLUSTER_NAME"
     ]
     on_failure = continue
@@ -42,10 +42,18 @@ resource "aws_instance" "management_node" {
 
 
 
+# output "management_node_public_ip" {
+#   value = "management_node Private_IP is - ${aws_instance.management_node.private_ip}"
+# }
+#
+# output "update_cluster_credentials" {
+#   value = "Please Run this command to use cluster from root user -  mkdir /root/.kube && cp /.kube/config /root/.kube/config"
+# }
+
 output "management_node_public_ip" {
-  value = "management_node public_ip is - ${aws_instance.management_node.public_ip}"
+  value = "Management Node Private IP is - \033[35m${aws_instance.management_node.private_ip}\033[0m"
 }
 
 output "update_cluster_credentials" {
-  value = "Please Run this command to use cluster from root user -  mkdir /root/.kube && mv /.kube/config /root/.kube/config"
+  value = "As root, run this command to access the cluster: \033[35mmkdir /root/.kube && cp /.kube/config /root/.kube/config\033[0m"
 }
