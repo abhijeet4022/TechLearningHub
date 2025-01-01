@@ -1,5 +1,6 @@
 # Create the management node for kubernetes cluster
 resource "aws_instance" "management_node" {
+  # Without depends_on destroy will fail due to destroy time provisioner
   depends_on = [
     aws_s3_bucket.bucket,
     aws_iam_role_policy_attachment.admin_policy_attachment,
@@ -43,13 +44,8 @@ resource "aws_instance" "management_node" {
       user        = "ubuntu" # Adjust based on your AMI
       private_key = file("${path.module}/id_rsa")
     }
-    # timeout     = "30m" # Adjust timeout as needed (can be increased if command takes longer)
-    # max_retries = 3
-    # # on_failure = continue
   }
-  # lifecycle {
-  #   prevent_destroy = true # Prevent destruction until we explicitly destroy the resource
-  # }
+
 }
 
 
