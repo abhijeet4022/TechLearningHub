@@ -61,7 +61,7 @@ sudo mkdir -p ${DEPLOYMENT_DIR} &>> ${LOG_FILE}
 
 # Generate cluster.yaml for deployment
 echo "Generating cluster.yaml configuration..." | tee -a ${LOG_FILE}
-sudo -E kops create cluster \
+sudo kops create cluster \
   --name=$CLUSTER_NAME \
   --state=$KOPS_STATE_STORE \
   --zones=us-east-1a,us-east-1b \
@@ -81,7 +81,6 @@ sudo -E kops create cluster \
 
 # Create cluster from the YAML file
 echo "Creating the cluster..." | tee -a ${LOG_FILE}
-sleep 30
 sudo -E kops create -f ${DEPLOYMENT_DIR}/cluster.yaml &>> ${LOG_FILE}
 sleep 30
 
