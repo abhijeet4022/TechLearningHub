@@ -27,7 +27,6 @@ resource "aws_instance" "management_node" {
     when = destroy
     inline = [
       "bash -c 'source /etc/profile && kops delete cluster --name $CLUSTER_NAME --yes || true'",
-      "sleep 10"
     ]
 
     connection {
@@ -36,13 +35,13 @@ resource "aws_instance" "management_node" {
       user        = "ubuntu" # Adjust based on your AMI
       private_key = file("${path.module}/id_rsa")
     }
-    timeout     = "30m" # Adjust timeout as needed (can be increased if command takes longer)
-    max_retries = 3
-    # on_failure = continue
+    # timeout     = "30m" # Adjust timeout as needed (can be increased if command takes longer)
+    # max_retries = 3
+    # # on_failure = continue
   }
-  lifecycle {
-    prevent_destroy = true # Prevent destruction until we explicitly destroy the resource
-  }
+  # lifecycle {
+  #   prevent_destroy = true # Prevent destruction until we explicitly destroy the resource
+  # }
 }
 
 
