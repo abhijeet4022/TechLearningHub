@@ -48,7 +48,6 @@ alias k=kubectl
 EOF
 fi
 
-source /etc/profile
 # Generate SSH keys if they do not exist
 echo "Generating SSH keys..." | tee -a ${LOG_FILE}
 if [ ! -f ~/.ssh/id_rsa ]; then
