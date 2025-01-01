@@ -25,7 +25,6 @@ resource "aws_instance" "management_node" {
   provisioner "remote-exec" {
     when    = destroy
     inline = [
-      "bash -c 'source /etc/profile && echo $KOPS_STATE_STORE'",
       "bash -c 'source /etc/profile && kops delete cluster --name $CLUSTER_NAME --yes'"
     ]
 
