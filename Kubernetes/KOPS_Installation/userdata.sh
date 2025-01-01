@@ -87,3 +87,5 @@ kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
 # aws s3 rm s3://cluster.learntechnology.cloud --recursive
 
 echo "Cluster setup is complete!" | tee -a ${LOG_FILE}
+
+echo "KOPS_STATE_STORE is set to $KOPS_STATE_STORE & $CLUSTER_NAME" | tee -a ${LOG_FILE}

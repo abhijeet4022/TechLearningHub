@@ -27,7 +27,7 @@ resource "aws_instance" "management_node" {
     inline  = [
       "/usr/local/bin/kops delete cluster --name $CLUSTER_NAME --yes"
     ]
-    on_failure = "continue"
+    on_failure = continue
     connection {
       type        = "ssh"
       host        = self.private_ip
