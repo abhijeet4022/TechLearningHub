@@ -20,7 +20,25 @@ resource "aws_instance" "management_node" {
   tags = {
     Name = "management_node"
   }
+
+  # Provisioner for running commands before destruction
+  provisioner "remote-exec" {
+    when    = destroy
+    inline  = [
+      "/usr/local/bin/kops delete cluster --name $CLUSTER_NAME --yes"
+    ]
+
+    connection {
+      type        = "ssh"
+      host        = self.private_ip
+      user        = "ubuntu"  # Adjust based on your AMI
+      private_key = file("${path.module}/id_rsa")
+    }
+  }
 }
+
+
+
 
 output "management_node_public_ip" {
   value = "management_node public_ip is - ${aws_instance.management_node.public_ip}"

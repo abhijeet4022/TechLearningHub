@@ -6,6 +6,7 @@ CLUSTER_NAME="learntechnology.cloud"
 KOPS_STATE_STORE="s3://cluster.learntechnology.cloud"
 AWS_REGION="us-east-1"
 EDITOR="/usr/bin/vim"
+DEPLOYMENT_DIR="/cluster_deployment"
 
 # Exit on any error
 #set -e
@@ -45,7 +46,6 @@ if [ ! -f ~/.ssh/id_rsa ]; then
 fi
 
 # Create a directory for cluster deployment
-DEPLOYMENT_DIR="/cluster_deployment"
 echo "Creating cluster deployment directory at $DEPLOYMENT_DIR..." | tee -a ${LOG_FILE}
 sudo mkdir -p ${DEPLOYMENT_DIR} &>> ${LOG_FILE}
 
