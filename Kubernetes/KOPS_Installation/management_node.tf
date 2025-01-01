@@ -24,9 +24,11 @@ resource "aws_instance" "management_node" {
   # Provisioner for running commands before destruction
   provisioner "remote-exec" {
     when    = destroy
-    inline  = [
-      "bash -l -c 'kops delete cluster --name $CLUSTER_NAME --yes'"
+    inline = [
+      "bash -c 'source /etc/profile && echo $KOPS_STATE_STORE'",
+      "bash -c 'source /etc/profile && kops delete cluster --name $CLUSTER_NAME --yes'"
     ]
+
     # on_failure = continue
     connection {
       type        = "ssh"
