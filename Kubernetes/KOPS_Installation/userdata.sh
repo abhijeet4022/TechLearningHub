@@ -77,7 +77,7 @@ sleep 300
 mkdir -p /root/.kube
 
 # Move the Kubernetes configuration file to the root user's .kube directory
-cp /.kube/config /root/.kube/config
+cp /.kube/config /ubuntu/.kube/config
 
 # Set the appropriate permissions for the config file
 chmod 600 /root/.kube/config

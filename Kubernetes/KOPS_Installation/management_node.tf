@@ -27,7 +27,7 @@ resource "aws_instance" "management_node" {
     inline  = [
       "kops delete cluster --name learntechnology.cloud --yes"
     ]
-    on_failure = continue
+    # on_failure = continue
     connection {
       type        = "ssh"
       host        = self.private_ip
