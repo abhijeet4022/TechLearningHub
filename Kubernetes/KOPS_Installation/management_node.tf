@@ -26,7 +26,8 @@ resource "aws_instance" "management_node" {
   provisioner "remote-exec" {
     when    = destroy
     inline = [
-      "bash -c 'source /etc/profile && kops delete cluster --name $CLUSTER_NAME --yes'"
+      "bash -c 'source /etc/profile && kops delete cluster --name $CLUSTER_NAME --yes'",
+      "sleep 10"
     ]
 
     # on_failure = continue
@@ -36,6 +37,7 @@ resource "aws_instance" "management_node" {
       user        = "ubuntu"  # Adjust based on your AMI
       private_key = file("${path.module}/id_rsa")
     }
+    timeout = "30m"  # Adjust the timeout to as per requirements
   }
 }
 
