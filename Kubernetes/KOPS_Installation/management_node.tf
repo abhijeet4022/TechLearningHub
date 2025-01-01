@@ -1,6 +1,6 @@
 # Create the management node for kubernetes cluster
 resource "aws_instance" "management_node" {
-  depends_on                  = [aws_s3_bucket.bucket]
+  depends_on                  = local.resources_to_depend_on
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.management_node_key.key_name
