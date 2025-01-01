@@ -40,20 +40,11 @@ resource "aws_instance" "management_node" {
 }
 
 
+output "Message" {
+  value = "Login to the Management Node IP - ${aws_instance.management_node.private_ip}, and use the cluster as root user."
+}
 
-
-# output "management_node_public_ip" {
-#   value = "management_node Private_IP is - ${aws_instance.management_node.private_ip}"
-# }
-#
 # output "update_cluster_credentials" {
 #   value = "Please Run this command to use cluster from root user -  mkdir /root/.kube && cp /.kube/config /root/.kube/config"
 # }
 
-output "management_node_public_ip" {
-  value = "Management Node Private IP is - \033[35m${aws_instance.management_node.private_ip}\033[0m"
-}
-
-output "update_cluster_credentials" {
-  value = "As root, run this command to access the cluster: \033[35mmkdir /root/.kube && cp /.kube/config /root/.kube/config\033[0m"
-}
