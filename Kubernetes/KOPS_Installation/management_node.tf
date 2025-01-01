@@ -25,8 +25,7 @@ resource "aws_instance" "management_node" {
   provisioner "remote-exec" {
     when    = destroy
     inline  = [
-      "source /etc/profile",
-      "kops delete cluster --name learntechnology.cloud --yes"
+      "bash -l -c 'kops delete cluster --name $CLUSTER_NAME --yes'"
     ]
     # on_failure = continue
     connection {
