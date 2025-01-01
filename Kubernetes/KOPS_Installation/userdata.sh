@@ -34,10 +34,10 @@ echo "Installing kubectl..." | tee -a ${LOG_FILE}
 curl -Lo /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" &>> ${LOG_FILE}
 chmod +x /usr/local/bin/kubectl &>> ${LOG_FILE}
 
-# Add environment variables and alias to .bashrc
+# Add environment variables and alias to /etc/profile
 echo "Configuring environment variables and alias..." | tee -a ${LOG_FILE}
-if ! grep -q "export NAME=$CLUSTER_NAME" ~/.bashrc; then
-  cat <<EOF >> ~/.bashrc
+if ! grep -q "export NAME=$CLUSTER_NAME" /etc/profile; then
+  cat <<EOF >> /etc/profile
 export NAME=$CLUSTER_NAME
 export KOPS_STATE_STORE=$KOPS_STATE_STORE
 export AWS_REGION=$AWS_REGION
@@ -48,6 +48,7 @@ alias k=kubectl
 EOF
 fi
 
+source /etc/profile
 # Generate SSH keys if they do not exist
 echo "Generating SSH keys..." | tee -a ${LOG_FILE}
 if [ ! -f ~/.ssh/id_rsa ]; then
@@ -80,19 +81,21 @@ sudo kops create cluster \
 
 # Create cluster from the YAML file
 echo "Creating the cluster..." | tee -a ${LOG_FILE}
-kops create -f ${DEPLOYMENT_DIR}/cluster.yaml &>> ${LOG_FILE}
+sudo kops create -f ${DEPLOYMENT_DIR}/cluster.yaml &>> ${LOG_FILE}
 
 # Update the cluster
 echo "Updating the cluster..." | tee -a ${LOG_FILE}
-kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
+sudo kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
 
 ## Optional: Validate the cluster
 #echo "Validating the cluster (optional)..." | tee -a ${LOG_FILE}
 #kops validate cluster --name=$CLUSTER_NAME --wait 10m &>> ${LOG_FILE}
-# kops validate cluster --name learntechnology.cloud
+# kops validate cluster --name learntechnology.cloud --wait 10m
 # kops delete cluster --name learntechnology.cloud --yes
 # aws s3 ls s3://cluster.learntechnology.cloud --recursive
 # aws s3 rm s3://cluster.learntechnology.cloud --recursive
+# kops export kubecfg --name learntechnology.cloud
+# cat ~/.kube/config
 
 echo "Cluster setup is complete!" | tee -a ${LOG_FILE}
 
