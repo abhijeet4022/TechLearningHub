@@ -41,8 +41,3 @@ resource "aws_instance" "management_node" {
 output "Message" {
   value = "Login to the Management Node IP - ${aws_instance.management_node.private_ip}, and use the cluster as root user."
 }
-
-# output "update_cluster_credentials" {
-#   value = "Please Run this command to use cluster from root user -  mkdir /root/.kube && cp /.kube/config /root/.kube/config"
-# }
-
