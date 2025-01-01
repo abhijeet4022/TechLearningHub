@@ -9,13 +9,13 @@ EDITOR="/usr/bin/vim"
 DEPLOYMENT_DIR="/cluster_deployment"
 
 
-# Export the variables immediately for use in the current script for kops commands.
-export NAME=$CLUSTER_NAME
-export KOPS_STATE_STORE=$KOPS_STATE_STORE
-export AWS_REGION=$AWS_REGION
-export CLUSTER_NAME=$CLUSTER_NAME
-export EDITOR=$EDITOR
-export DEPLOYMENT_DIR=$DEPLOYMENT_DIR
+## Export the variables immediately for use in the current script for kops commands.
+#export NAME=$CLUSTER_NAME
+#export KOPS_STATE_STORE=$KOPS_STATE_STORE
+#export AWS_REGION=$AWS_REGION
+#export CLUSTER_NAME=$CLUSTER_NAME
+#export EDITOR=$EDITOR
+#export DEPLOYMENT_DIR=$DEPLOYMENT_DIR
 
 # Exit on any error
 #set -e
@@ -46,6 +46,7 @@ export EDITOR=$EDITOR
 export DEPLOYMENT_DIR=$DEPLOYMENT_DIR
 alias k=kubectl
 EOF
+source /etc/profile
 fi
 
 # Generate SSH keys if they do not exist
@@ -60,7 +61,7 @@ sudo mkdir -p ${DEPLOYMENT_DIR} &>> ${LOG_FILE}
 
 # Generate cluster.yaml for deployment
 echo "Generating cluster.yaml configuration..." | tee -a ${LOG_FILE}
-sudo kops create cluster \
+sudo -E kops create cluster \
   --name=$CLUSTER_NAME \
   --state=$KOPS_STATE_STORE \
   --zones=us-east-1a,us-east-1b \
@@ -80,11 +81,14 @@ sudo kops create cluster \
 
 # Create cluster from the YAML file
 echo "Creating the cluster..." | tee -a ${LOG_FILE}
-sudo kops create -f ${DEPLOYMENT_DIR}/cluster.yaml &>> ${LOG_FILE}
+sleep 30
+sudo -E kops create -f ${DEPLOYMENT_DIR}/cluster.yaml &>> ${LOG_FILE}
+sleep 30
 
 # Update the cluster
 echo "Updating the cluster..." | tee -a ${LOG_FILE}
-sudo kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
+sudo -E kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
+sleep 60
 
 ## Optional: Validate the cluster
 #echo "Validating the cluster (optional)..." | tee -a ${LOG_FILE}
