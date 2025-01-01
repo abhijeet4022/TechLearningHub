@@ -51,7 +51,8 @@ sudo mkdir -p ${DEPLOYMENT_DIR} &>> ${LOG_FILE}
 
 # Generate cluster.yaml for deployment
 echo "Generating cluster.yaml configuration..." | tee -a ${LOG_FILE}
-kops create cluster \
+echo "KOPS_STATE_STORE is set to $KOPS_STATE_STORE & $CLUSTER_NAME" | tee -a ${LOG_FILE}
+sudo kops create cluster \
   --name=$CLUSTER_NAME \
   --state=$KOPS_STATE_STORE \
   --zones=us-east-1a,us-east-1b \
