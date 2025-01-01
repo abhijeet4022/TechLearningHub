@@ -1,66 +1,88 @@
 #!/bin/bash
 
+# Log file
+LOG_FILE="/tmp/userdata.log"
+CLUSTER_NAME="learntechnology.cloud"
+KOPS_STATE_STORE="s3://cluster.learntechnology.cloud"
+AWS_REGION="us-east-1"
+EDITOR="/usr/bin/vim"
+
+# Exit on any error
+#set -e
+
 # Update system
-sudo apt-get update -y &>> /tmp/userdata.log
+echo "Updating system packages..." | tee -a ${LOG_FILE}
+sudo apt-get update -y &>> ${LOG_FILE}
 
-# Change directory
-sudo cd /usr/local/bin &>> /tmp/userdata.log
+# Download and install kops
+echo "Installing kops..." | tee -a ${LOG_FILE}
+curl -Lo /usr/local/bin/kops https://github.com/kubernetes/kops/releases/download/v1.30.2/kops-linux-amd64 &>> ${LOG_FILE}
+chmod +x /usr/local/bin/kops &>> ${LOG_FILE}
 
-# Download kops binary
-sudo curl -LO https://github.com/kubernetes/kops/releases/download/v1.30.2/kops-linux-amd64 &>> /tmp/userdata.log
+# Download and install kubectl
+echo "Installing kubectl..." | tee -a ${LOG_FILE}
+curl -Lo /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" &>> ${LOG_FILE}
+chmod +x /usr/local/bin/kubectl &>> ${LOG_FILE}
 
-# Rename kops binary
-sudo mv kops-linux-amd64 kops &>> /tmp/userdata.log
-
-# Download kubectl binary
-sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" &>> /tmp/userdata.log
-
-# Set permissions for kops and kubectl
-sudo chmod 777 kops &>> /tmp/userdata.log
-sudo chmod 777 kubectl &>> /tmp/userdata.log
-
-# Add environment variables to .bashrc
-# Check if the variable and alias already exist in ~/.bashrc
-grep -q 'export NAME=learntechnology.cloud' ~/.bashrc || sudo tee -a ~/.bashrc <<EOF
-export NAME=learntechnology.cloud
-export KOPS_STATE_STORE=s3://cluster.learntechnology.cloud
-export AWS_REGION=us-east-1
-export CLUSTER_NAME=learntechnology.cloud
-export EDITOR='/usr/bin/vim'
+# Add environment variables and alias to .bashrc
+echo "Configuring environment variables and alias..." | tee -a ${LOG_FILE}
+if ! grep -q "export NAME=$CLUSTER_NAME" ~/.bashrc; then
+  cat <<EOF >> ~/.bashrc
+export NAME=$CLUSTER_NAME
+export KOPS_STATE_STORE=$KOPS_STATE_STORE
+export AWS_REGION=$AWS_REGION
+export CLUSTER_NAME=$CLUSTER_NAME
+export EDITOR=$EDITOR
 alias k=kubectl
 EOF
+  source ~/.bashrc
+fi
 
-
-
-# Source .bashrc
-sudo source ~/.bashrc &>> /tmp/userdata.log
-
-# Generate SSH keys
-sudo sudo ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa -N "" &>> /tmp/userdata.log
+# Generate SSH keys if they do not exist
+echo "Generating SSH keys..." | tee -a ${LOG_FILE}
+if [ ! -f ~/.ssh/id_rsa ]; then
+  ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa -N "" &>> ${LOG_FILE}
+fi
 
 # Create a directory for cluster deployment
-sudo mkdir /cluster_deployment &>> /tmp/userdata.log
+DEPLOYMENT_DIR="/cluster_deployment"
+echo "Creating cluster deployment directory at $DEPLOYMENT_DIR..." | tee -a ${LOG_FILE}
+sudo mkdir -p ${DEPLOYMENT_DIR} &>> ${LOG_FILE}
 
-# Generate cluster.yaml file for cluster deployment
-#kops create cluster --name=learntechnology.cloud \
-#--state=s3://cluster.learntechnology.cloud --zones=us-east-1a,us-east-1b \
-#--node-count=2 --control-plane-count=1 --node-size=t3.medium --control-plane-size=t3.medium \
-#--control-plane-zones=us-east-1a --control-plane-volume-size 10 --node-volume-size 10 \
-#--ssh-public-key ~/.ssh/id_rsa.pub \
-#--dns-zone=learntechnology.cloud --dry-run --output yaml > /cluster_deployment/cluster.yaml
+# Generate cluster.yaml for deployment
+echo "Generating cluster.yaml configuration..." | tee -a ${LOG_FILE}
+kops create cluster \
+  --name=$CLUSTER_NAME \
+  --state=$KOPS_STATE_STORE \
+  --zones=us-east-1a,us-east-1b \
+  --node-count=2 \
+  --control-plane-count=1 \
+  --node-size=t3.medium \
+  --control-plane-size=t3.medium \
+  --control-plane-zones=us-east-1a \
+  --control-plane-volume-size=10 \
+  --node-volume-size=10 \
+  --ssh-public-key=~/.ssh/id_rsa.pub \
+  --dns-zone=$CLUSTER_NAME \
+  --dry-run --output yaml > ${DEPLOYMENT_DIR}/cluster.yaml
 
-# Copy cluster.yaml and create the cluster
-sudo cd /cluster_deployment &>> /tmp/userdata.log
-sudo cp cluster.yaml /cluster_deployment/cluster.yaml &>> /tmp/userdata.log
+## Copy cluster.yaml and create the cluster
+#cp cluster.yaml /cluster_deployment/cluster.yaml &>> /tmp/userdata.log
 
-# Create cluster
-sudo kops create -f cluster.yaml &>> /tmp/userdata.log
+# Create cluster from the YAML file
+echo "Creating the cluster..." | tee -a ${LOG_FILE}
+kops create -f ${DEPLOYMENT_DIR}/cluster.yaml &>> ${LOG_FILE}
 
 # Update the cluster
-sudo kops update cluster --name learntechnology.cloud --yes --admin &>> /tmp/userdata.log
+echo "Updating the cluster..." | tee -a ${LOG_FILE}
+kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
 
-# kops validate cluster --wait 10m
+## Optional: Validate the cluster
+#echo "Validating the cluster (optional)..." | tee -a ${LOG_FILE}
+#kops validate cluster --name=$CLUSTER_NAME --wait 10m &>> ${LOG_FILE}
 # kops validate cluster --name learntechnology.cloud
 # kops delete cluster --name learntechnology.cloud --yes
 # aws s3 ls s3://cluster.learntechnology.cloud --recursive
 # aws s3 rm s3://cluster.learntechnology.cloud --recursive
+
+echo "Cluster setup is complete!" | tee -a ${LOG_FILE}
