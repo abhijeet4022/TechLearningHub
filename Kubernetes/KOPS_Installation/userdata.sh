@@ -74,10 +74,10 @@ sudo -E kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
 sleep 300
 
 # Create the .kube directory for the root user
-mkdir -p /root/.kube
+mkdir -p /root/.kube  /home/ubuntu/.kube
 
 # Move the Kubernetes configuration file to the root user's .kube directory
-cp /.kube/config /ubuntu/.kube/config
+cp /.kube/config /home/ubuntu/.kube/config
 
 # Set the appropriate permissions for the config file
 chmod 600 /root/.kube/config
