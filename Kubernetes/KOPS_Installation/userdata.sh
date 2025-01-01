@@ -100,4 +100,5 @@ sleep 60
 # cat ~/.kube/config
 
 echo "Cluster setup is complete!" | tee -a ${LOG_FILE}
+echo "Please Run this command to use from root user -  mkdir /root/.kube && mv /.kube/config /root/.kube/"
 
