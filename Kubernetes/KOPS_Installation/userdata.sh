@@ -8,18 +8,6 @@ AWS_REGION="us-east-1"
 EDITOR="/usr/bin/vim"
 DEPLOYMENT_DIR="/cluster_deployment"
 
-
-## Export the variables immediately for use in the current script for kops commands.
-#export NAME=$CLUSTER_NAME
-#export KOPS_STATE_STORE=$KOPS_STATE_STORE
-#export AWS_REGION=$AWS_REGION
-#export CLUSTER_NAME=$CLUSTER_NAME
-#export EDITOR=$EDITOR
-#export DEPLOYMENT_DIR=$DEPLOYMENT_DIR
-
-# Exit on any error
-#set -e
-
 # Update system
 echo "Updating system packages..." | tee -a ${LOG_FILE}
 sudo apt-get update -y &>> ${LOG_FILE}
@@ -76,18 +64,27 @@ sudo kops create cluster \
   --dns-zone=$CLUSTER_NAME \
   --dry-run --output yaml > ${DEPLOYMENT_DIR}/cluster.yaml
 
-## Copy cluster.yaml and create the cluster
-#cp cluster.yaml /cluster_deployment/cluster.yaml &>> /tmp/userdata.log
-
 # Create cluster from the YAML file
 echo "Creating the cluster..." | tee -a ${LOG_FILE}
 sudo -E kops create -f ${DEPLOYMENT_DIR}/cluster.yaml &>> ${LOG_FILE}
-sleep 30
 
 # Update the cluster
 echo "Updating the cluster..." | tee -a ${LOG_FILE}
 sudo -E kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
-sleep 60
+sleep 300
+
+# Create the .kube directory for the root user
+mkdir -p /root/.kube
+
+# Move the Kubernetes configuration file to the root user's .kube directory
+cp /.kube/config /root/.kube/config
+
+# Set the appropriate permissions for the config file
+chmod 600 /root/.kube/config
+
+# Output a completion message
+echo "Kubernetes configuration for root user has been set up successfully." | tee -a "$LOG_FILE"
+
 
 ## Optional: Validate the cluster
 #echo "Validating the cluster (optional)..." | tee -a ${LOG_FILE}
@@ -99,6 +96,4 @@ sleep 60
 # kops export kubecfg --name learntechnology.cloud
 # cat ~/.kube/config
 
-echo "Cluster setup is complete!" | tee -a ${LOG_FILE}
-echo "Please Run this command to use from root user -  mkdir /root/.kube && mv /.kube/config /root/.kube/"
 
