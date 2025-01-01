@@ -36,8 +36,8 @@ export CLUSTER_NAME=$CLUSTER_NAME
 export EDITOR=$EDITOR
 alias k=kubectl
 EOF
-  source ~/.bashrc
 fi
+source ~/.bashrc
 
 # Generate SSH keys if they do not exist
 echo "Generating SSH keys..." | tee -a ${LOG_FILE}
