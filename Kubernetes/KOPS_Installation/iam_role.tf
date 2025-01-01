@@ -1,4 +1,4 @@
-# Create the IAM Role
+# Create the IAM Role with Admin Access
 resource "aws_iam_role" "aws_admin_role" {
   name = "AdministratorRole"
   assume_role_policy = jsonencode({

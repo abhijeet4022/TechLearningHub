@@ -1,4 +1,4 @@
-# Security Group Resource
+# Security Group Resource allow all traffic
 resource "aws_security_group" "allow_all" {
   name        = "allow-all-traffic"
   description = "Allow all inbound and outbound traffic"

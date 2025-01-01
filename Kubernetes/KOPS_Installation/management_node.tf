@@ -1,3 +1,4 @@
+# Create the management node for kubernetes cluster
 resource "aws_instance" "management_node" {
   depends_on                  = [aws_s3_bucket.bucket]
   ami                         = data.aws_ami.ubuntu.id
