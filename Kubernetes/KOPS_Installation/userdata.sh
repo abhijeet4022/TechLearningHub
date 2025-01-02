@@ -83,12 +83,9 @@ sleep 300
 sudo mkdir -p /root/.kube  /home/ubuntu/.kube
 
 # Move the Kubernetes configuration file to the root user's .kube directory
-sudo cp /.kube/config /home/ubuntu/.kube/config
-sudo cp /.kube/config /root/.kube/config
-sudo chown root:ubuntu /home/ubuntu/.kube/config
-
-# Set the appropriate permissions for the config file
-sudo chmod 660 /root/.kube/config /home/ubuntu/.kube/config
+sudo cp /.kube/config /home/ubuntu/.kube/config /root/.kube/config
+sudo chown -R root:ubuntu /home/ubuntu/.kube
+sudo chmod -R 770 /root/.kube /home/ubuntu/.kube
 
 # Output a completion message
 echo "Kubernetes configuration for root user has been set up successfully." | tee -a "$LOG_FILE"
