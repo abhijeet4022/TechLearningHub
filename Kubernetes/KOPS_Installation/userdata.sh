@@ -81,7 +81,9 @@ echo "Please wait for 10 Min..." | tee -a ${LOG_FILE}
 sleep 300
 
 # Create the .kube directory for the root user
-sudo mkdir -p /root/.kube  /home/ubuntu/.kube
+sudo cp /.kube/config /home/ubuntu/.kube/config
+sudo cp /.kube/config /root/.kube/config
+
 
 # Move the Kubernetes configuration file to the root user's .kube directory
 sudo cp /.kube/config /home/ubuntu/.kube/config /root/.kube/config
