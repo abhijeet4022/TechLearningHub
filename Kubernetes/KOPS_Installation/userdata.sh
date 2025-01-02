@@ -77,6 +77,7 @@ sudo -E kops create -f ${DEPLOYMENT_DIR}/cluster.yaml &>> ${LOG_FILE}
 # Update the cluster
 echo "Updating the cluster..." | tee -a ${LOG_FILE}
 sudo -E kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
+echo "Please wait for 5 Min..." | tee -a ${LOG_FILE}
 sleep 300
 
 # Create the .kube directory for the root user
