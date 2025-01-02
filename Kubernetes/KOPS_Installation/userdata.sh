@@ -22,6 +22,12 @@ echo "Installing kubectl..." | tee -a ${LOG_FILE}
 curl -Lo /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" &>> ${LOG_FILE}
 chmod +x /usr/local/bin/kubectl &>> ${LOG_FILE}
 
+# Download and install kubens
+echo "Installing kubens..." | tee -a ${LOG_FILE}
+sudo curl -Lo /usr/local/bin/kubens.tar.gz https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens_v0.9.5_linux_x86_64.tar.gz &>> ${LOG_FILE}
+sudo tar -zxf /usr/local/bin/kubens.tar.gz -C /usr/local/bin/ &>> ${LOG_FILE}
+sudo rm -rf LICENSE kubens.tar.gz &>> ${LOG_FILE}
+
 # Add environment variables and alias to /etc/profile
 echo "Configuring environment variables and alias..." | tee -a ${LOG_FILE}
 if ! grep -q "export NAME=$CLUSTER_NAME" /etc/profile; then
