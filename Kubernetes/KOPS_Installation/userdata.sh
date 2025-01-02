@@ -77,7 +77,7 @@ sudo -E kops create -f ${DEPLOYMENT_DIR}/cluster.yaml &>> ${LOG_FILE}
 # Update the cluster
 echo "Updating the cluster..." | tee -a ${LOG_FILE}
 sudo -E kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
-echo "Please wait for 5 Min..." | tee -a ${LOG_FILE}
+echo "Please wait for 10 Min..." | tee -a ${LOG_FILE}
 sleep 300
 
 # Create the .kube directory for the root user
@@ -87,6 +87,7 @@ sudo mkdir -p /root/.kube  /home/ubuntu/.kube
 sudo cp /.kube/config /home/ubuntu/.kube/config /root/.kube/config
 sudo chown -R root:ubuntu /home/ubuntu/.kube
 sudo chmod -R 770 /root/.kube /home/ubuntu/.kube
+sleep 300
 
 # Output a completion message
 echo "Kubernetes configuration for root user has been set up successfully." | tee -a "$LOG_FILE"
