@@ -8,7 +8,7 @@ metadata:
 spec:
   finalizers:
   - "kubernetes"
-------
+---
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
@@ -43,7 +43,7 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "250m"
-------
+---
 apiVersion: "v1"
 kind: "Service"
 metadata:
