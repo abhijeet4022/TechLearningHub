@@ -1,3 +1,4 @@
+---
 apiVersion: "v1"
 kind: "Namespace"
 metadata:
@@ -46,28 +47,44 @@ spec:
 apiVersion: "v1"
 kind: "Service"
 metadata:
-  annotations:
-annotations:
-  service.beta.kubernetes.io/aws-load-balancer-type: "external" # Required for ALB
-  service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing" # For public ALB, or "internal" for private ALB
-  service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "HTTP"
-  service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
-  service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:REGION:ACCOUNT_ID:certificate/CERTIFICATE_ID"
-  service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
   labels:
     app: "ludo-game"
   name: "ludo-game"
   namespace: "alpha"
 spec:
-  type: "LoadBalancer"
+  type: "ClusterIP"
   selector:
     app: "ludo-game"
   ports:
-    - name: "http" # Added port name for HTTP
-      port: 80
+    - port: 80
       protocol: "TCP"
       targetPort: 80
-    - name: "https" # Added port name for HTTPS
-      port: 443
-      protocol: "TCP"
-      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "ludo-game-ingress"
+  namespace: "alpha"
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:940482433230:certificate/bad592df-28f9-45c3-84c1-8ac48e7f9894
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: '15'
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ludo-game
+                port:
+                  number: 80
