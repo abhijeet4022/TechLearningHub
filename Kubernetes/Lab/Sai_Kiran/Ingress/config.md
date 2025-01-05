@@ -58,7 +58,7 @@
 
 
 # Configure Ingress Controller - It will create the NetworkLoadBalancer as well in AWS.
-- https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.1/deploy/static/provider/aws/deploy.yaml
+- kubectl create -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.1/deploy/static/provider/aws/deploy.yaml
 - Create three DNS record in Route53 for the same LoadBalancer DNS name.
 - www.learntechnology.cloud, vote.learntechnology.cloud and result.learntechnology.cloud
 

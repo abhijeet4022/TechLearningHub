@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - "result.cloudvishwakarma.in"
+        - "result.learntechnology.cloud "
       secretName: nginx-tls-default
   rules:
-    - host: result.cloudvishwakarma.in
+    - host: result.learntechnology.cloud 
       http:
         paths:
           - path: /
@@ -35,11 +35,11 @@ metadata:
 spec:
   tls:
     - hosts:
-        - "vote.cloudvishwakarma.in"
-        - "www.cloudvishwakarma.in"
+        - "vote.learntechnology.cloud "
+        - "www.learntechnology.cloud "
       secretName: nginx-tls-default
   rules:
-    - host: vote.cloudvishwakarma.in
+    - host: vote.learntechnology.cloud 
       http:
         paths:
           - path: /
@@ -49,7 +49,7 @@ spec:
                 name: vote
                 port:
                   number: 80
-    - host: www.cloudvishwakarma.in
+    - host: www.learntechnology.cloud 
       http:
         paths:
           - path: /
