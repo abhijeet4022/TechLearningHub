@@ -47,11 +47,13 @@ apiVersion: "v1"
 kind: "Service"
 metadata:
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "external"
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "HTTP"
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:us-east-1:940482433230:certificate/bad592df-28f9-45c3-84c1-8ac48e7f9894"
-    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
+annotations:
+  service.beta.kubernetes.io/aws-load-balancer-type: "external" # Required for ALB
+  service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing" # For public ALB, or "internal" for private ALB
+  service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "HTTP"
+  service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+  service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:REGION:ACCOUNT_ID:certificate/CERTIFICATE_ID"
+  service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
   labels:
     app: "ludo-game"
   name: "ludo-game"
