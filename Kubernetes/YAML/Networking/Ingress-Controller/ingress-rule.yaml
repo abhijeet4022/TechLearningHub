@@ -5,7 +5,7 @@ metadata:
   namespace: nginx-ingress
 spec:
   rules:
-    - host: www.example.com
+    - host: www.learntechnology.cloud
       http:
         paths:
           - pathType: Prefix

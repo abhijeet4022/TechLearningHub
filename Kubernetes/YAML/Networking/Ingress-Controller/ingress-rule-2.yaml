@@ -1,11 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: webserver
+  name: webserver-image
   namespace: nginx-ingress
 spec:
   rules:
-    - host: www.example.com
+    - host: www.learntechnology.cloud
       http:
         paths:
           - pathType: Prefix

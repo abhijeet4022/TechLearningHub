@@ -1,5 +1,5 @@
 echo -e "\e[32mCreating the WEB deployment:\e[0m"
-kubectl create deploy web --image=nginx -n nginx-ingress --replicas=2
+kubectl create deploy web --image=kiran2361993/kubegame:v1 -n nginx-ingress --replicas=2
 kubectl get pod -o wide -n nginx-ingress | grep -i web
 echo -e "\e[32mDone\e[0m"
 
