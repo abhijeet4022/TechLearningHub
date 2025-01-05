@@ -61,7 +61,7 @@ sudo kops create cluster \
   --zones=us-east-1a,us-east-1b \
   --node-count=2 \
   --control-plane-count=1 \
-  --node-size=t3.medium \
+  --node-size=t2.micro \
   --control-plane-size=t3.medium \
   --control-plane-zones=us-east-1a \
   --control-plane-volume-size=10 \
