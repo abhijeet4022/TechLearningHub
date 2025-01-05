@@ -61,9 +61,11 @@ spec:
   selector:
     app: "ludo-game"
   ports:
-    - port: 80
+    - name: "http" # Added port name for HTTP
+      port: 80
       protocol: "TCP"
       targetPort: 80
-    - port: 443
+    - name: "https" # Added port name for HTTPS
+      port: 443
       protocol: "TCP"
       targetPort: 80
