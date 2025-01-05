@@ -23,7 +23,6 @@ spec:
                 name: result
                 port:
                   number: 80
-
 ---
 
 apiVersion: networking.k8s.io/v1
@@ -61,5 +60,4 @@ spec:
                 name: vote
                 port:
                   number: 80
-
 ---
