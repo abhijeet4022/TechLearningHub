@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-probe
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kubegame
+  template:
+    metadata:
+      labels:
+        app: kubegame
+    spec:
+      containers:
+        - name: kubegame
+          image: kiran2361993/kubegame:v2
+          readinessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+#          livenessProbe:
+#            httpGet:
+#              path: /index.html
+#              port: 80
+#            initialDelaySeconds: 3
+#            periodSeconds: 5
