@@ -18,7 +18,7 @@
 
 # Run the Deployment and Services.
 - Generate one token in docker hub with read, write and delete access and use it in the secret.
-- `kubectl create secret docker-registry docker-pwd --docker-server=docker.io --docker-username=abhijeet4022 --docker-password= --docker-email=abhijeet4022@gmail.com`
+- `kubectl create secret docker-registry docker-pwd --docker-server=docker.io --docker-username=abhijeet4022 --docker-password= --docker-email=abhijeet4022@gmail.com -n ingress-nginx`
 - `kubectl get secret docker-pwd -o yaml`
 - `kubectl apply -f voting.yaml`
 - `kubectl get pods`
