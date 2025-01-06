@@ -59,9 +59,9 @@ sudo kops create cluster \
   --name=$CLUSTER_NAME \
   --state=$KOPS_STATE_STORE \
   --zones=us-east-1a,us-east-1b \
-  --node-count=2 \
+  --node-count=3 \
   --control-plane-count=1 \
-  --node-size=t2.micro \
+  --node-size=t3.medium \
   --control-plane-size=t3.medium \
   --control-plane-zones=us-east-1a \
   --control-plane-volume-size=10 \
