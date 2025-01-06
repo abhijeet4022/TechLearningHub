@@ -63,4 +63,4 @@
 - www.learntechnology.cloud, vote.learntechnology.cloud and result.learntechnology.cloud
 
 # Now create the Ingress Resource - Secrets will be used in ingress rule for https.
-- kubectl apply -f ingress_rule.yaml -n ingress-nginx
+- kubectl apply -f ingress_resource.yaml -n ingress-nginx
