@@ -6,6 +6,7 @@ metadata:
   labels:
     app: redis
   name: redis
+  namespace: ingress-nginx
 spec:
   clusterIP: None
   ports:
@@ -19,6 +20,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis
+  namespace: ingress-nginx
   labels:
     app: redis
 spec:
@@ -46,6 +48,7 @@ metadata:
   labels:
     app: db
   name: db
+  namespace: ingress-nginx
 spec:
   clusterIP: None
   ports:
@@ -59,6 +62,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: db
+  namespace: ingress-nginx
   labels:
     app: db
 spec:
@@ -95,6 +99,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-pv-claim
+  namespace: ingress-nginx
 spec:
   accessModes:
     - ReadWriteOnce
@@ -108,6 +113,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: result
+  namespace: ingress-nginx
   labels:
     app: result
 spec:
@@ -123,6 +129,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: result
+  namespace: ingress-nginx
   labels:
     app: result
 spec:
@@ -149,8 +156,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: vote
+  namespace: ingress-nginx
   labels:
-    apps: vote
+    app: vote
 spec:
   #type: LoadBalancer
   ports:
@@ -164,6 +172,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vote
+  namespace: ingress-nginx
   labels:
     app: vote
 spec:
@@ -191,8 +200,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    apps: worker
+    app: worker
   name: worker
+  namespace: ingress-nginx
 spec:
   clusterIP: None
   selector:
@@ -204,6 +214,7 @@ metadata:
   labels:
     app: worker
   name: worker
+  namespace: ingress-nginx
 spec:
   replicas: 1
   selector:

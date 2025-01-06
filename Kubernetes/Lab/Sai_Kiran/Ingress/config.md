@@ -53,8 +53,8 @@
 - echo "<Key>" > /tmp/tls.key
 
 # Generate the Secret and store the key and cert
-- kubectl create secret tls nginx-tls-default --key="tls.key" --cert="tls.crt"
-- kubectl describe secret nginx-tls-default
+- kubectl create secret tls nginx-tls-default --key="tls.key" --cert="tls.crt" -n ingress-nginx
+- kubectl describe secret nginx-tls-default -n ingress-nginx
 
 
 # Configure Ingress Controller - It will create the NetworkLoadBalancer as well in AWS.
@@ -63,4 +63,4 @@
 - www.learntechnology.cloud, vote.learntechnology.cloud and result.learntechnology.cloud
 
 # Now create the Ingress Resource - Secrets will be used in ingress rule for https.
-- kubectl apply -f ingress_rule.yaml
+- kubectl apply -f ingress_rule.yaml -n ingress-nginx
