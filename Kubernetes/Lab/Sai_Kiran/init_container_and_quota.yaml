@@ -17,8 +17,8 @@ spec:
   hard:
     requests.cpu: "1000m"
     limits.cpu: "2000m"
-    requests.memory: 1Gi
-    limits.memory: 2Gi
+    requests.memory: 2Gi
+    limits.memory: 4Gi
     pods: "10"
     replicationcontrollers: "20"
     resourcequotas: "10"
