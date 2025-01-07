@@ -19,8 +19,8 @@ spec:
     limits.cpu: "2000m"
     requests.memory: 2Gi
     limits.memory: 4Gi
-    pods: "10"
-    replicationcontrollers: "20"
+    pods: "4"
+    replicationcontrollers: "4"
     resourcequotas: "10"
     services: "5"
 ---
@@ -33,14 +33,13 @@ metadata:
   namespace: development
 spec:
   limits:
-    - max:
-        cpu: "200m"
-        memory: 128Mi
+    - type: Container
+      max:
+        cpu: "250m"
+        memory: 512Mi
       min:
-        cpu: "100m"
+        cpu: "50m"
         memory: 100Mi
-      type: Container
-
 ---
 
 # Create the Deployment and Service with initContainers.
