@@ -47,6 +47,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: adapter-container-deployment
+  namespace: development
   labels:
     env: prod
 spec:
@@ -132,6 +133,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: adapter-container-service
+  namespace: development
   labels:
     env: prod
 spec:
@@ -148,6 +150,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: myservice
+  namespace: development
   labels:
     env: prod
 spec:
