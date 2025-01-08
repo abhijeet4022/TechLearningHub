@@ -34,6 +34,13 @@ sudo curl -Lso /usr/local/bin/kubectx.tar.gz https://github.com/ahmetb/kubectx/r
 sudo tar -zxf /usr/local/bin/kubectx.tar.gz -C /usr/local/bin/ &>> ${LOG_FILE}
 sudo rm -rf /usr/local/bin/LICENSE /usr/local/bin/kubectx.tar.gz &>> ${LOG_FILE}
 
+# Download and install helm
+echo -e "\n\e[32mInstalling helm...\e[0m" | tee -a ${LOG_FILE}
+sudo curl -Lso /usr/local/bin/helm.tar.gz https://get.helm.sh/helm-v3.13.0-linux-amd64.tar.gz &>> ${LOG_FILE}
+sudo tar -zxf /usr/local/bin/helm.tar.gz -C /usr/local/bin/ &>> ${LOG_FILE}
+sudo mv /usr/local/bin/linux-amd64/helm /usr/local/bin/ &>> ${LOG_FILE}
+sudo rm -rf /usr/local/bin/helm.tar.gz /usr/local/bin/linux-amd64 &>> ${LOG_FILE}
+
 # Add environment variables and alias to /etc/profile
 echo -e "\n\e[32mConfiguring environment variables and alias...\e[0m" | tee -a ${LOG_FILE}
 if ! grep -q "export NAME=$CLUSTER_NAME" /etc/profile; then
