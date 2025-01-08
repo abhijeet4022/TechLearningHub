@@ -26,7 +26,13 @@ chmod +x /usr/local/bin/kubectl &>> ${LOG_FILE}
 echo -e "\n\e[32mInstalling kubens...\e[0m" | tee -a ${LOG_FILE}
 sudo curl -Lo /usr/local/bin/kubens.tar.gz https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens_v0.9.5_linux_x86_64.tar.gz &>> ${LOG_FILE}
 sudo tar -zxf /usr/local/bin/kubens.tar.gz -C /usr/local/bin/ &>> ${LOG_FILE}
-sudo rm -rf LICENSE kubens.tar.gz &>> ${LOG_FILE}
+sudo rm -rf /usr/local/bin/LICENSE /usr/local/bin/kubens.tar.gz &>> ${LOG_FILE}
+
+# Download and install kubectx
+echo -e "\n\e[32mInstalling kubectx...\e[0m" | tee -a ${LOG_FILE}
+sudo curl -Lso /usr/local/bin/kubectx.tar.gz https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubectx_v0.9.5_linux_x86_64.tar.gz &>> ${LOG_FILE}
+sudo tar -zxf /usr/local/bin/kubectx.tar.gz -C /usr/local/bin/ &>> ${LOG_FILE}
+sudo rm -rf /usr/local/bin/LICENSE /usr/local/bin/kubectx.tar.gz &>> ${LOG_FILE}
 
 # Add environment variables and alias to /etc/profile
 echo -e "\n\e[32mConfiguring environment variables and alias...\e[0m" | tee -a ${LOG_FILE}
@@ -104,7 +110,7 @@ echo -e "\n\e[32mKubernetes configuration for root user has been set up successf
 # kops delete cluster --name learntechnology.cloud --yes
 # aws s3 ls s3://cluster.learntechnology.cloud --recursive
 # aws s3 rm s3://cluster.learntechnology.cloud --recursive
-# kops export kubecfg --name learntechnology.cloud
+# kops export kubeconfig learntechnology.cloud --admin
 # cat ~/.kube/config
 
 
