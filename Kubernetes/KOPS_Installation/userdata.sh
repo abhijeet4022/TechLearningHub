@@ -8,6 +8,10 @@ AWS_REGION="us-east-1"
 EDITOR="/usr/bin/vim"
 DEPLOYMENT_DIR="/cluster_deployment"
 
+# set the hostname
+echo -e "\n\e[32mSetting the hostname...\e[0m" | tee -a ${LOG_FILE}
+hostnamectl set-hostname k8s-bastion &>> ${LOG_FILE}
+
 # Update system
 echo -e "\n\e[32mUpdating system packages...\e[0m" | tee -a ${LOG_FILE}
 sudo apt-get update -y &>> ${LOG_FILE}
