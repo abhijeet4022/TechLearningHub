@@ -10,4 +10,3 @@ spec:
     cpu: 500m
     memory: 400Mi
     pods: "4"
-

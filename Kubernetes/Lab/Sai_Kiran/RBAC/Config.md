@@ -139,7 +139,9 @@ export KUBECONFIG=mixed-config.txt
 
 ### Install Using Helm (NodePort)
 ```bash
-helm install --create-namespace -n portainer portainer portainer/portainer --set enterpriseEdition.enabled=true
+helm repo add portainer https://portainer.github.io/k8s/
+helm repo update
+helm install --create-namespace -n portainer portainer portainer/portainer
 kubectl get svc -n portainer
 ```
 
