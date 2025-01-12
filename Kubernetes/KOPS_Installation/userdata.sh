@@ -8,6 +8,18 @@ AWS_REGION="us-east-1"
 EDITOR="/usr/bin/vim"
 DEPLOYMENT_DIR="/cluster_deployment"
 
+# Countdown timer function
+timer() {
+  local SECONDS_LEFT=$1
+  while [ $SECONDS_LEFT -gt 0 ]; do
+    MIN=$((SECONDS_LEFT / 60))
+    SEC=$((SECONDS_LEFT % 60))
+    printf "\e[33mRemaining Time: %02d:%02d\e[0m\n" $MIN $SEC | tee -a ${LOG_FILE}
+    sleep 30
+    SECONDS_LEFT=$((SECONDS_LEFT - 30))
+  done
+}
+
 # set the hostname
 echo -e "\n\e[32mSetting the hostname...\e[0m" | tee -a ${LOG_FILE}
 hostnamectl set-hostname k8s-bastion &>> ${LOG_FILE}
@@ -94,8 +106,9 @@ sudo -E kops create -f ${DEPLOYMENT_DIR}/cluster.yaml &>> ${LOG_FILE}
 # Update the cluster
 echo -e "\n\e[32mUpdating the cluster...\e[0m" | tee -a ${LOG_FILE}
 sudo -E kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
-echo -e "\n\e[32mPlease wait for 10 Min to up the cluster...\e[0m" | tee -a ${LOG_FILE}
-sleep 600
+echo -e "\n\e[32mPlease wait for 10 minutes to bring up the cluster...\e[0m" | tee -a ${LOG_FILE}
+# Call the timer function for 10 minutes (600 seconds)
+timer 600
 
 # Create the .kube directory for the root user
 echo -e "\n\e[32mCreate the .kube directory for the root user...\e[0m" | tee -a ${LOG_FILE}
@@ -109,7 +122,6 @@ echo -e "\n\e[32mSetting the .kube directory ownership and permission...\e[0m" |
 sudo chown -R root:ubuntu /home/ubuntu/.kube
 sudo chmod -R 770 /root/.kube /home/ubuntu/.kube
 
-sleep 300
 # Output a completion message
 echo -e "\n\e[32mKubernetes configuration for root user has been set up successfully.\e[0m" | tee -a "$LOG_FILE"
 
