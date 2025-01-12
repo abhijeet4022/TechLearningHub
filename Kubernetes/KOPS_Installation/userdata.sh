@@ -137,3 +137,19 @@ echo -e "\n\e[32mKubernetes configuration for root user has been set up successf
 # cat ~/.kube/config
 
 
+
+#echo -e "\e[32mChecking the status of pods...\e[0m" | tee -a ${LOG_FILE}
+#
+## Loop until the command exits with 0
+#while true; do
+#  kubectl get pods -A &>> ${LOG_FILE}
+#  if [ $? -eq 0 ]; then
+#    echo -e "\e[32mkubectl get pods -A succeeded!\e[0m" | tee -a ${LOG_FILE}
+#    break
+#  else
+#    echo -e "\e[33mWaiting for the pods to be ready...\e[0m" | tee -a ${LOG_FILE}
+#    sleep 10 # Wait for 10 seconds before retrying
+#  fi
+#done
+
+
