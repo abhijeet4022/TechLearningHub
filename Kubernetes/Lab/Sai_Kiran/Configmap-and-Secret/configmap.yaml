@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: default.conf
+data:
+  default.conf: |+
+    server {
+        listen 9991;
+
+        server_name localhost;
+
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+
+        # Logging
+        access_log /var/log/nginx/9991-access.log;
+        error_log /var/log/nginx/9991-error.log;
+
+        location / {
+            try_files $uri $uri/ =404;
+        }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: kiran2361993/troubleshootingtools:v1
+          ports:
+            - containerPort: 9991
+          volumeMounts:
+            - name: nginx-config
+              mountPath: "/etc/nginx/conf.d/"
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: default.conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx
+  name: nginx-deployment
+spec:
+  ports:
+    - nodePort: 30881
+      port: 8080
+      protocol: TCP
+      targetPort: 9991
+  selector:
+    app: nginx
+  type: NodePort
+
