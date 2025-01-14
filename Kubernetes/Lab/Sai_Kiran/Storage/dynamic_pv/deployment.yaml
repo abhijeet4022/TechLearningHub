@@ -23,22 +23,7 @@ spec:
           volumeMounts:
             - name: mongodb-data1
               mountPath: /data/db
-            - name: mongodb-data2
-              mountPath: /tmp/db1
-            - name: mongodb-data3
-              mountPath: /tmp/db2
-            - name: mongodb-data4
-              mountPath: /tmp/db3
       volumes:
         - name: mongodb-data1
           persistentVolumeClaim:
-            claimName: task-pv-claim1
-        - name: mongodb-data2
-          persistentVolumeClaim:
-            claimName: task-pv-claim2
-        - name: mongodb-data3
-          persistentVolumeClaim:
-            claimName: task-pv-claim3
-        - name: mongodb-data4
-          persistentVolumeClaim:
-            claimName: task-pv-claim4
+            claimName: task-pv-claim5
