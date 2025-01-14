@@ -48,7 +48,6 @@ resource "aws_instance" "management_node" {
 
 }
 
-
 output "Message" {
   value = "Login to the Management Node - ssh -i id_rsa ubuntu@${aws_instance.management_node.private_ip}"
 }
