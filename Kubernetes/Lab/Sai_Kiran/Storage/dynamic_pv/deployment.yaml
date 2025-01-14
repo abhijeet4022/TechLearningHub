@@ -42,5 +42,3 @@ spec:
         - name: mongodb-data4
           persistentVolumeClaim:
             claimName: task-pv-claim4
-      nodeSelector:
-        kubernetes.io/hostname: i-099b16a7884f9c901
