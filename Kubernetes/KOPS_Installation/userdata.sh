@@ -151,5 +151,3 @@ echo -e "\n\e[32mKubernetes configuration has been set up successfully.\e[0m" | 
 #    sleep 10 # Wait for 10 seconds before retrying
 #  fi
 #done
-
-
