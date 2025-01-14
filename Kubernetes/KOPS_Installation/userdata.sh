@@ -123,7 +123,7 @@ sudo chown -R root:ubuntu /home/ubuntu/.kube
 sudo chmod -R 770 /root/.kube /home/ubuntu/.kube
 
 # Output a completion message
-echo -e "\n\e[32mKubernetes configuration for root user has been set up successfully.\e[0m" | tee -a "$LOG_FILE"
+echo -e "\n\e[32mKubernetes configuration has been set up successfully.\e[0m" | tee -a "$LOG_FILE"
 
 
 ## Optional: Validate the cluster
