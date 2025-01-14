@@ -50,5 +50,5 @@ resource "aws_instance" "management_node" {
 
 
 output "Message" {
-  value = "Login to the Management Node IP - ${aws_instance.management_node.private_ip}, and use the cluster as ubuntu user."
+  value = "Login to the Management Node IP - ssh -i id_rsa ubuntu@${aws_instance.management_node.private_ip}, and use the cluster as ubuntu user."
 }
