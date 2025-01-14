@@ -135,6 +135,7 @@ echo -e "\n\e[32mKubernetes configuration has been set up successfully.\e[0m" | 
 # aws s3 rm s3://cluster.learntechnology.cloud --recursive
 # kops export kubeconfig learntechnology.cloud --admin
 # cat ~/.kube/config
+# kubectl get pod nginx-deployment-664f75cc8f-9bxsn -o jsonpath="{.spec.containers[*].name}"
 
 
 
