@@ -46,6 +46,12 @@
         NEW_RELIC_API_KEY={{ newrelic_api_key }} NEW_RELIC_ACCOUNT_ID={{ newrelic_account_id }} /usr/local/bin/newrelic install < /dev/null
       when: newrelic_service_status.stdout != "active"
 
+    - name: Restart the New Relic service.
+      ansible.builtin.systemd:
+        name: newrelic-infra
+        state: restarted
+      when: newrelic_service_status.stdout != "active"
+
     - name: Re-enable problematic repositories
       shell: |
         zypper mr -e {{ item }}
