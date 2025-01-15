@@ -1,0 +1,40 @@
+---
+# This NetworkPolicy denies all incoming (ingress) and outgoing (egress) traffic, both within the same namespace and across different namespaces, to and from all Pods in the prod namespace.
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: deny-all-traffic-prodns
+  namespace: prod
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+# This NetworkPolicy denies all incoming (ingress) and outgoing (egress) traffic, both within the same namespace and across different namespaces, to and from all Pods in the dev namespace.
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: deny-all-traffic-devns
+  namespace: dev
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+# This NetworkPolicy denies all incoming (ingress) and outgoing (egress) traffic, both within the same namespace and across different namespaces, to and from all Pods in the qa namespace.
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: deny-all-traffic-qans
+  namespace: qa
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress

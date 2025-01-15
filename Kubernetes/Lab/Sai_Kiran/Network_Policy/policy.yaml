@@ -1,3 +1,5 @@
+# kubectl run trouble1 --image=kiran2361993/troubleshootingtools:v1 -n default
+# kubectl run trouble2 --image=kiran2361993/troubleshootingtools:v1 -n default
 ---
 # This NetworkPolicy denies all incoming (ingress) traffic to Pods with the label `run: trouble1` in the default namespace.
 apiVersion: networking.k8s.io/v1
@@ -13,7 +15,7 @@ spec:
     - Ingress
 
 ---
-# This NetworkPolicy denies all incoming (egress) traffic to Pods with the label `run: trouble1` in the default namespace.
+# This NetworkPolicy denies all outgoing (egress) traffic to Pods with the label `run: trouble1` in the default namespace.
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -27,6 +29,7 @@ spec:
     - Egress
 
 ---
+# This NetworkPolicy denies all incoming (ingress) and outgoing (egress) traffic to Pods with the label `run: trouble1` in the default namespace.
 #kind: NetworkPolicy
 #apiVersion: networking.k8s.io/v1
 #metadata:
@@ -40,5 +43,6 @@ spec:
 #    - Ingress
 #    - Egress
 ---
-# kubectl run trouble1 --image=kiran2361993/troubleshootingtools:v1 -n default
-# kubectl run trouble2 --image=kiran2361993/troubleshootingtools:v1 -n default
+
+
+
