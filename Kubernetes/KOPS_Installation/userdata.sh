@@ -121,7 +121,7 @@ echo -e "\n\e[32mSetting the .kube directory ownership and permission...\e[0m" |
 sudo chown -R root:ubuntu /home/ubuntu/.kube
 sudo chmod -R 770 /root/.kube /home/ubuntu/.kube
 
-echo -e "\n\e[32m Installing awscli...\e[0m" | tee -a ${LOG_FILE}
+echo -e "\n\e[32mInstalling awscli...\e[0m" | tee -a ${LOG_FILE}
 sudo snap install aws-cli --classic
 
 # Up to here
