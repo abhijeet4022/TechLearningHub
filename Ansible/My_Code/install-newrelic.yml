@@ -2,8 +2,8 @@
   hosts: all
   become: yes
   vars:
-    newrelic_api_key: NRAK-0FA0J5ZNVMO00EQQEGDVOO1J7XY
-    newrelic_account_id: 6338338
+    newrelic_api_key: xxxxxxxxxxxxxxxxxxxxxxxxx
+    newrelic_account_id: xxxxxxx
 
   tasks:
     - name: Check if New Relic service is running
@@ -53,3 +53,6 @@
       when:
         - newrelic_service_status.stdout != "active"
         - problematic_repos.stdout_lines | length > 0
+
+# ansible-playbook -i inv --limit sap -e "ansible_user=xxxxxx" -e "ansible_password=xxxxxxx" /root/ansible/install_newrelic.y
+#ml
