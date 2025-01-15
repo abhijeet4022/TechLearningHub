@@ -106,9 +106,8 @@ sudo -E kops create -f ${DEPLOYMENT_DIR}/cluster.yaml &>> ${LOG_FILE}
 # Update the cluster
 echo -e "\n\e[32mUpdating the cluster...\e[0m" | tee -a ${LOG_FILE}
 sudo -E kops update cluster --name=$CLUSTER_NAME --yes --admin &>> ${LOG_FILE}
-echo -e "\n\e[32mPlease wait for 8 minutes to bring up the cluster...\e[0m" | tee -a ${LOG_FILE}
-# Call the timer function for 8 minutes (480 seconds)
-timer 480
+
+# Added later
 
 # Create the .kube directory for the root user
 echo -e "\n\e[32mCreate the .kube directory for the root user...\e[0m" | tee -a ${LOG_FILE}
@@ -125,6 +124,13 @@ sudo chmod -R 770 /root/.kube /home/ubuntu/.kube
 echo -e "\n\e[32m Installing awscli...\e[0m" | tee -a ${LOG_FILE}
 sudo snap install aws-cli --classic
 
+# Up to here
+
+
+
+echo -e "\n\e[32mPlease wait for 8 minutes to bring up the cluster...\e[0m" | tee -a ${LOG_FILE}
+# Call the timer function for 8 minutes (480 seconds)
+timer 480
 # Output a completion message
 echo -e "\n\e[32mKubernetes configuration has been set up successfully.\e[0m" | tee -a "$LOG_FILE"
 
