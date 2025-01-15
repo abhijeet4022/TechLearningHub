@@ -1,0 +1,43 @@
+- name: Install New Relic with repository fix
+  hosts: all  # This applies to all hosts defined in the inventory
+  become: yes  # Escalates to root privileges
+  vars:
+    newrelic_api_key: NRAK-0FA0J5ZNVMO00EQQEGDVOO1J7XY  # New Relic API Key (replace with your key)
+    newrelic_account_id: 6338338  # New Relic Account ID (replace with your ID)
+
+  tasks:
+    # Step 1: Refresh all repositories to check for issues
+    - name: Refresh all repositories
+      shell: zypper refresh  # Refreshes the repositories to get the latest info
+      register: refresh_output  # Captures the output of the zypper refresh command
+      ignore_errors: true  # Ignores errors in case of failed repositories
+
+    # Step 2: Parse problematic repositories from the refresh output
+    - name: Parse problematic repositories from refresh output
+      shell: |
+        echo "{{ refresh_output.stderr }}" | grep -oP '(?<=Repository ).*?(?= is invalid|refresh failed)' | awk '{print $1}'
+      register: problematic_repos  # Captures the problematic repository names
+      changed_when: false  # This task doesn't change the system, it's just parsing the output
+
+    # Step 3: Disable problematic repositories
+    - name: Disable problematic repositories
+      shell: |
+        zypper mr -d {{ item }}  # Disables the problematic repository
+      with_items: "{{ problematic_repos.stdout_lines }}"  # Loops through each problematic repo
+      when: problematic_repos.stdout_lines | length > 0  # Only runs if problematic repos were found
+      # This step ensures that the repositories with issues are disabled before installation
+
+    # Step 4: Install New Relic agent
+    - name: Install New Relic agent
+      shell: |
+        curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash &&  # Downloads and installs the New Relic CLI
+        NEW_RELIC_API_KEY={{ newrelic_api_key }} NEW_RELIC_ACCOUNT_ID={{ newrelic_account_id }} /usr/local/bin/newrelic install < /dev/null  # Installs the New Relic agent
+      # This step installs the New Relic agent using the API key and account ID provided above
+
+    # Step 5: Re-enable problematic repositories
+    - name: Re-enable problematic repositories
+      shell: |
+        zypper mr -e {{ item }}  # Enables the previously disabled repository
+      with_items: "{{ problematic_repos.stdout_lines }}"  # Loops through each problematic repo
+      when: problematic_repos.stdout_lines | length > 0  # Only runs if problematic repos were found
+      # This step re-enables the repositories to restore the system to its original state
