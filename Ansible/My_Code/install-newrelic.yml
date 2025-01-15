@@ -56,3 +56,4 @@
 
 # ansible-playbook -i inv --limit sap -e "ansible_user=xxxxxx" -e "ansible_password=xxxxxxx" /root/ansible/install_newrelic.y
 #ml
+#  ansible -i inv -e "ansible_user=localadmin" -e "ansible_password=*Bmisap@2020#" -b -a "systemctl status newrelic-infra" all
