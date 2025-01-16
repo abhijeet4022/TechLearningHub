@@ -53,6 +53,8 @@ echo_info "Checking if New Relic is already installed..."
 if systemctl status newrelic-infra >/dev/null 2>&1; then
   echo_info "New Relic agent is already installed. Exiting the script."
   exit 0
+else
+  echo_info "New Relic agent is not installed continuing with the installation."
 fi
 
 # Determine the OS distribution
