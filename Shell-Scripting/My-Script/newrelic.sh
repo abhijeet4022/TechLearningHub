@@ -24,7 +24,7 @@ fi
 
 
 # Exit on any error
-set -e
+#set -e
 
 
 # Function to display a message
@@ -64,7 +64,7 @@ if [[ "$OS_DISTRO" == "SLES" || "$OS_DISTRO" == "openSUSE Leap" ]]; then
   # Run zypper refresh and capture output
   echo_info "Refreshing repositories..."
   refresh_output=$(zypper refresh 2>&1)
-  check_status
+
 
   # Extract problematic repositories
   echo_info "Extracting problematic repositories..."
@@ -78,8 +78,9 @@ if [[ "$OS_DISTRO" == "SLES" || "$OS_DISTRO" == "openSUSE Leap" ]]; then
   # Disable problematic repositories
   if [[ -n "$problematic_repos" ]]; then
       for repo in $problematic_repos; do
-          echo_info "Disabling repository: $repo"
-          zypper mr -d "$repo"
+	    repo_cleaned=$(echo "$repo" | sed "s/^['\"]\([^'\"]*\)['\"]$/\1/")
+          echo_info "Disabling repository: $repo_cleaned"
+          zypper mr -d "$repo_cleaned"
           check_status
       done
   fi
@@ -105,8 +106,9 @@ check_status
 # Re-enable problematic repositories
 if [[ -n "$problematic_repos" ]]; then
   for repo in $problematic_repos; do
-    echo_info "Re-enabling repository: $repo"
-    zypper mr -e "$repo"
+    repo_cleaned=$(echo "$repo" | sed "s/^['\"]\([^'\"]*\)['\"]$/\1/")
+    echo_info "Enabling repository: $repo_cleaned"
+    zypper mr -e "$repo_cleaned"
     check_status
   done
 fi
