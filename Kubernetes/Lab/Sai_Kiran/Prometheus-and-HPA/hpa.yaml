@@ -1,0 +1,28 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: web
+  namespace: default
+spec:
+  maxReplicas: 10
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: web
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 120  # Set the stabilization window to 2 minutes
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50  # 50% CPU utilization
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 75  # 75% memory utilization
