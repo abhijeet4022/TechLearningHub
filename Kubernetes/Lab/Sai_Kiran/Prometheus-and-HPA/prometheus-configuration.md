@@ -52,6 +52,10 @@ kubectl exec -it prometheus-grafana-fcb7986c6-52jb7 -- nslookup prometheus-kube-
 ```
 Example endpoint: `http://prometheus-kube-prometheus-prometheus.prom.svc.cluster.local:9090`
 
+### Important Dashboards
+- Node Monitoring: Navigate to Home - Dashboards - Node Exporter/Nodes
+- Pod Monitoring: Navigate to Home - Dashboards - Kubernetes/Compute Resources/Pod
+
 ## Horizontal Pod Autoscaling (HPA)
 
 ### Custom Metrics Setup
