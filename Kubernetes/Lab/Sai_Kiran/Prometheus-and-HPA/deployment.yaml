@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: web
+  name: web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - image: nginx
+          name: nginx
+          resources:
+            requests:    # Corrected key
+              cpu: 50m
+              memory: 128Mi
+            limits:      # Corrected key
+              cpu: 250m
+              memory: 256Mi
