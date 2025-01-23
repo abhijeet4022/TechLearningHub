@@ -20,7 +20,7 @@
         - Deprecation of older features and new compatibility requirements.
 
 3. **Control Plane and Data Plane Compatibility**
-    - The **control plane** and **data plane (nodes)** must run compatible versions. Always upgrade the control plane first.
+    - The **control plane** and **data plane (nodes)** must run with same versions.
     - Ensure **kubelet versions** on worker nodes match the upgraded control plane version.
 
 4. **Cluster Auto-Scaler Compatibility**
@@ -156,5 +156,3 @@ eksctl utils update-kube-proxy --cluster <cluster_name>
 - Monitor application and cluster performance closely throughout the process.
 
 ---
-
-Let me know if you'd like additional details or a specific example!
