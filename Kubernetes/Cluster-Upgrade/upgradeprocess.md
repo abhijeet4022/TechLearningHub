@@ -8,19 +8,19 @@
 
 ## Pre-Requisites
 
-1. **Test in Lower Environments**
-    - Always test the upgrade in a **staging or non-production environment** before upgrading production clusters.
-    - Note that **downgrading an EKS cluster is not supported**, so testing is crucial. If the upgrade causes issues, you may need to create a new cluster, which can significantly impact operations.
-
-2. **Review Release Notes**
-    - Refer to the official Kubernetes release notes: [https://kubernetes.io/releases/](https://kubernetes.io/releases/).
+1. **Review Release Notes**
+    - Refer to the official Kubernetes release notes: [https://kubernetes.io/releases/](https://kubernetes.io/releases/) to understand the changelog to see what are the changes has been done with the new version.
     - Pay attention to:
         - **API version changes**: Identify deprecated APIs or features.
             - Example: The `extensions/v1beta1` API group for Ingress was replaced with `networking.k8s.io/v1`.
         - Deprecation of older features and new compatibility requirements.
 
+2. **Test in Lower Environments**
+    - Always test the upgrade in a **staging or non-production environment** before upgrading production clusters.
+    - Note that **downgrading an EKS cluster is not supported**, so testing is crucial. If the upgrade causes issues, you may need to create a new cluster, which can significantly impact operations.
+
 3. **Control Plane and Data Plane Compatibility**
-    - The **control plane** and **data plane (nodes)** must run with same versions.
+    - The **control plane** and **data plane (nodes)** must run with same versions before upgrade the control plane.
     - Ensure **kubelet versions** on worker nodes match the upgraded control plane version.
 
 4. **Cluster Auto-Scaler Compatibility**
@@ -37,19 +37,30 @@
     - Take snapshots of persistent volumes and stateful data (e.g., databases).
 
 7. **Node Cordon and Drain Strategy**
-    - Before upgrading nodes, **cordon** (mark as unschedulable) and **drain** them:
+    - Before upgrading nodes, **cordon** (mark as unschedulable) and **drain** them as well if needed:
       ```bash
       kubectl cordon <node_name>
       kubectl drain <node_name> --ignore-daemonsets --delete-emptydir-data
       ```
+    - To stop the scheduling of new pods on the node during the upgrade:
+
+Note: As per the organization and setup, pre-requisites may vary. 
 
 ---
 
 ## Upgrade Process
 
+- Managed kubernetes clusters means that the control plane is managed by the cloud provider.
+- But upgrade process is still manual and needs to be done by the user.
+- We call it a managed control plane because, when creating an EKS cluster, AWS takes care of the high availability (HA) of the control plane, as well as disaster recovery (DR) and API server scaling.
+
+
 ### 1. Upgrade the Control Plane
 - Use **AWS Management Console**, `eksctl`, or AWS CLI to upgrade the control plane.
 
+
+
+-------------------------------------------------------------------------
 #### Using AWS CLI:
 ```bash
 aws eks update-cluster-version --name <cluster_name> --kubernetes-version <new_version>
@@ -60,11 +71,12 @@ aws eks update-cluster-version --name <cluster_name> --kubernetes-version <new_v
 eksctl upgrade cluster --name <cluster_name> --version <new_version>
 ```
 
-- AWS **EKS automatically handles High Availability (HA)** for the control plane, including disaster recovery (DR) and API server scaling.
+
 - Post-upgrade, verify the control plane version:
   ```bash
   kubectl version --short
   ```
+-----------------------------------------------------------------------------------
 
 ### 2. Upgrade the Data Plane (Nodes)
 The data plane includes **AWS-managed node groups**, **self-managed nodes**, or **Fargate profiles**.
