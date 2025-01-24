@@ -47,6 +47,18 @@ eksctl utils associate-iam-oidc-provider \
 - `--cluster observability`: Name of the EKS cluster.
 - `--approve`: Automatically approves the OIDC provider setup.
 
+## Create eks pod identity agent addon.
+```bash
+eksctl create addon \
+  --name eks-pod-identity-agent \
+  --cluster observability \
+  --region us-east-1 \
+  --force
+```
+
+```bash
+eksctl get addons --cluster observability --region us-east-1
+```
 ---
 
 ### Step 3: Create a Node Group
