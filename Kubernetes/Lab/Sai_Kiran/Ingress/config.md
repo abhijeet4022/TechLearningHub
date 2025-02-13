@@ -55,6 +55,7 @@
 # Generate the Secret and store the key and cert
 - kubectl create secret tls nginx-tls-default --key="tls.key" --cert="tls.crt" -n ingress-nginx
 - kubectl describe secret nginx-tls-default -n ingress-nginx
+- kubectl describe secret nginx-tls-default -n ingress-nginx
 
 
 # Configure Ingress Controller - It will create the NetworkLoadBalancer as well in AWS.
