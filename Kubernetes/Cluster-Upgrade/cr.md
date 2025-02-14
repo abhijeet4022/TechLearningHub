@@ -131,3 +131,8 @@ eksctl delete cluster --name observability
 **Explanation:**
 - Deletes the `observability` cluster along with its associated resources (control plane and nodes).
 - Ensures cleanup of all resources associated with the cluster.
+
+
+# Add on
+`Amazon EKS Pod Identity Agent`
+`kubectl get pods -n kube-system | grep 'eks-pod-identity-agent'`
