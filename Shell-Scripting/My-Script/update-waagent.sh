@@ -11,7 +11,7 @@ sudo zypper info python-azure-agent
 
 # Install the latest package version
 echo "Installing the latest version of python-azure-agent..."
-sudo zypper install python-azure-agent -y
+sudo zypper install -y python-azure-agent
 
 # Ensure auto update is enabled by checking the configuration
 echo "Checking if auto update is enabled..."
