@@ -9,6 +9,8 @@ provisioner: kubernetes.io/aws-ebs
 parameters:
   type: gp2
   fsType: ext4
+reclaimPolicy: Delete  # Automatically deletes the volume when the PVC is deleted
+volumeBindingMode: WaitForFirstConsumer  # Wait until a pod is scheduled before creating the PV
 
 #Creating io storage class
 ---
@@ -21,3 +23,5 @@ parameters:
   type: io1
   iopsPerGB: "10"
   fsType: ext4
+reclaimPolicy: Retain  # Retain the volume when the PVC is deleted
+volumeBindingMode: WaitForFirstConsumer  # Wait until a pod is scheduled before creating the PV
