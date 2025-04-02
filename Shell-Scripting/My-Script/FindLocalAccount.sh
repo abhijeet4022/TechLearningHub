@@ -3,6 +3,7 @@
 # Get the hostname
 hostname=$(hostname)
 # Define the output file
+mount /mnt/syslog17logs
 output_file="/mnt/syslog17logs/localaccount/$(hostname)_local_account.csv"
 
 # Add header to CSV
