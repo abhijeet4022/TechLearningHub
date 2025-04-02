@@ -15,5 +15,3 @@ awk -F: -v host="$hostname" '$3 >= 1000 && $7 == "/bin/bash" {print $1 "," $3 ",
 
 # Notify the user about the output file location
 echo "Results saved to $output_file"
-
-
