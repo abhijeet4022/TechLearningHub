@@ -51,26 +51,35 @@ du -sh *
 11. How to sort the biggest file from the current location?
 du . | sort -nr | head -n10
 
-12. When trying to unmount it is not umount, how to troubleshoot this one?
+12. When trying to unmount the filesystem it is not umounting, how to troubleshoot this one?
 If someone is accessing directory that we want to umount, it will not be umount. First we need to check:
-#fuser -cu <device name>
-#fuser -ck <mount point>
+#fuser -cu <device name> # Check users/processes
+#fuser -ck <mount point> to kill the user to access the mount point.
 Then we can umount the file system
 
 13. What are the different types of file systems supported in Linux?
 The Linux supported file systems are ext4, xfs, nfs, cifs, iso9660, vfat, cdfs, hdfs, etc.
 
-14. How to create partition?
+## 14. How to Create Partition?
+
+To create a partition using `fdisk`, follow these steps:
+```bash
 fdisk <device name>
-n (type n for new partition)
-p or e (type p for primary partition or type e for extended partition)
-first cylinder (press enter for default first cylinder)
-last cylinder: +<size in KB/MB/GB/TB>
-t (type to change the partition id)
-• Linux for 83
-• Swap for 82
-• LVM for 8e
-w (type w to save the changes into the disk)
+```
+### Step-by-step Instructions:
+
+1. **Type `n`** to create a new partition.
+2. **Choose `p` or `e`**:
+    * `p` for primary partition
+    * `e` for extended partition
+3. **First cylinder** – Press `Enter` to accept the default.
+4. **Last cylinder** – Enter size in `+<size>` format, e.g., `+1G`, `+500M`.
+5. **Type `t`** to change the partition type ID:
+    * `83` for Linux
+    * `82` for Swap
+    * `8e` for LVM
+6. **Type `w`** to write the changes and save to disk.
+
 
 15. How to mount file system temporarily and permanently?
 For temporarily mount:
@@ -103,16 +112,25 @@ If the size of the RAM is more than 2GB, then the size of the swap = 2GB+RAM siz
 20. How to see the swap size and RAM size?
 free -h
 
-21. How to create swap?
-First we need to disk or partition with hex code 82 for swap space
-After that make the file system for swap by using:
+## 21. How to Create Swap
+To create and enable a swap partition:
+### Steps:
+```bash
+# 1. Ensure partition is created with hex code 82 (Linux swap)
+# 2. Create the swap space
 mkswap <device name or partition name>
-Then activate the swap space by using:
+# 3. Enable the swap
 swapon <device name or partition name>
-Then open /etc/fstab for make an entry to permanent mount the swap partition in this file:
-<device name> <mount point> <file system type> <mount option> <take a backup> <fsck value>
-ex: /dev/sdb1 swap swap defaults 0 0
-Esc+:+wq!
+# 4. Add to /etc/fstab for persistent mount
+# Format:
+<device> swap swap defaults 0 0
+# Example:
+/dev/sdb1 swap swap defaults 0 0
+# 5. Mount the swap
+mont -a
+# Check the swap status
+swapon --show 
+```
 
 22. What is the file available to check the swap size?
 /proc/swaps
