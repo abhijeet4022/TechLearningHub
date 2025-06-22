@@ -1065,14 +1065,13 @@ Total Questions: 235+
 Categories: 9 main categories
 Last Updated: 2025
 
-Linux System Administration Q&A Documentation - Part 2
+# Linux System Administration Q\&A Documentation - Part 2
 ===========================================================
 
-ADDITIONAL QUESTIONS & ANSWERS
-===============================
+## ADDITIONAL QUESTIONS & ANSWERS
 
-TABLE OF CONTENTS
-==================
+### TABLE OF CONTENTS
+
 1. System Management & Operations
 2. ITIL & Service Management
 3. Cloud & Virtualization
@@ -1080,235 +1079,235 @@ TABLE OF CONTENTS
 5. Troubleshooting
 6. File System Management
 
-===========================================================
+---
 
-SYSTEM MANAGEMENT & OPERATIONS
-===============================
+## SYSTEM MANAGEMENT & OPERATIONS
 
-1. What is Downtime?
+**1. What is Downtime?**
 Downtime is the time when production is stopped for planned maintenance.
 
-2. What is decommission and recommission?
+**2. What is decommission and recommission?**
 Decommission means the process of removing/deleting old system/server from the production environment and
 Recommission/Provisioning means the process of putting/creating the new system into the production environment.
 
-===========================================================
+---
 
-ITIL & SERVICE MANAGEMENT
-==========================
+## ITIL & SERVICE MANAGEMENT
 
-3. What is SLA?
-SLA stands for Service Level Agreement is a commitment between service provider and client. Like: service quality, availability, responsibilities.
+**3. What is SLA?**
+SLA stands for Service Level Agreement. It is a commitment between service provider and client. Like: service quality, availability, responsibilities.
 
-Priority Response and Recovery Availability:
-Priority Code | Description | Target Response Time | Target Resolution
-     1        |   Critical  |     15-30 Min        |    4 hours
-     2        |    High     |     1 hours          |    8 hours
-     3        |   Medium    |     4 hours          |  3 Business days
-     4        |    Low      |    24 hours          |  5 Business days
+**Priority Response and Recovery Availability:**
 
-4. What is ITIL process?
+| Priority Code | Description | Target Response Time | Target Resolution |
+| ------------- | ----------- | -------------------- | ----------------- |
+| 1             | Critical    | 15-30 Min            | 4 hours           |
+| 2             | High        | 1 hour               | 8 hours           |
+| 3             | Medium      | 4 hours              | 3 Business days   |
+| 4             | Low         | 24 hours             | 5 Business days   |
+
+**4. What is ITIL process?**
 ITIL is a set of rules that provide the selection, planning, delivery, maintenance and overall lifecycle of IT service within a business.
 
-5. What is Incident management?
+**5. What is Incident management?**
 Incident management describes the necessary actions taken by an organization to analyze, identify and correct current problems, while taking actions that can prevent future incidents.
 
-6. What is incident?
+**6. What is incident?**
 Incident is an unexpected event that affects business operations. It starts with INT. Example: suddenly disk failed.
 
-7. What is change management?
-In ITIL change is "the addition" or removal of anything that could have a direct or indirect effect on service. It starts with CNG. For example: BIOS update.
+* Server is down
+* File system is full
+* Application is not working
 
-8. What is service request?
+**7. What is change management?**
+In ITIL, change is "the addition" or removal of anything that could have a direct or indirect effect on service. It starts with CNG. For example: BIOS update.
+
+* Patching
+* Disk Extension
+* Application Installation
+
+**8. What is service request?**
 A formal user request for something new to be provided is known as service-request. It starts with SR. For example: I need a new laptop.
 
-===========================================================
+* Server Provisioning
+* Server Decommissioning
 
-CLOUD & VIRTUALIZATION
-=======================
+---
 
-9. What is cloud?
+## CLOUD & VIRTUALIZATION
+
+**9. What is cloud?**
 Cloud provides on-demand compute power, storage, database, applications and other IT resources via the internet.
 
-10. What are the top companies that provide cloud services?
-1) AWS (Amazon Web Services) - Amazon
-2) Azure - Microsoft
-3) GCP (Google Cloud Platform) - Google
+**10. What are the top companies that provide cloud services?**
 
-11. What is Virtualization?
+1. AWS (Amazon Web Services) - Amazon
+2. Azure - Microsoft
+3. GCP (Google Cloud Platform) - Google
+
+**11. What is Virtualization?**
 Virtualization allows us to host multiple virtual machines (VM) on a single physical machine by splitting the host machine hardware resources.
 
-12. What is Hypervisor?
+**12. What is Hypervisor?**
 A hypervisor is software that creates and allows a host computer to support multiple guest VMs by virtually sharing its resources, such as memory and processing.
 
-13. What are applications available for virtualization?
-1) VMware Workstation (VMware)
-2) Virtual Box (Oracle)
+**13. What are applications available for virtualization?**
 
-14. What is KVM?
-KVM stands for Kernel-based Virtual Machine is a virtualization technology to run virtual machines in Linux operating system.
+1. VMware Workstation (VMware)
+2. Virtual Box (Oracle)
 
-===========================================================
+**14. What is KVM?**
+KVM stands for Kernel-based Virtual Machine. It is a virtualization technology to run virtual machines in Linux operating system.
 
-SYSTEM BOOT PROCESS
-====================
+---
 
-15. What is BIOS?
+## SYSTEM BOOT PROCESS
+
+**15. What is BIOS?**
 BIOS stands for Basic Input Output System. It performs some integrity checks, searches, loads and executes the boot loader program.
 Once the boot loader program is detected and loaded in the memory, BIOS gives the control to it. So in simple terms, BIOS loads and executes the MBR boot loader.
 
-16. How to check BIOS version?
-dmidecode -s bios-version
+**16. How to check BIOS version?**
+`dmidecode -s bios-version`
 
-17. What is kernel?
+**17. What is kernel?**
 Kernel is the heart of the operating system. It establishes relationship between hardware and software.
 
-18. How to check the kernel version?
-• uname -r
-• cat /proc/version
+**18. How to check the kernel version?**
 
-19. How to update kernel?
-yum update kernel
+* `uname -r`
+* `cat /proc/version`
 
-20. Is downtime required to update the kernel?
+**19. How to update kernel?**
+`yum update kernel`
+
+**20. Is downtime required to update the kernel?**
 Yes, because after updating the kernel version we have to restart the system.
 
-===========================================================
+---
 
-TROUBLESHOOTING
-================
+## TROUBLESHOOTING
 
-21. How to Troubleshoot if a User is Not Able to Login
+**21. How to Troubleshoot if a User is Not Able to Login**
 When a user is unable to log in, check the following step by step:
-1. Check if /var or /usr is full
-   - Use: df -hT
-   - If /var is full, login can fail because logs, user sessions, and authentication tokens are written here.
-2. Check if the user’s password is expired
-   - Use: chage -l <username>
-   - If expired, reset the password using: passwd <username>
 
-3. Check if the user account is locked
-   - Use: passwd -S <username>
-   - If locked (shows 'L'), unlock using: usermod -U <username>
+1. **Check if /var or /usr is full**
 
-4. Check for /etc/hosts.deny restrictions
-   - Look for entries like 'sshd: <username>' or 'sshd: ALL'
+    * Use: `df -hT`
+    * If /var is full, login can fail because logs, user sessions, and authentication tokens are written here.
 
-5. Check if the user exists
-   - Use: id <username>
-   - If 'no such user', the account may not exist.
+2. **Check if the user’s password is expired**
 
-6. Check system logs
-   - Use: journalctl -xe or check /var/log/secure or /var/log/auth.log
+    * Use: `chage -l <username>`
+    * If expired, reset the password using: `passwd <username>`
 
-7. Also verify user is exist or not
+3. **Check if the user account is locked**
 
-22. How to Fix File System Full Issue ?
+    * Use: `passwd -S <username>`
+    * If locked (shows 'L'), unlock using: `usermod -U <username>`
+
+4. **Check for /etc/hosts.deny restrictions**
+
+    * Look for entries like `sshd: <username>` or `sshd: ALL`
+
+5. **Check if the user exists**
+
+    * Use: `id <username>`
+    * If 'no such user', the account may not exist.
+
+6. **Check system logs**
+
+    * Use: `journalctl -xe` or check `/var/log/secure` or `/var/log/auth.log`
+
+7. **Also verify user is exist or not**
+
+**22. How to Fix File System Full Issue?**
 When a file system becomes full on a Linux server, follow the steps below to investigate and resolve the issue.
 
-Step 1: Identify the Full File System
-Use the following command to check disk usage:  df -hT
-- This command shows mounted file systems, their types, and usage in human-readable format.
-- Identify which file system is 100% or nearly full.
+1. **Identify the Full File System**
 
-Step 2: Navigate to the Affected Mount Point
-Change directory to the mount point which is full: cd /path/to/full/mount
+    * Use: `df -hT`
+    * Identify which file system is 100% or nearly full.
 
-Step 3: Identify Large Files or Directories
-Use the following command to list space usage: du -sh * | sort -h
-- This shows disk usage by directory or file and helps identify what’s consuming the most space.
-To include hidden files: du -sh .[!.]* * | sort -h
+2. **Navigate to the Affected Mount Point**
 
-Step 4: Take Action to Free Up Space
-- Inform the respective user or team if the files belong to them.
-- If permitted, delete unnecessary files.
-- Compress large files using tools like gzip, xz, or tar if deletion is not an option.
-- Move files to another location or mounted volume with sufficient space.
+    * `cd /path/to/full/mount`
 
-Step 5: If Cleanup is Not Sufficient
-- Raise a request to extend the file system.
-- Get required approvals from stakeholders.
-- Create a Change Request (CR) following your organization’s change management process.
-- Schedule and perform the file system extension activity.
-===========================================================
+3. **Identify Large Files or Directories**
 
-FILE SYSTEM MANAGEMENT
-=======================
+    * `du -sh * | sort -h`
+    * To include hidden files: `du -sh .[!.]* * | sort -h`
 
-23. There is Free Space in Disk but User is Not Able to Create File in That File System, Why?
+4. **Take Action to Free Up Space**
+
+    * Inform respective user or team.
+    * Delete or compress unnecessary files.
+    * Move files to another location.
+
+5. **If Cleanup is Not Sufficient**
+
+    * Raise a request to extend file system.
+    * Get required approvals from stakeholders (Server and Application Owner).
+    * Create a Change Request (CR) following your organization’s change management process.
+    * Schedule and perform the file system extension activity.
+
+---
+
+## FILE SYSTEM MANAGEMENT
+
+**23. There is Free Space in Disk but User is Not Able to Create File in That File System, Why?**
 If the inode number is full on that file system, then we cannot create new files or directories even if there is free space available.
 
-Explanation:
+**Explanation:**
 Each file or directory on a Linux file system consumes an inode. Inodes store metadata about files (such as ownership, permissions, and location on disk). If all inodes are used up, the file system cannot accommodate any new files, regardless of the remaining disk space.
 
-How to Check Inode Usage of disk:
-Use the following command to check inode usage: df -i
-- This displays inode usage for each file system.
-- Look for 100% usage under the 'IUse%' column.
-Solution:
-- Identify and remove unnecessary small files consuming large number of inodes.
-- Archive or compress files where possible to reduce inode usage.
-- If inode exhaustion is frequent, consider reformatting the partition with a file system that supports more inodes, or adjust inode ratio during creation.
+**How to Check Inode Usage of disk:**
 
+* Use: `df -i`
+* Look for 100% usage under the 'IUse%' column.
 
-24. How to Fix if User is Not Able to Do SSH to AWS Server
+**Solution:**
+
+* Remove unnecessary small files.
+* Compress files.
+* Reformat with more inode support if needed.
+
+**24. How to Fix if User is Not Able to Do SSH to AWS Server**
 Follow these steps to troubleshoot SSH login issues to an AWS EC2 instance:
 
-1. Check Security Group Rules
-- Ensure port 22 is open to your IP or IP range.
+1. Check Security Group Rules (port 22 open)
+2. Check Network ACLs (inbound/outbound allow SSH)
+3. Verify SSH Key Pair (`chmod 400 your-key.pem`)
+4. Check SSH Command Format (`ssh -i your-key.pem ec2-user@<public-ip>`)
+5. Verify Instance Reachability (`ping` or `telnet <IP> 22`)
+6. Check if `/` or `/var` is full
+7. Validate `/etc/ssh/sshd_config`
+8. Use EC2 Instance Connect or Systems Manager
+9. Ask user to try SSH, monitor with: `journalctl -u sshd -f`
 
-2. Check Network ACLs (NACLs)
-- Confirm inbound and outbound rules allow SSH (port 22).
+**25. How to check inode number of files?**
+`ls -i`
 
-3. Verify SSH Key Pair
-- Ensure you're using the correct private key (.pem) that matches the instance's key pair.
-- Run: chmod 400 your-key.pem
+---
 
-4. Check SSH Command Format
-- Example: ssh -i your-key.pem ec2-user@<public-ip>
+## SUMMARY
 
-5. Verify Instance Reachability
-- Ping the instance or run: telnet <IP> 22
+This document contains 25 additional questions covering:
 
-6. Check OS-Level Issues
-- Ensure / or /var is not full.
-- Use EC2 serial console or SSM if SSH access is blocked.
+* System Management & Operations (2 questions)
+* ITIL & Service Management (6 questions)
+* Cloud & Virtualization (6 questions)
+* System Boot Process (6 questions)
+* Troubleshooting (2 questions)
+* File System Management (3 questions)
 
-7. Validate /etc/ssh/sshd_config
-- Ensure settings like PasswordAuthentication and PermitRootLogin are correct.
+These questions complement the main Linux System Administration Q\&A documentation and provide comprehensive coverage of advanced system administration topics.
 
-8. Use EC2 Instance Connect or AWS Systems Manager
-- Helpful for troubleshooting SSH issues when direct login fails.
+---
 
-9. Verify the log : Ask user to initiate the SSH and monitor the logs.
-- journalctl -u sshd -f
-
-
-24. How to check inode number of files?
-ls -i
-
-===========================================================
-
-SUMMARY
-=======
-
-This document contains 24 additional questions covering:
-- System Management & Operations (2 questions)
-- ITIL & Service Management (6 questions)
-- Cloud & Virtualization (6 questions)
-- System Boot Process (6 questions)
-- Troubleshooting (2 questions)
-- File System Management (2 questions)
-
-These questions complement the main Linux System Administration Q&A documentation and provide comprehensive coverage of advanced system administration topics.
-
-===========================================================
-
-END OF DOCUMENT
-================
-
-Total Additional Questions: 24
+**END OF DOCUMENT**
+Total Additional Questions: 25
 Categories: 6 main categories
 Last Updated: 2025
 
-This document serves as Part 2 of the comprehensive Linux System Administration Q&A series.
+This document serves as Part 2 of the comprehensive Linux System Administration Q\&A series.
