@@ -11,7 +11,7 @@ TABLE OF CONTENTS
 6. Process Management
 7. Job Scheduling
 8. Package Management
-9. NTT DATA Questions
+
 
 =====================================================
 
