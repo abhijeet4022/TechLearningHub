@@ -234,8 +234,8 @@ open /etc/fstab
 If normal linux partition is full and an application require some more disk space, then normal partition cannot be extended for that application requirement so in the situation we have to use lvm. Because we can easily extend the lvm and reduce the lvm.
 
 53. What is bash and shell?
-bash – bash is command language interpreter for GNU(GNU's not Unix) o/s.
-Shell: shell is an interactive interface that allows user to execute commands and utilities in linux o/s.
+Bash – bash (Bourne Again SHell) is a type of Unix shell and a command language interpreter. It is the default shell for many Linux distributions and is part of the GNU Project (GNU stands for "GNU's Not Unix").
+Shell: shell is an interactive interface that allows user to execute commands and utilities in linux o/s. Ex. BASh, SH, ZSH
 
 =====================================================
 
