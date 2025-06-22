@@ -1,0 +1,21 @@
+Q: Your EC2 has a public IP and the port is open in the security group, but it's unreachable. Why?
+
+A: Check the subnet’s network ACL. If inbound or outbound rules are blocking traffic, the security group won’t help. NACLs silently drop traffic with no message.
+
+Q: You shared an AMI with another AWS account, but they still can’t launch an instance from it. What’s usually missed?
+
+A: Sharing the AMI isn’t enough. You also need to share the associated EBS snapshot. Without that, the AMI looks valid but fails at launch.
+
+Q: You restored an RDS snapshot for staging, but some queries behave differently than production.
+
+A: When you restore from a snapshot, RDS assigns the default parameter group by default. Custom parameter groups from production are not restored automatically. If not manually reassigned, staging may run with different settings, leading to changes in query behavior or performance.
+
+Q: You enabled IAM roles for service accounts in EKS, but your pod can’t access S3. The role looks fine. What’s the catch?
+
+A: The pod must be using a service account with the right annotation linking to the IAM role. If the pod defaults to the default service account or the annotation is missing, the role doesn’t apply.
+
+Q: ALB is marking your targets as unhealthy, but hitting the app directly works fine.
+
+A: ALB health checks are strict. If your app returns a 301 or a login page without a clean 200 OK, it’ll fail the check even if the app seems fine in the browser.
+
+Q: You pushed a new image to ECR and updated your ECS task definition, but it still runs the old version.
