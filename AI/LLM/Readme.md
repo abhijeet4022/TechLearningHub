@@ -9,4 +9,4 @@ Transformer can convert any input to particular output. It can take any input an
 
 GPT Transformer will take the input and based on previous data it will generate the output. It is trained on large amounts of text data to learn patterns, grammar, and context, allowing it to perform tasks like translation, summarization, and conversation.
 
-# TO see the how token works -    https://tiktokenizer.vercel.app/
+# TO see the how token works (tokenization) -    https://tiktokenizer.vercel.app/
