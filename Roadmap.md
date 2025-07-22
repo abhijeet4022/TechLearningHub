@@ -1,0 +1,6 @@
+- Model Context Protocol MCP Server
+- AI Agent
+- AWS : Bedrock, Amazon Sagemaker, Amazon Q
+- MLOPS
+- Pthon
+- GCP
