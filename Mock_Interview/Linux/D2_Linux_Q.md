@@ -57,10 +57,13 @@
    * Steps:
 
      ```
-     swapoff -v /dev/mapper/vg0-swap
-     lvresize -L 8G /dev/mapper/vg0-swap
-     mkswap /dev/mapper/vg0-swap
-     swapon /dev/mapper/vg0-swap
+     free -h  # Check current swap space
+     cat /proc/swaps  # Verify swap devices
+     swapoff -v /dev/mapper/vg0-swap # Disable swap
+     lvresize -L 8G /dev/mapper/vg0-swap # Resize the logical volume
+     mkswap /dev/mapper/vg0-swap # Recreate the swap area
+     swapon /dev/mapper/vg0-swap # Enable the swap
+     swapon -s  # Verify the new swap space
      ```
 
 9. You are trying to create a file, but even though there is enough space, it fails. What could be the reasons?
