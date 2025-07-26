@@ -4,8 +4,6 @@
 
 ---
 
-## 👨‍💻 Candidate: Abhijeet Pramanik
-
 ### Topics Covered:
 
 * Linux (LVM, Cron, Boot Process, etc.)
