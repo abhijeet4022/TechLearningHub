@@ -248,4 +248,15 @@ You deployed a web app using Nginx, but when accessing the site, you get a 502 B
 
 ---
 
-How to check the current run level and user
+### 15. How do you create a new user and set a password?**
+
+* `useradd -m username`
+* `passwd username`
+
+---
+
+### 16. How to check the current run level and user?**
+* `who -r`
+* `whoami`
+
+---
