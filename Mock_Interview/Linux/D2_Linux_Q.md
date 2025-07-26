@@ -1,3 +1,5 @@
+**Linux Interview FAQs**
+
 1. What is the use case of /opt and /var/lib? Explain with one example.
 
    * `/opt` is used for installing third-party applications, For example, installing third-party software like Google Chrome or Splunk.
@@ -229,3 +231,15 @@
      ```
      chage -M 90 -W 14 -I 25 username
      ```
+38. Which file is responsible to carry the default values related to user password policy?
+
+   * `/etc/login.defs` – This file defines site-specific configuration for the shadow password suite. It includes default password aging and user ID control values such as:
+
+   ```
+   PASS_MAX_DAYS   90     # Maximum number of days a password is valid. After 90 days, the user must change the password.
+   PASS_MIN_DAYS   7      # Minimum number of days between password changes. Users can't change the password within 7 days of the last change.
+   PASS_WARN_AGE   14     # Number of days before password expiry that the user will be warned.
+   UID_MIN         1000   # Minimum UID for regular (non-system) user accounts.
+   UID_MAX         60000  # Maximum UID for regular user accounts.
+   ```
+   > These defaults are used when creating new users and enforcing password policies.
