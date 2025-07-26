@@ -246,3 +246,7 @@
    UID_MAX         60000  # Maximum UID for regular user accounts.
    ```
    > These defaults are used when creating new users and enforcing password policies.
+
+39. How do you find 30 days old a files in /tmp nad delete those files in Linux?**
+
+    * `find /tmp -type f -mtime +30 -exec rm -f {} \;`
