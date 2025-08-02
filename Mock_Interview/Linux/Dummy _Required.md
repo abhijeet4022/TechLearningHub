@@ -6,14 +6,3 @@
 * `find /path -name filename`
 * `locate filename` (requires `updatedb`)
 
-**12. How do you view the contents of a `.tar.gz` file without extracting it?**
-
-* `tar -tzf file.tar.gz`
-
-**10. How do you check which ports are listening?**
-
-* `ss -tuln` or `netstat -tuln`
-
-**6. How do you list all running processes?**
-
-* Use `ps aux` or `top` or `ps -u <user>`.

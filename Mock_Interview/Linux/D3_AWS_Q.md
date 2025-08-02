@@ -37,3 +37,111 @@
 35. How do you manage user SSH keys for multiple EC2 instances securely?
 36. How do you create a CloudWatch dashboard for a specific EC2 instance?
 37. What is Instance Metadata Service and how is it used inside EC2?
+
+
+## ☁️ AWS Questions & Answers
+
+### 7. **EC2 & EBS**
+
+A user reports they can’t SSH into an EC2 instance. What steps do you take to troubleshoot?
+
+**Answer:**
+
+* Check security group (port 22 allowed)
+* Check network ACL
+* Validate key pair used
+* Use EC2 serial console or Systems Manager if locked out
+
+---
+
+### 8. **S3**
+
+You need to allow access to a private S3 bucket only from a specific VPC. How would you implement that?
+
+**Answer:**
+Use S3 Bucket Policy with VPC condition and a VPC endpoint:
+
+```json
+{
+  "Condition": {
+    "StringEquals": {
+      "aws:SourceVpc": "vpc-xxxxxx"
+    }
+  }
+}
+```
+
+---
+
+### 9. **ELB & ASG**
+
+An EC2 in an ASG is marked as unhealthy and getting replaced. How do you investigate what’s going wrong?
+
+**Answer:**
+
+* Check ELB health check path and response (expect HTTP 200)
+* Ensure backend service is up and responding
+* Review logs: `/var/log/cloud-init.log`, `/var/log/messages`
+* Validate user-data script and app readiness
+
+---
+
+### 10. **IAM**
+
+Explain how IAM policies and roles differ. Also, how do you give an EC2 instance access to read an S3 bucket?
+
+**Answer:**
+
+* **IAM Role**: Assigned to resources; grants temporary permissions
+* **IAM Policy**: Defines permissions; can be attached to users, groups, roles
+
+To give EC2 S3 access:
+
+* Create IAM Role with S3 read policy
+* Attach the role to EC2 instance
+
+---
+
+### 11. **Route 53 & DNS**
+
+How does Route 53 work with multiple availability zones? What routing policy would you use for low-latency global access?
+
+**Answer:**
+
+* Route 53 routes to healthy AZs via ELB
+* Use **Latency-based routing** for best global performance
+
+---
+
+### 12. **Monitoring – CloudWatch, Prometheus, Grafana**
+
+You want to monitor disk usage across all EC2 instances and send alerts if it goes above 80%. How would you do that using CloudWatch and/or Prometheus-Grafana?
+
+**Answer:**
+**Using CloudWatch:**
+
+* Install CloudWatch Agent
+* Push `disk_used_percent` metric
+* Create alarm for `> 80%`
+
+**Using Prometheus + Grafana:**
+
+* Install node\_exporter
+* Create Grafana alert panel
+* Define PromQL rule: `node_filesystem_usage > 0.8`
+
+---
+
+### 13. **EFS vs EBS**
+
+What is the difference between EBS and EFS? When would you prefer one over the other?
+
+**Answer:**
+
+| Feature     | EBS                        | EFS                     |
+| ----------- | -------------------------- | ----------------------- |
+| Mount Type  | One EC2 (AZ-specific)      | Multiple EC2 (multi-AZ) |
+| Performance | Block storage, low latency | Scalable, shared FS     |
+| Use Case    | DB, OS disk, local storage | Shared access, NFS-like |
+
+---
