@@ -1,0 +1,1 @@
+“Hi Abhijeet, thank you for joining. Let's begin with a few technical questions related to your resume.”
