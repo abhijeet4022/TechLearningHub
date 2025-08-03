@@ -1,15 +1,4 @@
-# AWS and Linux Interview Questions with Answers (For 3+ Years Experience)
-
----
-
-### Topics Covered:
-
-* Linux (LVM, Cron, Boot Process, etc.)
-* AWS (EC2, ELB, S3, CloudWatch, etc.)
-
----
-
-## 🐧 Linux Questions & Answers
+# **Linux Interview FAQs**
 
 ### 1. **LVM**
 
@@ -196,7 +185,7 @@ logrotate -d /etc/logrotate.conf
 
 ### 5. **OS Patching**
 
-When you are planning to patch production servers. What are the steps you take before, during, and after patching?
+When you are planning to patch production servers. What are the steps you take before and after patching?
 
 **Answer:**
 **Before:**
@@ -204,12 +193,6 @@ When you are planning to patch production servers. What are the steps you take b
 * Notify stakeholders
 * Backup or snapshot
 * Check disk, memory, uptime
-
-**During:**
-
-* Use `dnf/yum update` or `apt upgrade`
-* Log output for review
-* Use SSM for patching in AWS.
 
 **After:**
 

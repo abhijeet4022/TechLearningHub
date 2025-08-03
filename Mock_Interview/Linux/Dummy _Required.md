@@ -6,3 +6,5 @@
 * `find /path -name filename`
 * `locate filename` (requires `updatedb`)
 
+Q. Suppose you are receiving lot of alert for CPU utilization on your Linux server. How do you troubleshoot this issue?
+
