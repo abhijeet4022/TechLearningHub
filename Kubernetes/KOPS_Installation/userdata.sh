@@ -64,6 +64,11 @@ echo -e "\n\e[32mInstalling kubens...\e[0m" | tee -a ${LOG_FILE}
 sudo curl -Lo /usr/local/bin/kubens.tar.gz https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens_v0.9.5_linux_x86_64.tar.gz &>> ${LOG_FILE}
 sudo tar -zxf /usr/local/bin/kubens.tar.gz -C /usr/local/bin/ &>> ${LOG_FILE}
 sudo rm -rf /usr/local/bin/LICENSE /usr/local/bin/kubens.tar.gz &>> ${LOG_FILE}
+
+##### For MAC#
+# curl -Lo /usr/local/bin/kubens.tar.gz https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens_v0.9.5_linux_arm64.tar.gz
+# tar -zxf /usr/local/bin/kubens.tar.gz -C /usr/local/bin/
+# rm -rf /usr/local/bin/LICENSE /usr/local/bin/kubens.tar.gz
 check_status
 
 # Download and install kubectx
