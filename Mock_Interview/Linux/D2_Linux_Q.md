@@ -2,10 +2,34 @@
 
 Q1. How to fix Application file system full issue?
 **Answer:**
-- Check disk usage with `df -h` and `du -sh /path/to/directory`.
-- Identify large files or directories using `du -ah /path | sort -rh | head -n 10`.
-- Clean up unnecessary files, logs, or backups.
-- If cleanup not possiable, increase the disk size or add a new disk after taking proper approval.
+When a file system becomes full on a Linux server, follow the steps below to investigate and resolve the issue.
+
+1. **Identify the Full File System**
+
+* Use: `df -hT`
+* Identify which file system is 100% or nearly full.
+
+2. **Navigate to the Affected Mount Point**
+
+* `cd /path/to/full/mount`
+
+3. **Identify Large Files or Directories**
+
+* `du -sh * | sort -h`
+* To include hidden files: `du -sh .[!.]* * | sort -h`
+
+4. **Take Action to Free Up Space**
+
+* Inform respective user or team.
+* Delete or compress unnecessary files.
+* Move files to another location.
+
+5. **If Cleanup is Not Sufficient**
+
+* Raise a request to extend file system.
+* Get required approvals from stakeholders (Server and Application Owner).
+* Create a Change Request (CR) following your organization’s change management process.
+* Schedule and perform the file system extension activity.
 
 Q2. You're running out of space on /var, which is an LVM volume. Walk me through the steps to increase the size of /var by 5GB. Assume a new disk /dev/xvdf is attached.
 **Answer:**
@@ -464,33 +488,3 @@ Q25. How can you ensure the services that were running before patching are still
 `systemctl list-units --type=service --state=running > /root/running-services-after.txt`
 Compare both lists: `diff /root/running-services-before.txt /root/running-services-after.txt`
 # This will show which services are missing, added, or unchanged.
-
-Q26. How to Fix File System Full Issue?
-When a file system becomes full on a Linux server, follow the steps below to investigate and resolve the issue.
-
-1. **Identify the Full File System**
-
-  * Use: `df -hT`
-  * Identify which file system is 100% or nearly full.
-
-2. **Navigate to the Affected Mount Point**
-
-  * `cd /path/to/full/mount`
-
-3. **Identify Large Files or Directories**
-
-  * `du -sh * | sort -h`
-  * To include hidden files: `du -sh .[!.]* * | sort -h`
-
-4. **Take Action to Free Up Space**
-
-  * Inform respective user or team.
-  * Delete or compress unnecessary files.
-  * Move files to another location.
-
-5. **If Cleanup is Not Sufficient**
-
-  * Raise a request to extend file system.
-  * Get required approvals from stakeholders (Server and Application Owner).
-  * Create a Change Request (CR) following your organization’s change management process.
-  * Schedule and perform the file system extension activity.
