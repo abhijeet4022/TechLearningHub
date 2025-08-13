@@ -104,7 +104,7 @@ Audio ───▶ [Audio Encoder (Whisper, etc)]┤
                         Text / Image / Audio Output
 
 ```
-Step-by-step:
+### Step-by-step:
     1. Text input → Goes through a tokenizer to turn words into tokens.
     2. Image input → Goes through a vision encoder to turn pixels into embeddings (token-like vectors).
     3. Audio input → Goes through an audio encoder to turn sound waves into embeddings.
