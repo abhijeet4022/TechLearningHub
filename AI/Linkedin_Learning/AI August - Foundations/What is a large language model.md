@@ -45,12 +45,13 @@ LLM (Large Language Model)
 
 
 - Most of the tech gaints are offering atleast one LLM
-  * OpenAI: GPT - ChatGPT
-  * Google: Bard, LaMDA and PaLM - Bard Chatbot
-  * Meta: LLaMA 
-  * Anthropic: Claude
-  * Hugging Face: Bloom
-  * NVIDIA: NeMo
+  * OpenAI → GPT series (GPT-3.5, GPT-4, GPT-4o, GPT-5) — used in ChatGPT
+  * Google → Bard (now rebranded as part of Gemini), LaMDA, and PaLM — used in Bard/Gemini chatbot
+  * Meta → LLaMA (LLaMA 1, 2, and 3) — open for research & commercial use
+  * Anthropic → Claude (Claude 1, 2, and 3) — safety-focused conversational AI (Claude Chat)
+  * Hugging Face → BLOOM — large open-source multilingual LLM
+  * NVIDIA → NeMo — framework and collection of LLMs for customization and deployment
+  * xAI → Grok series (Grok-1 to Grok-4) — used in Grok Chat
 
 ## LLM usually means text-only, but when a model can handle images, voice, and other inputs, it’s called a Multimodal Model.
 
