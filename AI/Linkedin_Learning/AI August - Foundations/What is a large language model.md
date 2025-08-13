@@ -69,23 +69,18 @@ LLM (Large Language Model)
         * GPT-4o → can take text, images, and voice.
         * Gemini 1.5 → can handle text + images.
         * Claude 3 with vision → can interpret images.
-in the backend, whether it’s a plain text LLM or a fancy multimodal AI, the Transformer architecture is still the core engine.
 
-But for multimodal models, it’s not only a transformer — there are often extra components to handle non-text data before it reaches the LLM part.
+* In the backend, whether it’s a plain text LLM or a fancy multimodal AI, the Transformer architecture is still the core engine.  But for multimodal models, it’s not only a transformer — there are often extra components to handle non-text data before it reaches the LLM part.
 
-How it works under the hood
-Text input → Goes straight into the transformer-based LLM.
+### How it works under the hood
+    1. Text input → Goes straight into the transformer-based LLM.
+    2. Image input → First goes through a vision encoder (often a Vision Transformer, ViT, or CNN) to turn the image into a sequence of tokens.
+    3. Audio input → Goes through an audio encoder (can be based on transformers, like Whisper, or other architectures) to convert sound into tokens.
+    4. All tokens (from text, image, audio) are fed into the same main transformer so the model can reason about them together.
 
-Image input → First goes through a vision encoder (often a Vision Transformer, ViT, or CNN) to turn the image into a sequence of tokens.
-
-Audio input → Goes through an audio encoder (can be based on transformers, like Whisper, or other architectures) to convert sound into tokens.
-
-All tokens (from text, image, audio) are fed into the same main transformer so the model can reason about them together.
-
-Key point
-For pure LLMs (like GPT-3 or LLaMA 2), it’s just a transformer that works with text tokens.
-
-For multimodal models (like GPT-4o, Gemini, Claude with vision), the transformer is still the brain, but it’s paired with special encoders for each type of data.
+### Key point
+    * For pure LLMs (like GPT-3 or LLaMA 2), it’s just a transformer that works with text tokens.
+    * For multimodal models (like GPT-4o, Gemini, Claude with vision), the transformer is still the brain, but it’s paired with special encoders for each type of data.
 
 ## Here’s a simple backend flow diagram showing how a multimodal model processes different types of inputs before the Transformer LLM brain does the reasoning:
 ```mermaid
@@ -110,13 +105,9 @@ Audio ───▶ [Audio Encoder (Whisper, etc)]┤
 
 ```
 Step-by-step:
+    1. Text input → Goes through a tokenizer to turn words into tokens.
+    2. Image input → Goes through a vision encoder to turn pixels into embeddings (token-like vectors).
+    3. Audio input → Goes through an audio encoder to turn sound waves into embeddings.
+    4. All embeddings meet inside the Transformer (the actual LLM brain).
+    5. Output decoder converts the model’s predictions back into human-readable form — text, image, or audio.
 
-Text input → Goes through a tokenizer to turn words into tokens.
-
-Image input → Goes through a vision encoder to turn pixels into embeddings (token-like vectors).
-
-Audio input → Goes through an audio encoder to turn sound waves into embeddings.
-
-All embeddings meet inside the Transformer (the actual LLM brain).
-
-Output decoder converts the model’s predictions back into human-readable form — text, image, or audio.
