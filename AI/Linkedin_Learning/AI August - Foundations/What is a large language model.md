@@ -4,7 +4,7 @@
 - GPT - Generative Pre-trained Transformer is a type of LLM Model developed by OpenAI. It uses a transformer architecture to process and generate text, making it capable of understanding context and generating coherent responses.
 
 # What transformer does
-- Transformer can convert any input to particular output. It can take any input and convert it to a particular output. For example, it can take a sentence in one language and convert it to another language, or it can take a question and generate an answer.
+- Transformer (Made by Google) can convert any input to particular output. It can take any input and convert it to a particular output. For example, it can take a sentence in one language and convert it to another language, or it can take a question and generate an answer.
 
 - GPT Transformer will take the input and based on previous data it will generate the output. It is trained on large amounts of text data to learn patterns, grammar, and context, allowing it to perform tasks like translation, summarization, and conversation.
 ```mermaid
@@ -111,3 +111,6 @@ Audio ───▶ [Audio Encoder (Whisper, etc)]┤
     4. All embeddings meet inside the Transformer (the actual LLM brain).
     5. Output decoder converts the model’s predictions back into human-readable form — text, image, or audio.
 
+
+# What is a Prompt?
+* Input provided by user to guide the output of a LLM is called a prompt. It can be a question, instruction, code, or any text that helps the model understand what you want it to do. LLM also can do Math and process logic.
