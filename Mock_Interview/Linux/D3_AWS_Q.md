@@ -38,7 +38,6 @@
 36. How do you create a CloudWatch dashboard for a specific EC2 instance?
 37. What is Instance Metadata Service and how is it used inside EC2?
 
-
 ## ☁️ AWS Questions & Answers
 
 ### 7. **EC2 & EBS**
