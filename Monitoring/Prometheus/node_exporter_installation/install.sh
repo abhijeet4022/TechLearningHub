@@ -17,7 +17,7 @@ FILENAME=$(echo $URL | awk -F / '{print $NF}')
 DIRNAME=$(echo $FILENAME | sed -e 's/.tar.gz//')
 
 echo -e "\e[1;32mCopying Service file\e[0m"
-cp ./prometheus.service /etc/systemd/system/node_exporter.service
+cp ./node_exporter.service /etc/systemd/system/node_exporter.service
 
 cd /opt
 curl -s -L -O $URL
