@@ -16,11 +16,18 @@ DIRNAME=$(echo $FILENAME | sed -e 's/.tar.gz//')
 
 cp ./prometheus.service /etc/systemd/system/prometheus.service
 
+#cd /opt
+#curl -L -s -O https://github.com/prometheus/prometheus/releases/download/v3.9.1/prometheus-3.9.1.linux-amd64.tar.gz
+#curl -s -L -O $URL
+#tar -xf $FILENAME
+#rm -f $FILENAME
+#mv $DIRNAME prometheus
+
 cd /opt
-curl -s -L -O $URL
-tar -xf $FILENAME
-rm -f $FILENAME
-mv $DIRNAME prometheus
+curl -L -s -O https://github.com/prometheus/prometheus/releases/download/v3.9.1/prometheus-3.9.1.linux-amd64.tar.gz
+tar -xf  prometheus-3.9.1.linux-amd64.tar.gz
+rm -rf prometheus-3.9.1.linux-amd64.tar.gz
+mv prometheus-3.9.1.linux-amd64 prometheus
 
 
 systemctl enable prometheus
