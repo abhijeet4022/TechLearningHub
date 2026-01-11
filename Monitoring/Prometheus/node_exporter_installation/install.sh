@@ -5,27 +5,37 @@ if [ $(id -u) -ne 0 ]; then
   exit 1
 fi
 
+
 if [ -d /opt/node_exporter ]; then
   systemctl enable node_exporter
   systemctl start node_exporter
   exit 0
 fi
 
-URL=$(curl -L -s https://prometheus.io/download/  | grep tar | grep node_exporter | grep linux-amd64  | sed -e "s|>| |g" -e 's|<| |g' -e 's|"| |g' |xargs -n1 | grep ^http | head -1)
-
-FILENAME=$(echo $URL | awk -F / '{print $NF}')
-DIRNAME=$(echo $FILENAME | sed -e 's/.tar.gz//')
+#URL=$(curl -L -s https://prometheus.io/download/  | grep tar | grep node_exporter | grep linux-amd64  | sed -e "s|>| |g" -e 's|<| |g' -e 's|"| |g' |xargs -n1 | grep ^http | head -1)
+#
+#FILENAME=$(echo $URL | awk -F / '{print $NF}')
+#DIRNAME=$(echo $FILENAME | sed -e 's/.tar.gz//')
 
 echo -e "\e[1;32mCopying Service file\e[0m"
 cp ./node_exporter.service /etc/systemd/system/node_exporter.service
 
+#cd /opt
+#curl -s -L -O $URL
+#tar -xf $FILENAME
+#rm -f $FILENAME
+#mv $DIRNAME node_exporter
+
+echo -e "\e[1;32mDownloading Node Exporter package\e[0m"
 cd /opt
-curl -s -L -O $URL
-tar -xf $FILENAME
-rm -f $FILENAME
-mv $DIRNAME node_exporter
+curl -s -L -O https://github.com/prometheus/node_exporter/releases/download/v1.10.2/node_exporter-1.10.2.linux-amd64.tar.gz
 
+echo -e "\e[1;32mExtracting Node Exporter package\e[0m"
+tar -xf node_exporter-1.10.2.linux-amd64.tar.gz
+rm -rf node_exporter-1.10.2.linux-amd64.tar.gz
+mv  node_exporter-1.10.2.linux-amd64 node_exporter
 
+echo -e "\e[1;32mStarting Node Exporter service\e[0m"
 systemctl enable node_exporter
 systemctl restart node_exporter
 if [ $? -eq 0 ]; then
