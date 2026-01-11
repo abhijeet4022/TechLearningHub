@@ -15,6 +15,7 @@ fi
 #FILENAME=$(echo $URL | awk -F / '{print $NF}')
 #DIRNAME=$(echo $FILENAME | sed -e 's/.tar.gz//')
 
+echo "Copying Prometheus service file"
 cp ./prometheus.service /etc/systemd/system/prometheus.service
 
 #cd /opt
@@ -25,12 +26,13 @@ cp ./prometheus.service /etc/systemd/system/prometheus.service
 #mv $DIRNAME prometheus
 
 cd /opt
+echo -e "\e[1;32mDownload Prometheus package\e[0m"
 curl -L -s -O https://github.com/prometheus/prometheus/releases/download/v3.9.1/prometheus-3.9.1.linux-amd64.tar.gz
 tar -xf  prometheus-3.9.1.linux-amd64.tar.gz
 rm -rf prometheus-3.9.1.linux-amd64.tar.gz
 mv prometheus-3.9.1.linux-amd64 prometheus
 
-
+echo -e "\e[1;32mStarting Prometheus service\e[0m"
 systemctl enable prometheus
 systemctl restart prometheus
 if [ $? -eq 0 ]; then
