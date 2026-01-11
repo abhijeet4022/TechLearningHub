@@ -11,9 +11,9 @@ if [ -d /opt/prometheus ]; then
 fi
 
 # URL=$(curl -L -s https://prometheus.io/download/  | grep tar | grep prometheus- | grep linux-amd64  | sed -e "s|>| |g" -e 's|<| |g' -e 's|"| |g' |xargs -n1 | grep ^http | tail -1)
-URL=$(https://github.com/prometheus/prometheus/releases/download/v3.9.1/prometheus-3.9.1.linux-amd64.tar.gz)
-FILENAME=$(echo $URL | awk -F / '{print $NF}')
-DIRNAME=$(echo $FILENAME | sed -e 's/.tar.gz//')
+#URL=$(https://github.com/prometheus/prometheus/releases/download/v3.9.1/prometheus-3.9.1.linux-amd64.tar.gz)
+#FILENAME=$(echo $URL | awk -F / '{print $NF}')
+#DIRNAME=$(echo $FILENAME | sed -e 's/.tar.gz//')
 
 cp ./prometheus.service /etc/systemd/system/prometheus.service
 
