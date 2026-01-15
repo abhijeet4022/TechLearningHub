@@ -35,5 +35,5 @@ if [[ "$STATUS" == "Enforcing" || "$STATUS" == "Permissive" ]]; then
     echo -e "\e[33mA reboot is required for permanent changes to take effect.\e[0m"
 
 else
-    echo -e "${GREEN}[INFO] SELinux is already disabled.${NC}"
+    echo -e "${GREEN}[INFO] SELinux is already disabled no action required.${NC}"
 fi
