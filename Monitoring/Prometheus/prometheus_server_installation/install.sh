@@ -48,6 +48,7 @@ echo -e "\e[1;32mRenaming Prometheus directory\e[0m"
 mv prometheus-3.9.1.linux-amd64 prometheus
 
 echo -e "\e[1;32mStarting Prometheus service\e[0m"
+systemctl daemon-reload
 systemctl enable prometheus
 systemctl restart prometheus
 if [ $? -eq 0 ]; then

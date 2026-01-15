@@ -41,6 +41,7 @@ rm -rf node_exporter-1.10.2.linux-amd64.tar.gz
 mv  node_exporter-1.10.2.linux-amd64 node_exporter
 
 echo -e "\e[1;32mStarting Node Exporter service\e[0m"
+systemctl daemon-reload
 systemctl enable node_exporter
 systemctl restart node_exporter
 if [ $? -eq 0 ]; then
