@@ -1,7 +1,8 @@
 #!/bin/bash
 
-GREEN='\e[32m'
+YELLOW='\e[33m'
 NC='\e[0m'
+GREEN='\e[32m'
 
 # Ensure script is run as root
 if [[ $EUID -ne 0 ]]; then
@@ -18,7 +19,7 @@ fi
 
 STATUS=$(getenforce)
 
-echo -e "\e[33mCurrently SELinux status: $STATUS\e[0m"
+echo -e "${YELLOW}[WARN] Current SELinux status: $STATUS${NC}"
 
 if [[ "$STATUS" == "Enforcing" || "$STATUS" == "Permissive" ]]; then
     echo -e "\e[31mDisabling SELinux at runtime...\e[0m"
@@ -34,5 +35,5 @@ if [[ "$STATUS" == "Enforcing" || "$STATUS" == "Permissive" ]]; then
     echo -e "\e[33mA reboot is required for permanent changes to take effect.\e[0m"
 
 else
-    echo -e "${GREEN}[INFO]${NC} SELinux is already disabled."
+    echo -e "${GREEN}[INFO] SELinux is already disabled.${NC}"
 fi
