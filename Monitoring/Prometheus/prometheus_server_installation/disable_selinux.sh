@@ -22,7 +22,7 @@ STATUS=$(getenforce)
 echo -e "${YELLOW}[WARN] Current SELinux status: $STATUS${NC}"
 
 if [[ "$STATUS" == "Enforcing" || "$STATUS" == "Permissive" ]]; then
-    echo -e "\e[31mDisabling SELinux at runtime...\e[0m"
+    echo -e "\e[31m[INFO] Disabling SELinux at runtime...\e[0m"
     setenforce 0
     ## "Disabling SELinux permanently in /etc/selinux/config..."
     if [[ -f /etc/selinux/config ]]; then
@@ -31,8 +31,8 @@ if [[ "$STATUS" == "Enforcing" || "$STATUS" == "Permissive" ]]; then
         echo "SELINUX=disabled" > /etc/selinux/config
     fi
 
-    echo -e "\e[32mSELinux has been disabled.\e[0m"
-    echo -e "\e[33mA reboot is required for permanent changes to take effect.\e[0m"
+    echo -e "\e[32m[INFO] SELinux has been disabled.\e[0m"
+    echo -e "\e[33mA[WARN] reboot is required for permanent changes to take effect.\e[0m"
 
 else
     echo -e "${GREEN}[INFO] SELinux is already disabled no action required.${NC}"
