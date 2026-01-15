@@ -28,6 +28,10 @@ cp ./prometheus.service /etc/systemd/system/prometheus.service
 #rm -f $FILENAME
 #mv $DIRNAME prometheus
 
+## Calling the disable_selinux.sh script to disable SELinux
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+bash "$SCRIPT_DIR/disable_selinux.sh"
+
 echo -e "\e[1;32mChange Prometheus directories\e[0m"
 cd /opt
 
@@ -42,10 +46,6 @@ rm -rf prometheus-3.9.1.linux-amd64.tar.gz
 
 echo -e "\e[1;32mRenaming Prometheus directory\e[0m"
 mv prometheus-3.9.1.linux-amd64 prometheus
-
-## Calling the disable_selinux.sh script to disable SELinux
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-bash "$SCRIPT_DIR/disable_selinux.sh"
 
 echo -e "\e[1;32mStarting Prometheus service\e[0m"
 systemctl enable prometheus
