@@ -9,6 +9,7 @@ fi
 if [ -d /opt/node_exporter ]; then
   systemctl enable node_exporter
   systemctl start node_exporter
+  echo -e "\e[1;32mNode Exporter already running\e[0m"
   exit 0
 fi
 
