@@ -26,6 +26,10 @@ cp ./node_exporter.service /etc/systemd/system/node_exporter.service
 #rm -f $FILENAME
 #mv $DIRNAME node_exporter
 
+## Calling the disable_selinux.sh script to disable SELinux
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+bash "$SCRIPT_DIR/disable_selinux.sh"
+
 echo -e "\e[1;32mDownloading Node Exporter package\e[0m"
 cd /opt
 curl -s -L -O https://github.com/prometheus/node_exporter/releases/download/v1.10.2/node_exporter-1.10.2.linux-amd64.tar.gz
