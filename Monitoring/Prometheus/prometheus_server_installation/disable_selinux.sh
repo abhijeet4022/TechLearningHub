@@ -1,5 +1,8 @@
 #!/bin/bash
 
+GREEN='\e[32m'
+NC='\e[0m'
+
 # Ensure script is run as root
 if [[ $EUID -ne 0 ]]; then
     echo "This script must be run as root."
@@ -31,5 +34,5 @@ if [[ "$STATUS" == "Enforcing" || "$STATUS" == "Permissive" ]]; then
     echo -e "\e[33mA reboot is required for permanent changes to take effect.\e[0m"
 
 else
-    echo -e "\e[32mSELinux is already disabled.\e[0m"
+    echo -e "${GREEN}[INFO]${NC} SELinux is already disabled."
 fi
