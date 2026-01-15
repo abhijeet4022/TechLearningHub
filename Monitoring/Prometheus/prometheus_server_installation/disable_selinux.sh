@@ -18,7 +18,7 @@ fi
 
 STATUS=$(getenforce)
 
-echo -e "\e[33mCurrent SELinux status: $STATUS\e[0m"
+echo -e "\e[33mCurrently SELinux status: $STATUS\e[0m"
 
 if [[ "$STATUS" == "Enforcing" || "$STATUS" == "Permissive" ]]; then
     echo -e "\e[31mDisabling SELinux at runtime...\e[0m"
