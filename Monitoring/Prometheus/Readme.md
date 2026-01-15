@@ -101,4 +101,8 @@ groups:
 * Total Request
 `nginx_http_requests_total` - Stat
 `rate(nginx_http_requests_total[1m])` - TimeSeries
+
+## Disk Utilization
+* To Calculate Used Disk Percentage.
+  `100 * (1 - (node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}))`
   
