@@ -193,6 +193,21 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 
 sudo chmod 600 /etc/ssl/private/mgt.key
 
+## #######################Temp##############################
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/mgt.key \
+  -out /etc/ssl/certs/mgt.crt \
+  -subj "/C=IN/ST=Karnataka/L=Banglore/O=Org/CN=test.mgt.com" \
+  -addext "subjectAltName=DNS:test.mgt.com,DNS:pma.mgt.com"
+
+# Verify the certificate
+openssl x509 -in /etc/ssl/certs/mgt.crt -text -noout
+
+# Set proper permissions
+sudo chmod 600 /etc/ssl/private/mgt.key
+sudo chmod 644 /etc/ssl/certs/mgt.crt
+######################################################
+
 
 # \=\=\= 18) NGINX HTTPS server blocks + HTTP->HTTPS redirect \=\=\=
 # HTTPS terminates on NGINX (443). HTTP (80) goes to Varnish, which goes to NGINX:8080.
@@ -219,6 +234,39 @@ server {
 EOF
 
 sudo ln -sf /etc/nginx/sites-available/test.mgt.com-ssl /etc/nginx/sites-enabled/test.mgt.com-ssl
+
+
+################################
+# 1) Remove upstream from both vhosts and recreate them cleanly
+sudo tee /etc/nginx/sites-available/test.mgt.com >/dev/null <<'EOF'
+server {
+  listen 8080;
+  server_name test.mgt.com;
+
+  set $MAGE_ROOT /var/www/magento2;
+  include /var/www/magento2/nginx.conf.sample;
+}
+EOF
+
+sudo tee /etc/nginx/sites-available/test.mgt.com-ssl >/dev/null <<'EOF'
+server {
+  listen 443 ssl;
+  server_name test.mgt.com;
+
+  include /etc/nginx/snippets/mgt-selfsigned.conf;
+
+  set $MAGE_ROOT /var/www/magento2;
+  include /var/www/magento2/nginx.conf.sample;
+}
+EOF
+
+# 2) Define upstream globally once
+sudo tee /etc/nginx/conf.d/fastcgi_backend.conf >/dev/null <<'EOF'
+upstream fastcgi_backend {
+  server unix:/run/php/php8.3-fpm-magento.sock;
+}
+EOF
+###############################
 
 sudo nginx -t
 sudo systemctl reload nginx
@@ -274,4 +322,14 @@ sudo chown -R test-ssh:clp /var/www/magento2
 # SERVER_PUBLIC_IP pma.mgt.com
 #
 # If testing locally on the server only:
-# echo "127.0.0.1 test.mgt.com pma.mgt.com" | sudo tee -a /etc/hosts
+echo "127.0.0.1 test.mgt.com pma.mgt.com" | sudo tee -a /etc/hosts
+
+
+
+What you should have at the end
+https://test.mgt.com served by NGINX on 443 (self-signed cert).
+http://test.mgt.com served by Varnish on 80 (backend NGINX on 8080).
+http://pma.mgt.com served by NGINX on 8081 (you can later add SSL similarly).
+Magento uses Redis for cache (db 0) and sessions (db 1).
+Magento search engine points to Elasticsearch on 127.0.0.1:9200.
+Magento files owned by test-ssh:clp, NGINX runs as test-ssh, PHP-FPM pool runs as test-ssh:clp.
