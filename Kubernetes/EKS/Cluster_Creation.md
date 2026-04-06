@@ -69,8 +69,16 @@ You need a VPC with subnets in at least **two Availability Zones**.
 
 Recommended design:
 
-- **Private subnets** → for worker nodes
+- **Private subnets** → commonly used for worker nodes and cluster-related private networking
 - **Public subnets** → optional, usually for internet-facing load balancers or NAT routing
+
+**Important clarification:**
+- During **cluster creation**, you select subnets that are associated with the **EKS cluster**.
+- These subnets are used by EKS to place **control plane ENIs** inside your VPC.
+- During **node group creation**, you select the subnets where the **worker nodes (EC2 instances)** will be launched.
+- In many environments the same private subnets are used for both, but conceptually:
+  - **cluster subnets** = for EKS cluster networking/control plane ENIs
+  - **node group subnets** = where worker nodes are launched
 
 **What should already exist:**
 - 1 VPC
@@ -597,30 +605,20 @@ Networking is one of the most important areas in EKS because a wrong selection h
 - VPC name: `vpc-prod-eks-main`
 - VPC CIDR: `10.10.0.0/16`
 
-**Service involved:**
-- **Amazon VPC**
-
 ---
 
 ### 7.2 Subnets
 
 **What it is:**
-- The subnets that EKS uses for cluster networking.
+- The subnets associated with the **EKS cluster** inside your VPC.
 
 **Why it matters:**
+- EKS uses these subnets for **cluster networking** and to place **EKS control plane ENIs** in your VPC.
 - EKS requires subnet placement across multiple AZs for high availability.
 
 **Best practice:**
 - Select subnets from at least **two Availability Zones**.
-- Prefer **private subnets** for worker nodes.
-
-**Important notes:**
-- Public subnets are not usually recommended for worker nodes in production.
-- Ensure enough free IP addresses are available.
-- IP exhaustion is a common problem in EKS.
-
-**Recommendation:**
-- Use 2 or 3 private subnets across different AZs.
+- In most production designs, use **private subnets**.
 
 **What you fill in the console:**
 - select the subnet IDs to associate with the cluster
@@ -638,9 +636,18 @@ Networking is one of the most important areas in EKS because a wrong selection h
 **Service involved:**
 - **Amazon VPC**
 
+**Important clarification:**
+- These subnets are selected at the **cluster level**.
+- They are primarily the subnets EKS associates with the cluster for control plane connectivity inside your VPC.
+- They do **not by themselves** define where worker nodes are launched.
+- Worker node placement is chosen later in **`11.8 Subnets for node group`**.
+
 **Operational note:**
-- worker nodes are commonly launched in private subnets
-- public subnets are often used for internet-facing load balancers, not for production worker nodes
+- In many real environments, the same private subnets are used for both:
+  - cluster-associated subnets
+  - worker node group subnets
+- But from a configuration point of view, the **node group subnet selection** is what decides where worker nodes are actually launched.
+- Public subnets are often used for internet-facing load balancers, not for production worker nodes.
 
 ---
 
@@ -1344,13 +1351,18 @@ Usually you fill:
 ### 11.8 Subnets for node group
 
 **What it is:**
-- The subnets where worker nodes will be launched.
+- The subnets where the **worker nodes (EC2 instances)** in the node group will actually be launched.
 
 **Recommendation:**
 - Use **private subnets** for production nodes.
 
 **What you fill in the console:**
 - subnet IDs for the node group
+
+**Important clarification:**
+- This is the setting that decides actual **worker node placement**.
+- Even if the cluster was associated with certain subnets during cluster creation, the worker nodes are launched in the subnets selected here for the node group.
+- These may be the same subnets used during cluster creation, which is very common.
 
 **Example values:**
 - `subnet-prod-eks-private-a`
