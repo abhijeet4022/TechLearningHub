@@ -631,10 +631,6 @@ Networking is one of the most important areas in EKS because a wrong selection h
 **Example values:**
 - `subnet-prod-eks-private-a`
 - `subnet-prod-eks-private-b`
-- `subnet-prod-eks-private-c`
-
-**Service involved:**
-- **Amazon VPC**
 
 **Important clarification:**
 - These subnets are selected at the **cluster level**.
