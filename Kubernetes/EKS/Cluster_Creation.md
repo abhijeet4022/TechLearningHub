@@ -125,9 +125,7 @@ Usually you need at least:
 #### A. Cluster IAM role
 
 **Suggested role names:**
-- `eks-cluster-role-dev`
-- `eks-cluster-role-test`
-- `eks-cluster-role-prod`
+- `eksClusterServiceRole`
 
 **Used by:**
 - **Amazon EKS control plane**
@@ -148,26 +146,12 @@ Usually you need at least:
 4. Under **Choose a use case for the specified service**, choose the option for the **cluster** control plane
    - common wording variants you may see:
      - `EKS - Cluster`
-     - `EKS Cluster`
-     - `Cluster`
 5. Continue and attach `AmazonEKSClusterPolicy`
-
-**Do not choose these for the cluster role:**
-- node group / worker node related use case
-- Fargate profile related use case
-- pod identity / service account / application access related use case
-
-**Do not use this role for:**
-- EC2 worker nodes
-- application pods
-- administrators logging in to AWS
 
 #### B. Node IAM role
 
 **Suggested role names:**
-- `eks-node-role-dev`
-- `eks-node-role-test`
-- `eks-node-role-prod`
+- `eksNodeGroupRole`
 
 **Used by:**
 - **EC2 instances** in the managed node group
@@ -184,6 +168,18 @@ Usually you need at least:
 - lets nodes join the cluster
 - lets nodes pull container images from Amazon ECR
 - lets node networking components work with AWS networking APIs
+
+**What to choose in the IAM console while creating this role:**
+1. Go to **IAM > Roles > Create role**
+2. Under **Select trusted entity**, choose **AWS service**
+3. Under **Choose a service or use case**, select **EC2**
+4. Under **Choose a use case for the specified service**, choose the option for **EC2**
+   - common wording variants you may see:
+     - `Use case: EC2`
+5. Continue and attach the required policies:
+   - `AmazonEKSWorkerNodePolicy` Worker Node Policy to Connect node to cluster
+   - `AmazonEC2ContainerRegistryPullOnly` and `AmazonEC2ContainerRegistryReadOnly` ECR Read Policy to Pull Docker images
+   - commonly `AmazonEKS_CNI_Policy` for IPv4 node-role-based CNI permission design
 
 #### C. Optional pod/application IAM roles
 
@@ -213,8 +209,8 @@ These are **not** the same as cluster or node roles.
 
 | Role | Example name | Used by | Common policies |
 |---|---|---|---|
-| Cluster role | `eks-cluster-role-prod` | EKS control plane | `AmazonEKSClusterPolicy` |
-| Node role | `eks-node-role-prod` | EC2 worker nodes | `AmazonEKSWorkerNodePolicy`, ECR pull policy, commonly `AmazonEKS_CNI_Policy` |
+| Cluster role | `eksClusterServiceRole` | EKS control plane | `AmazonEKSClusterPolicy` |
+| Node role | `eksNodeGroupRole` | EC2 worker nodes | `AmazonEKSWorkerNodePolicy`, ECR pull policy, commonly `AmazonEKS_CNI_Policy` |
 | Pod/app role | `eks-pod-role-s3-reader` | Pod/service account | Only the app-specific least-privilege policy |
 
 ### 3.3 Optional KMS key
@@ -260,7 +256,7 @@ Use something like the following before opening the EKS console.
 | VPC | `vpc-prod-eks-main` | Yes | Amazon VPC |
 | Private subnets | `subnet-prod-eks-private-a/b/c` | Yes | At least 2 AZs |
 | Public subnets | `subnet-prod-eks-public-a/b` | Optional | Useful for ALB/NAT paths |
-| Cluster IAM role | `eks-cluster-role-prod` | Yes | IAM role for EKS control plane |
+| Cluster IAM role | `eksClusterServiceRole` | Yes | IAM role for EKS control plane |
 | Node IAM role | `eks-node-role-prod` | Usually yes | IAM role for EC2 nodes |
 | KMS key | `alias/eks-prod-secrets` | Optional | For Kubernetes secrets encryption |
 | CloudWatch log group strategy | `/aws/eks/prod-eks-payments/cluster` | Optional but recommended | For control plane logs |
@@ -313,28 +309,13 @@ This is the most important part of the setup because it defines the base identit
 **Why it matters:**
 - Used in AWS Console, CLI, monitoring, tagging, and kubeconfig.
 
-**Recommendation:**
-- Use a meaningful name such as:
-  - `dev-eks-01`
-  - `test-eks-app1`
-  - `prod-eks-payments`
-
-**Best practice:**
-- Include environment and application name.
-
-**What you fill in the console:**
-- a unique cluster name
-
 **Example values:**
-- `dev-eks-orders`
-- `uat-eks-billing`
-- `prod-eks-payments`
+- Use a meaningful name such as:
+  - `my-eks-cluster`
 
 **Recommended naming pattern:**
 - `<environment>-eks-<application>`
 
-**Service involved:**
-- **Amazon EKS**
 
 ---
 
@@ -366,21 +347,6 @@ This is the most important part of the setup because it defines the base identit
   - node AMI support,
   - Helm chart compatibility.
 
-**What you fill in the console:**
-- choose the control plane version from the drop-down
-
-**Example value:**
-- `1.34`
-
-**What to verify before selecting:**
-- available in your AWS region
-- supported by required EKS add-ons
-- compatible with your node AMI choice
-- compatible with your Helm charts / manifests / admission webhooks
-
-**Service involved:**
-- **Amazon EKS**
-
 ---
 
 ### 6.3 Cluster service IAM role
@@ -396,40 +362,12 @@ This is the most important part of the setup because it defines the base identit
 
 **Recommendation:**
 - Use a separate role such as:
-  - `eks-cluster-role-dev`
-  - `eks-cluster-role-prod`
-
-**Best practice:**
-- Do not reuse broad administrator roles if a dedicated cluster role is available.
+  - `eksClusterServiceRole`
 
 **What you fill in the console:**
 - select the IAM role that EKS control plane will assume
 
-**What you should create before this step:**
-- IAM role in **IAM > Roles**
-- trusted entity/service principal for EKS
-- required policy attachment
-
 **Recommended example:**
-
-| Item | Example |
-|---|---|
-| Role name | `eks-cluster-role-prod` |
-| Trusted service | `eks.amazonaws.com` |
-| IAM wizard trusted entity | `AWS service` |
-| IAM wizard service | `EKS` / `Elastic Kubernetes Service` |
-| IAM wizard use case | `EKS - Cluster` *(wording can vary)* |
-| Policy to attach | `AmazonEKSClusterPolicy` |
-| Used for | EKS control plane |
-
-**Service involved:**
-- **IAM**
-- **Amazon EKS**
-
-**How to think about this role:**
-- this role is for the **cluster control plane** only
-- it is not the role for EC2 worker nodes
-- it is not the role for application pods
 
 **If you are creating by console, the preparation is usually:**
 1. Go to **IAM**
@@ -438,25 +376,8 @@ This is the most important part of the setup because it defines the base identit
 4. Select **EKS** / **Elastic Kubernetes Service** as the service
 5. Select the **cluster** use case such as `EKS - Cluster`
 6. Attach `AmazonEKSClusterPolicy`
-7. Name it, for example `eks-cluster-role-prod`
+7. Name it, for example `eksClusterServiceRole`
 8. Return to the EKS cluster creation page and select this role
-
-**Short direct answer for this field:**
-- If the IAM wizard asks **Choose a use case for the specified service**, select the option for the **EKS cluster control plane**.
-- In most consoles this appears as **`EKS - Cluster`** or similar.
-- If you see multiple EKS-related options, choose the one for **Cluster**, **not** the one for nodes, Fargate, or pods.
-
-**Good practice:**
-- one cluster role per environment or per cluster family
-- example:
-  - `eks-cluster-role-dev`
-  - `eks-cluster-role-uat`
-  - `eks-cluster-role-prod`
-
-**Avoid:**
-- selecting `AdministratorAccess`
-- reusing a personal IAM user or unrelated admin role
-- mixing cluster role and node role responsibilities into one role
 
 ---
 
@@ -513,7 +434,7 @@ Sometimes this appears on the cluster configuration page, and in some console la
 
 ---
 
-### 6.5 Cluster authentication / access configuration
+### 6.5 Cluster authentication / access configuration [Cluster access]
 
 Depending on console version, you may see settings related to:
 
@@ -1145,6 +1066,12 @@ Even if the cluster is created successfully, your applications cannot run until 
 |---|---|
 | Role name | `eks-node-role-prod` |
 | Trusted service | `ec2.amazonaws.com` |
+| IAM wizard trusted entity | `AWS service` |
+| IAM wizard service | `EC2` |
+| IAM wizard use case | `EC2` *(wording can vary)* |
+| IAM wizard trusted entity | `AWS service` |
+| IAM wizard service | `EC2` |
+| IAM wizard use case | `EC2` *(wording can vary)* |
 | Policies | `AmazonEKSWorkerNodePolicy`, ECR pull policy, commonly `AmazonEKS_CNI_Policy` |
 
 **Service involved:**
@@ -1152,10 +1079,32 @@ Even if the cluster is created successfully, your applications cannot run until 
 - **Amazon EC2**
 - **Amazon EKS**
 
+**What to choose in the IAM console while creating this role:**
+1. Go to **IAM > Roles > Create role**
+2. Under **Select trusted entity**, choose **AWS service**
+3. Under **Choose a service or use case**, select **EC2**
+4. Under **Choose a use case for the specified service**, choose the **EC2** use case
+5. Attach the required policies:
+   - `AmazonEKSWorkerNodePolicy`
+   - `AmazonEC2ContainerRegistryPullOnly`
+   - commonly `AmazonEKS_CNI_Policy`
+6. Name the role, for example `eks-node-role-prod`
+7. Return to the EKS node group creation page and select this role
+
+**Short direct answer for this field:**
+- If the IAM wizard asks **Choose a use case for the specified service**, select **`EC2`** for the node role.
+- This is because the worker nodes are **EC2 instances**.
+- Do **not** choose `EKS - Cluster`, Fargate, or pod/application-related options.
+
 **Explanation of common policies:**
 - `AmazonEKSWorkerNodePolicy` → allows node integration with the EKS cluster
 - ECR pull policy → allows pulling container images from Amazon ECR
 - `AmazonEKS_CNI_Policy` → commonly used so pod networking components can work with VPC networking APIs in IPv4 designs
+
+**Do not confuse this role with:**
+- the **cluster service IAM role** used by the EKS control plane
+- the **Fargate pod execution role**
+- **pod/app IAM roles** used by IRSA or pod identity
 
 ---
 
@@ -1504,7 +1453,7 @@ This is a practical reference example.
 |---|---|
 | Cluster name | `prod-eks-payments` |
 | EKS version | `1.34` |
-| Cluster IAM role | `eks-cluster-role-prod` |
+| Cluster IAM role | `eksClusterServiceRole` |
 | Cluster IAM policy | `AmazonEKSClusterPolicy` |
 | VPC | `vpc-prod-shared-01` |
 | Subnets | `private-subnet-a`, `private-subnet-b`, `private-subnet-c` |
