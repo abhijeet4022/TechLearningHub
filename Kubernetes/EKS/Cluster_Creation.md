@@ -169,7 +169,7 @@ Usually you need at least:
 
 **Common AWS-managed policies to attach:**
 - `AmazonEKSWorkerNodePolicy`
-- `AmazonEC2ContainerRegistryPullOnly` *(or the AWS-managed read-only ECR pull policy visible in your account/console)*
+- `AmazonEC2ContainerRegistryPullOnly` and `AmazonEC2ContainerRegistryReadOnly`*(or the AWS-managed read-only ECR pull policy visible in your account/console)*
 - `AmazonEKS_CNI_Policy` *(commonly attached for IPv4 clusters; in some designs teams move CNI permissions away from the node role and grant them to the VPC CNI add-on/service account instead)*
 
 **What this role is for:**
@@ -1117,9 +1117,7 @@ Even if the cluster is created successfully, your applications cannot run until 
 
 **Recommendation:**
 - Use descriptive names such as:
-  - `ng-system`
   - `ng-app`
-  - `ng-prod-general`
 
 **What you fill in the console:**
 - node group name
@@ -1127,10 +1125,6 @@ Even if the cluster is created successfully, your applications cannot run until 
 **Recommended naming pattern:**
 - `ng-<environment>-<purpose>`
 
-**Example values:**
-- `ng-prod-general`
-- `ng-prod-system`
-- `ng-dev-apps`
 
 ---
 
@@ -1151,28 +1145,7 @@ Even if the cluster is created successfully, your applications cannot run until 
 **What you fill in the console:**
 - the EC2 instance role used by the node group
 
-**What you should create before this step:**
-- IAM role trusted by EC2
-- required AWS-managed policies attached
-
 **Recommended example:**
-
-| Item | Example |
-|---|---|
-| Role name | `eks-node-role-prod` |
-| Trusted service | `ec2.amazonaws.com` |
-| IAM wizard trusted entity | `AWS service` |
-| IAM wizard service | `EC2` |
-| IAM wizard use case | `EC2` *(wording can vary)* |
-| IAM wizard trusted entity | `AWS service` |
-| IAM wizard service | `EC2` |
-| IAM wizard use case | `EC2` *(wording can vary)* |
-| Policies | `AmazonEKSWorkerNodePolicy`, ECR pull policy, commonly `AmazonEKS_CNI_Policy` |
-
-**Service involved:**
-- **IAM**
-- **Amazon EC2**
-- **Amazon EKS**
 
 **What to choose in the IAM console while creating this role:**
 1. Go to **IAM > Roles > Create role**
@@ -1181,25 +1154,10 @@ Even if the cluster is created successfully, your applications cannot run until 
 4. Under **Choose a use case for the specified service**, choose the **EC2** use case
 5. Attach the required policies:
    - `AmazonEKSWorkerNodePolicy`
-   - `AmazonEC2ContainerRegistryPullOnly`
+   - `AmazonEC2ContainerRegistryPullOnly` and `AmazonEC2ContainerRegistryReadOnly`
    - commonly `AmazonEKS_CNI_Policy`
 6. Name the role, for example `eks-node-role-prod`
 7. Return to the EKS node group creation page and select this role
-
-**Short direct answer for this field:**
-- If the IAM wizard asks **Choose a use case for the specified service**, select **`EC2`** for the node role.
-- This is because the worker nodes are **EC2 instances**.
-- Do **not** choose `EKS - Cluster`, Fargate, or pod/application-related options.
-
-**Explanation of common policies:**
-- `AmazonEKSWorkerNodePolicy` → allows node integration with the EKS cluster
-- ECR pull policy → allows pulling container images from Amazon ECR
-- `AmazonEKS_CNI_Policy` → commonly used so pod networking components can work with VPC networking APIs in IPv4 designs
-
-**Do not confuse this role with:**
-- the **cluster service IAM role** used by the EKS control plane
-- the **Fargate pod execution role**
-- **pod/app IAM roles** used by IRSA or pod identity
 
 ---
 
@@ -1208,9 +1166,6 @@ Even if the cluster is created successfully, your applications cannot run until 
 Common options may include:
 
 - Amazon Linux
-- Bottlerocket
-- GPU AMIs
-- ARM/x86 variants
 
 **How to choose:**
 - Use standard Linux AMI for general-purpose workloads.
