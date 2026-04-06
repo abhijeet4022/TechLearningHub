@@ -662,21 +662,12 @@ Networking is one of the most important areas in EKS because a wrong selection h
 **Common approach:**
 - Use the default cluster security group created by EKS, or provide a pre-approved dedicated security group.
 
-**Recommendation:**
-- Start with AWS-managed defaults if you are learning.
-- In production, use controlled security groups reviewed by networking/security teams.
-
 **What you fill in the console:**
 - choose existing security groups or allow EKS to create/manage the default cluster security group depending on the screen shown
 
-**What you should create before this step if using custom security groups:**
-- cluster security group
-- optional node security group
-- reviewed ingress/egress rules
-
 **Example values:**
-- Cluster SG: `sg-prod-eks-cluster`
-- Node SG: `sg-prod-eks-nodes`
+- Cluster SG: `prod-eks-cluster-sg`
+- Node SG: `prod-eks-nodes-sg`
 
 **Typical intent of rules:**
 - control plane to node communication
@@ -684,16 +675,70 @@ Networking is one of the most important areas in EKS because a wrong selection h
 - node to node communication if required by workloads/add-ons
 - egress to AWS APIs, image registries, and required destinations
 
-**Service involved:**
-- **Amazon EC2 Security Groups**
+**Commonly required / commonly seen ports in EKS designs:**
 
-**Practical warning:**
-- avoid opening broad inbound rules without justification
-- do not use `0.0.0.0/0` casually on administrative ports such as SSH
+| Traffic | Protocol / Port | Why it is needed | Typical note |
+|---|---|---|---|
+| Node to Kubernetes API server | `TCP 443` | Nodes and kube components talk to the EKS API server | Commonly required |
+| Control plane to kubelet on nodes | `TCP 10250` | EKS/control plane communicates with kubelet on worker nodes | Commonly required |
+| DNS traffic | `TCP/UDP 53` | DNS resolution for cluster components and workloads | Commonly required in practice |
+| Node to AWS services / registries | `TCP 443` outbound | Access to ECR, STS, CloudWatch, S3, and other AWS APIs/endpoints | Commonly required outbound |
+| Node to node traffic | workload-dependent | Inter-node traffic for pods, overlays, add-ons, and services | Often handled with self-referencing node SG rules |
+| SSH to worker nodes | `TCP 22` | Only if you enable remote SSH administration | Optional, restrict tightly |
+
+**How to think about the two main security groups:**
+
+#### Cluster security group
+- Usually tied to the EKS cluster/control plane networking in your VPC
+- Commonly needs to allow communication related to:
+  - Kubernetes API traffic on `443`
+  - kubelet communication path on `10250`
+  - DNS traffic on `53` where required by your design
+
+#### Node security group
+- Used by the worker nodes
+- Commonly needs to allow:
+  - node to control plane/API communication
+  - control plane to node communication
+  - node to node communication if required
+  - outbound `443` to required AWS services/endpoints
+
+**What source should you use?**
+
+In most EKS designs, prefer **security-group references** instead of wide CIDR blocks whenever possible.
+
+#### Source recommendations by rule type
+
+| Rule purpose | Security group | Port | Recommended source |
+|---|---|---|---|
+| Control plane related communication from nodes | Cluster SG | `443` | **Node security group** reference |
+| Control plane to kubelet on nodes | Node SG | `10250` | **Cluster security group** reference |
+| Node-to-node communication | Node SG | workload-dependent | **Same node security group (self-reference)** |
+| SSH to worker nodes | Node SG | `22` | **Office IP / VPN CIDR / bastion SG only** |
+| Application access from internet | Usually ALB/NLB SG, not cluster/node SG | app-specific | **Do not open directly on cluster SG or node SG unless required** |
+
+#### Easy practical rule
+
+- **Cluster security group source** → usually use the **Node security group**
+- **Node security group source for control-plane traffic** → usually use the **Cluster security group**
+- **Node-to-node source** → use the **same Node security group** as a self-reference
+- **Admin SSH source** → use only:
+  - office public IP
+  - VPN CIDR
+  - jump host / bastion security group
+
+#### Example security group source mapping
+
+| Security group | Direction | Port | Suggested source |
+|---|---|---|---|
+| Cluster SG | Inbound | `443` | `prod-eks-nodes-sg` |
+| Node SG | Inbound | `10250` | `prod-eks-cluster-sg` |
+| Node SG | Inbound | workload-dependent | `prod-eks-nodes-sg` *(self-reference)* |
+| Node SG | Inbound | `22` | `203.0.113.10/32` or VPN CIDR |
 
 ---
 
-### 7.4 Kubernetes API server endpoint access
+### 7.4 Kubernetes API server endpoint access [Cluster endpoint access]
 
 This decides how you will access the Kubernetes API server.
 
@@ -702,11 +747,9 @@ This decides how you will access the Kubernetes API server.
 1. **Public**
    - API server accessible through the internet.
    - Easier for administration from laptops.
-   - Higher exposure if CIDR restrictions are too open.
-
+   
 2. **Private**
    - API server accessible only inside the VPC/network path connected to the VPC.
-   - More secure.
    - Requires private connectivity such as VPN, Direct Connect, bastion, or management host.
 
 3. **Public and Private**
@@ -716,17 +759,6 @@ This decides how you will access the Kubernetes API server.
 **Recommendation:**
 - For labs: `Public and Private` or `Public` with restricted source CIDR.
 - For production: prefer `Private` or `Public and Private` with tightly controlled CIDRs.
-
-**What you fill in the console:**
-- `Public`, `Private`, or `Public and Private`
-
-**Example production-style choice:**
-- `Public and Private` during initial setup
-- restrict public CIDR to office/VPN ranges only
-- later move to `Private` only if your admin path supports it
-
-**Service involved:**
-- **Amazon EKS endpoint configuration**
 
 ---
 
@@ -772,47 +804,75 @@ If public access is enabled, you may be asked to define which source IP ranges c
 **Recommendation:**
 - Use **IPv4** unless your organization specifically requires IPv6 and has designed networking for it.
 
-**Why IPv4 is usually chosen:**
-- Simpler,
-- more common,
-- easier integration with existing tooling,
-- fewer surprises in traditional enterprise environments.
-
-**What you fill in the console:**
-- choose `IPv4` or `IPv6`
-
-**Example value:**
-- `IPv4`
-
-**Service involved:**
-- **Amazon EKS networking**
-
 ---
 
 ### 7.7 Service CIDR / Kubernetes network range
 
 In some console versions this may be visible or defaulted automatically.
 
+You may see wording such as:
+
+- **Configure Kubernetes service IP address block**
+- **Specify the range from which cluster services will receive IP addresses**
+
 **What it is:**
-- Internal IP range used for Kubernetes `Service` objects.
+- Internal IP range used for Kubernetes `Service` objects of type `ClusterIP`.
+- This range is used for **service virtual IPs**, not for:
+  - worker node IP addresses
+  - pod IP addresses
+  - subnet CIDRs
 
 **Why it matters:**
-- Must not overlap with VPC CIDR, on-prem networks, or connected networks.
+- Must not overlap with VPC CIDR, subnet CIDRs, on-prem networks, or other connected networks.
+- This is part of the cluster foundation, so it should be chosen correctly during initial design.
 
 **Recommendation:**
-- If the console lets you change it, choose a non-overlapping range that fits your network design.
+- If the console already provides a safe default and you do not have a special routing requirement, you can usually keep the default.
+- If you choose a custom range, select a **private, non-overlapping CIDR block** that fits your network design.
 
 **What you fill in the console:**
 - Kubernetes service network CIDR if the field is exposed
 
-**Example value:**
+**When to keep the default:**
+- small/new environment
+- no special routing requirement
+- no known overlap with your connected networks
+
+**When to choose a custom range:**
+- your company already uses the default range somewhere else
+- you have on-prem/VPN/Transit Gateway connectivity and need strict non-overlap
+- your network team has a defined CIDR standard for Kubernetes service ranges
+
+**Common example value:**
 - `172.20.0.0/16`
 
 **Important design rule:**
 - this range must not overlap with:
   - VPC CIDR
+  - subnet CIDRs inside the VPC
   - on-prem networks
   - peered VPCs
+  - Transit Gateway connected networks
+  - VPN / Direct Connect connected networks
+
+**Practical example:**
+
+If your VPC CIDR is:
+
+- `10.10.0.0/16`
+
+Then:
+
+- `10.10.20.0/24` → **bad choice** because it overlaps with the VPC space
+- `172.20.0.0/16` → **good choice** if that range is not already used anywhere else in your environment
+
+**Simple rule:**
+- choose a service CIDR from an unused private range
+- do not pick anything that overlaps with existing network space
+
+**Easy practical recommendation:**
+- for a normal new cluster, keep the default if AWS provides one and your network team has no conflicting requirement
+- if you must customize it, use a clearly separate private CIDR such as `172.20.0.0/16` only when it is unused in your environment
 
 **Service involved:**
 - **Amazon EKS service networking**
@@ -823,7 +883,7 @@ In some console versions this may be visible or defaulted automatically.
 
 Observability settings help you troubleshoot the cluster later.
 
-### 8.1 Control plane logging
+### 8.1 Control plane logging [Control plane logs]
 
 You may see options to enable one or more of the following log types:
 
@@ -858,27 +918,6 @@ Below is what each one means.
   - `API`
   - `Audit`
   - `Authenticator`
-
-**If you want deeper troubleshooting:**
-- Enable all control plane logs.
-
-**Important note:**
-- More logs = more CloudWatch cost.
-
-**What you fill in the console:**
-- select which control plane logs to enable
-
-**Recommended example for production:**
-- enable all 5 log types if troubleshooting visibility is important
-
-**Minimal recommended example:**
-- `API`
-- `Audit`
-- `Authenticator`
-
-**Service involved:**
-- **Amazon CloudWatch Logs**
-- **Amazon EKS**
 
 ---
 
@@ -964,16 +1003,10 @@ These are extremely important because the cluster is not very useful without the
 
 **Purpose:**
 - Gives pods network connectivity inside the VPC.
-
-**Why it matters:**
 - Without correct CNI behavior, pods may fail to get IP addresses.
 
 **Recommendation:**
 - Install and keep it compatible with your EKS version.
-
-**Service involved:**
-- **EKS add-on**
-- **Amazon VPC**
 
 **IAM note:**
 - for IPv4 clusters, AWS networking API permissions are required somewhere in your design
@@ -986,15 +1019,7 @@ These are extremely important because the cluster is not very useful without the
 
 **Purpose:**
 - Provides DNS service inside the Kubernetes cluster.
-
-**Why it matters:**
 - Pods use this for service discovery.
-
-**Recommendation:**
-- Install it by default.
-
-**Service involved:**
-- **EKS add-on**
 
 **Example:**
 - keep the AWS-recommended compatible version for your EKS cluster version
@@ -1005,15 +1030,8 @@ These are extremely important because the cluster is not very useful without the
 
 **Purpose:**
 - Manages Kubernetes service networking on nodes.
-
-**Why it matters:**
 - Required for cluster networking and service traffic routing.
 
-**Recommendation:**
-- Install and use the version compatible with EKS `1.34`.
-
-**Service involved:**
-- **EKS add-on**
 
 ---
 
@@ -1033,10 +1051,6 @@ These are extremely important because the cluster is not very useful without the
 
 **Example role name:**
 - `eks-pod-role-ebs-csi`
-
-**Service involved:**
-- **Amazon EBS**
-- **EKS add-on**
 
 ---
 
@@ -1075,8 +1089,6 @@ Depending on your environment, you may also configure IAM integration for pods.
 
 **Example roles:**
 - `eks-pod-role-external-dns`
-- `eks-pod-role-cluster-autoscaler`
-- `eks-pod-role-app-s3-read`
 
 **Example service access mapping:**
 
