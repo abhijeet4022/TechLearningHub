@@ -141,6 +141,22 @@ Usually you need at least:
 **What this role is for:**
 - allows EKS control plane to manage cluster-related AWS interactions required by the service
 
+**What to choose in the IAM console while creating this role:**
+1. Go to **IAM > Roles > Create role**
+2. Under **Select trusted entity**, choose **AWS service**
+3. Under **Choose a service or use case**, select **EKS** / **Elastic Kubernetes Service**
+4. Under **Choose a use case for the specified service**, choose the option for the **cluster** control plane
+   - common wording variants you may see:
+     - `EKS - Cluster`
+     - `EKS Cluster`
+     - `Cluster`
+5. Continue and attach `AmazonEKSClusterPolicy`
+
+**Do not choose these for the cluster role:**
+- node group / worker node related use case
+- Fargate profile related use case
+- pod identity / service account / application access related use case
+
 **Do not use this role for:**
 - EC2 worker nodes
 - application pods
@@ -400,6 +416,9 @@ This is the most important part of the setup because it defines the base identit
 |---|---|
 | Role name | `eks-cluster-role-prod` |
 | Trusted service | `eks.amazonaws.com` |
+| IAM wizard trusted entity | `AWS service` |
+| IAM wizard service | `EKS` / `Elastic Kubernetes Service` |
+| IAM wizard use case | `EKS - Cluster` *(wording can vary)* |
 | Policy to attach | `AmazonEKSClusterPolicy` |
 | Used for | EKS control plane |
 
@@ -415,10 +434,17 @@ This is the most important part of the setup because it defines the base identit
 **If you are creating by console, the preparation is usually:**
 1. Go to **IAM**
 2. Create role
-3. Select trusted service for EKS
-4. Attach `AmazonEKSClusterPolicy`
-5. Name it, for example `eks-cluster-role-prod`
-6. Return to the EKS cluster creation page and select this role
+3. Select **AWS service** as trusted entity
+4. Select **EKS** / **Elastic Kubernetes Service** as the service
+5. Select the **cluster** use case such as `EKS - Cluster`
+6. Attach `AmazonEKSClusterPolicy`
+7. Name it, for example `eks-cluster-role-prod`
+8. Return to the EKS cluster creation page and select this role
+
+**Short direct answer for this field:**
+- If the IAM wizard asks **Choose a use case for the specified service**, select the option for the **EKS cluster control plane**.
+- In most consoles this appears as **`EKS - Cluster`** or similar.
+- If you see multiple EKS-related options, choose the one for **Cluster**, **not** the one for nodes, Fargate, or pods.
 
 **Good practice:**
 - one cluster role per environment or per cluster family
