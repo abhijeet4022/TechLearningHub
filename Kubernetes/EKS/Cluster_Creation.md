@@ -487,6 +487,86 @@ Depending on console version, you may see settings related to:
 - Lab: creator admin access can be acceptable
 - Production: prefer dedicated IAM roles, not personal identities
 
+### 6.5.1 Bootstrap cluster administrator access
+
+In the console, you may see:
+
+- **Allow cluster administrator access**
+- **Disallow cluster administrator access**
+
+This setting decides whether the **IAM principal creating the cluster** automatically gets Kubernetes **cluster-admin** level access.
+
+#### Option 1: Allow cluster administrator access
+
+**What it means:**
+- the IAM user or IAM role creating the cluster gets initial administrator access to the Kubernetes cluster
+
+**When to choose this:**
+- first-time cluster setup
+- when you want the cluster creator to immediately manage the cluster after creation
+
+#### Option 2: Disallow cluster administrator access
+
+**What it means:**
+- the IAM principal creating the cluster will **not** automatically get Kubernetes administrator access
+
+**When to choose this:**
+- mature production environment
+- strict separation of duties
+- access is already planned through dedicated EKS access entries / admin roles
+
+**Risk:**
+- if you choose this without pre-configuring the right admin role or access entry plan, you may create the cluster and then be unable to administer it properly
+
+---
+
+### 6.5.2 Cluster authentication mode
+
+In the console, you may see:
+
+- **EKS API**
+- **EKS API and ConfigMap**
+
+This setting controls where EKS looks to determine which IAM principals are authenticated for Kubernetes access.
+
+#### Option 1: EKS API
+
+**What it means:**
+- the cluster uses **EKS access entries / EKS access APIs** as the source of authenticated IAM principals
+- you manage cluster access using the newer EKS access management model
+
+**Benefits:**
+- less dependency on manually editing `aws-auth` ConfigMap
+
+#### Option 2: EKS API and ConfigMap
+
+**What it means:**
+- the cluster accepts authenticated IAM principals from both:
+  - EKS access entry APIs
+  - the `aws-auth` ConfigMap
+
+**When this is useful:**
+- migration scenario
+- compatibility with older operational model
+- teams still using `aws-auth` ConfigMap workflows/tools
+
+**Benefits:**
+- backward compatibility
+- easier migration from older clusters or old automation
+
+#### What to do for this option
+
+| Situation | Recommended choice |
+|---|---|
+| Brand new cluster with no legacy dependency | `EKS API` |
+| New cluster but team still depends on `aws-auth` ConfigMap workflows | `EKS API and ConfigMap` |
+| Migration / compatibility requirement | `EKS API and ConfigMap` |
+| Production with modern controlled access model | `EKS API` |
+
+**Safe practical recommendation:**
+- For a **new cluster**, prefer **`EKS API`**.
+- Choose **`EKS API and ConfigMap`** only if you specifically need compatibility with the older `aws-auth` ConfigMap model.
+
 ---
 
 ## 7. Networking page - every component explained
