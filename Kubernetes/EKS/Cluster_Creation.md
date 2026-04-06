@@ -1255,14 +1255,6 @@ Common choices:
   - writable container layers,
   - temporary data.
 
-**Recommendation:**
-- Do not keep the default blindly.
-- Increase it if you use:
-  - many large images,
-  - logging agents,
-  - monitoring agents,
-  - heavy workloads.
-
 **What you fill in the console:**
 - root disk size in GiB
 
@@ -1304,10 +1296,6 @@ Usually you fill:
 - min = `2`
 - desired = `2`
 - max = `6`
-
-**Service involved:**
-- **EKS managed node group scaling**
-- often later combined with cluster autoscaling tooling
 
 ---
 
