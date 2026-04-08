@@ -122,10 +122,10 @@ Recommended design:
 
 Usually you need at least:
 
-1. **Cluster IAM role**
+1. **Cluster IAM role (Master Node)**
    - Used by the EKS control plane to interact with AWS services.
 
-2. **Node IAM role**
+2. **Node IAM role (Worker Node)**
    - Used by EC2 worker nodes to join the cluster and pull container images.
 
 **Create these roles before starting the console flow.**
