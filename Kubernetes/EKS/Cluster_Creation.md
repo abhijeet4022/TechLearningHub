@@ -145,7 +145,7 @@ Usually you need at least:
 - `AmazonEKSClusterPolicy`
 
 **What this role is for:**
-- allows EKS control plane to manage cluster-related AWS interactions required by the service
+- allows EKS control plane(master node) to manage cluster-related AWS interactions required by the service.
 
 **What to choose in the IAM console while creating this role:**
 1. Go to **IAM > Roles > Create role**
@@ -486,10 +486,6 @@ Depending on console version, you may see settings related to:
 | Cluster admin role | `eks-admin-role-prod` | Full cluster administration |
 | Platform ops role | `eks-platform-ops-role` | Operational management |
 | Read-only role | `eks-viewer-role-prod` | Audit / visibility only |
-
-**Service involved:**
-- **IAM**
-- **Amazon EKS access management**
 
 **Recommendation by environment:**
 - Lab: creator admin access can be acceptable
